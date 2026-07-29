@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYROX Daily WOD — Manual do Coach + 250 Aulas Prontas</title>
+<meta name="description" content="Manual técnico + 250 Daily WODs prontos pra quem dá aula de treino funcional no formato HYROX. Pare de improvisar aula de última hora.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #ECE7DE;
+    --paper-alt: #E1DACA;
+    --ink: #17160F;
+    --ink-2: #0E0D08;
+    --graphite: #55524A;
+    --ember: #FF4B1F;
+    --ember-dark: #D93C15;
+    --rope: #E4AE23;
+    --line-on-paper: rgba(23,22,15,0.14);
+    --line-on-ink: rgba(236,231,222,0.16);
+
+    --font-display: "Big Shoulders Display", sans-serif;
+    --font-body: "IBM Plex Sans", sans-serif;
+    --font-mono: "IBM Plex Mono", monospace;
+
+    --container: 1180px;
+    --pad-inline: clamp(20px, 5vw, 64px);
+    --pad-section: clamp(64px, 9vw, 120px);
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *,*::before,*::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  body{
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img{ max-width: 100%; display: block; }
+  a{ color: inherit; }
+  button{ font: inherit; color: inherit; }
+
+  :focus-visible{
+    outline: 3px solid var(--ember);
+    outline-offset: 3px;
+  }
+
+  .container{
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--pad-inline);
+  }
+
+  .icon{ width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; display: inline-block; vertical-align: -0.15em; }
+
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before{
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--ember);
+    display: inline-block;
+  }
+  .section--dark .eyebrow,
+  .section--dark-2 .eyebrow{ color: var(--rope); }
+  .section--dark .eyebrow::before,
+  .section--dark-2 .eyebrow::before{ background: var(--rope); }
+
+  .section-title{
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.98;
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+    margin: 0 0 18px;
+    max-width: 18ch;
+  }
+
+  .lede{
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--graphite);
+    max-width: 54ch;
+    margin: 0;
+  }
+  .section--dark .lede,
+  .section--dark-2 .lede{ color: rgba(236,231,222,0.72); }
+
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 26px;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn--primary{ background: var(--ember); color: #fff; }
+  .btn--primary:hover{ background: var(--ember-dark); }
+  .btn--block{ width: 100%; }
+  .btn--ghost-light{ background: transparent; border-color: rgba(236,231,222,0.4); color: var(--paper); }
+  .btn--ghost-light:hover{ border-color: var(--paper); }
+
+  [data-reveal]{ opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  [data-reveal].is-visible{ opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce){
+    [data-reveal]{ opacity: 1; transform: none; }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 0;
+    background: transparent;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease, border-color 0.25s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.is-scrolled{
+    background: rgba(23,22,15,0.92);
+    backdrop-filter: blur(6px);
+    padding: 12px 0;
+    border-bottom-color: var(--line-on-ink);
+  }
+  .site-header .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--paper);
+  }
+  .brand__mark{
+    width: 34px; height: 34px;
+    border: 2px solid var(--ember);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ember);
+    flex-shrink: 0;
+  }
+  .brand__mark .icon{ width: 18px; height: 18px; }
+  .brand__word{ line-height: 1; }
+  .brand__word strong{
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .brand__word span{
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rope);
+    margin-top: 2px;
+  }
+
+  .main-nav{
+    display: flex;
+    align-items: center;
+    gap: 34px;
+  }
+  .main-nav__links{
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .main-nav__links a{
+    text-decoration: none;
+    color: var(--paper);
+    font-size: 0.88rem;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .main-nav__links a::after{
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 2px;
+    background: var(--ember);
+    transition: width 0.2s ease;
+  }
+  .main-nav__links a:hover::after{ width: 100%; }
+
+  .nav-toggle{
+    display: none;
+    background: none;
+    border: none;
+    color: var(--paper);
+    padding: 6px;
+    cursor: pointer;
+  }
+  .nav-toggle .icon{ width: 26px; height: 26px; }
+  .nav-toggle .icon--close{ display: none; }
+
+  .mobile-drawer{
+    display: none;
+  }
+
+  @media (max-width: 860px){
+    .main-nav__links{ display: none; }
+    .header-cta{ display: none; }
+    .nav-toggle{ display: inline-flex; }
+
+    .mobile-drawer{
+      display: block;
+      position: fixed;
+      inset: 0;
+      top: 0;
+      background: var(--ink);
+      padding: 100px 28px 40px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 90;
+    }
+    .mobile-drawer.is-open{ transform: translateX(0); }
+    .mobile-drawer ul{
+      list-style: none;
+      margin: 0 0 32px; padding: 0;
+      display: flex; flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-drawer a{
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line-on-ink);
+      color: var(--paper);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    body.nav-open{ overflow: hidden; }
+    body.nav-open .nav-toggle .icon--menu{ display: none; }
+    body.nav-open .nav-toggle .icon--close{ display: inline-flex; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background: var(--ink);
+    color: var(--paper);
+    padding-top: clamp(140px, 20vw, 200px);
+    padding-bottom: var(--pad-section);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(90deg, rgba(236,231,222,0.035) 0 1px, transparent 1px 64px);
+    pointer-events: none;
+  }
+  .hero__grid{
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    margin-bottom: clamp(48px, 6vw, 84px);
+  }
+  .hero__content{
+    max-width: 100%;
+  }
+  .hero .eyebrow{ color: var(--rope); }
+  .hero__heading{
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(2.6rem, 6.4vw, 5.1rem);
+    line-height: 0.96;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+  }
+  .hero__heading em{
+    font-style: normal;
+    color: var(--ember);
+  }
+  .hero__desc{
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: rgba(236,231,222,0.72);
+    max-width: 56ch;
+    margin: 0 0 34px;
+  }
+  .hero__actions{
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .hero__scroll-hint{
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: rgba(236,231,222,0.55);
+    text-decoration: none;
+  }
+  .hero__visual{
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,75,31,0.35);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 35px rgba(255,75,31,0.2);
+  }
+  .hero__img,
+  .hero__video{
+    width: 100%;
+    height: 100%;
+    max-height: 520px;
+    display: block;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Signature: split bar */
+  .splitbar{ position: relative; }
+  .splitbar__label{
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(236,231,222,0.5);
+    margin: 0 0 14px;
+  }
+  .splitbar__track{
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    gap: 0;
+    border-top: 1px solid var(--line-on-ink);
+    border-bottom: 1px solid var(--line-on-ink);
+    scrollbar-width: thin;
+    scrollbar-color: var(--ember) transparent;
+  }
+  .splitbar__track::-webkit-scrollbar{ height: 5px; }
+  .splitbar__track::-webkit-scrollbar-thumb{ background: var(--ember); }
+
+  .station{
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 22px;
+    border-right: 1px solid var(--line-on-ink);
+    min-width: 148px;
+  }
+  .station__num{ font-family: var(--font-mono); font-size: 0.7rem; color: var(--ember); margin-bottom: 6px; }
+  .station__name{ font-size: 0.86rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 4px; }
+  .station__meta{ font-family: var(--font-mono); font-size: 0.72rem; color: rgba(236,231,222,0.5); }
+  .run-tick{
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 18px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--rope);
+    letter-spacing: 0.1em;
+    border-right: 1px solid var(--line-on-ink);
+    white-space: nowrap;
+  }
+  .run-tick .icon{ width: 14px; height: 14px; }
+
+  /* ---------- Audience strip ---------- */
+  .audience{
+    padding-block: clamp(48px, 6vw, 72px);
+    border-bottom: 1px solid var(--line-on-paper);
+  }
+  .audience__label{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    margin: 0 0 24px;
+    text-align: center;
+  }
+  .audience__row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 0;
+  }
+  .audience__row span{
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1rem, 2.2vw, 1.3rem);
+    color: rgba(23,22,15,0.38);
+    padding: 0 20px;
+    border-right: 1px solid var(--line-on-paper);
+    transition: color 0.2s ease;
+    cursor: default;
+  }
+  .audience__row span:last-child{ border-right: none; }
+  .audience__row span:hover{ color: var(--ink); }
+
+  /* ---------- Section base ---------- */
+  .section{ padding-block: var(--pad-section); }
+  .section--paper-alt{ background: var(--paper-alt); }
+  .section--dark{ background: var(--ink); color: var(--paper); }
+  .section--dark-2{ background: var(--ink-2); color: var(--paper); }
+  .section__head{ max-width: 640px; margin-bottom: clamp(40px, 6vw, 64px); }
+  .section__head--center{ margin-inline: auto; text-align: center; }
+  .section__head--center .eyebrow{ justify-content: center; }
+
+  /* ---------- Differentiators ---------- */
+  .diff-container{
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(32px, 5vw, 56px);
+    align-items: stretch;
+  }
+  .diff-media{
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,75,31,0.22);
+    box-shadow: 0 20px 40px rgba(23,22,15,0.14);
+    min-height: 100%;
+  }
+  .diff-media::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 5px;
+    background: var(--ember);
+    z-index: 2;
+  }
+  .diff-media__img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center 20%;
+    min-height: 420px;
+  }
+  .diff-media__caption{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 28px 22px 18px;
+    background: linear-gradient(180deg, rgba(23,22,15,0) 0%, rgba(23,22,15,0.82) 78%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .diff-media__caption::before{
+    content: "";
+    width: 20px; height: 2px;
+    background: var(--ember);
+    flex-shrink: 0;
+  }
+  .diff-media__caption span{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .diff-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .diff-container .diff-grid{
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .diff-card__icon{
+    width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line-on-paper);
+    border-radius: 50%;
+    color: var(--ember);
+    margin-bottom: 20px;
+  }
+  .diff-card__icon .icon{ width: 24px; height: 24px; }
+  .diff-card__rule{ width: 36px; height: 3px; background: var(--ember); margin-bottom: 18px; }
+  .diff-card h3{
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .diff-card p{ color: var(--graphite); margin: 0; font-size: 0.96rem; }
+
+  /* ---------- Offer ---------- */
+  .offer-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 40px);
+    margin-bottom: 36px;
+  }
+  .offer-card{
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .offer-card::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 6px;
+    background: var(--ember);
+    z-index: 2;
+  }
+  .offer-card__media{
+    margin: -32px -32px 24px -32px;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--line-on-ink);
+  }
+  .offer-card__media img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .offer-card:hover .offer-card__media img{
+    transform: scale(1.04);
+  }
+  .offer-card__label{
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rope);
+    margin: 0 0 14px;
+  }
+  .offer-card__title{
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    line-height: 1;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .offer-card__subtitle{
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: rgba(236,231,222,0.5);
+    margin: 0 0 18px;
+  }
+  .offer-card__price{
+    display: flex; align-items: baseline; gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line-on-ink);
+  }
+  .offer-card__price .amount{
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--ember);
+  }
+  .offer-card__price .terms{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: rgba(236,231,222,0.5);
+    text-transform: uppercase;
+  }
+  .offer-card__desc{ color: rgba(236,231,222,0.72); font-size: 0.94rem; margin: 0 0 20px; }
+  .offer-card__bullets{
+    list-style: none;
+    margin: 0 0 26px; padding: 0;
+    display: flex; flex-direction: column; gap: 10px;
+    flex-grow: 1;
+  }
+  .offer-card__bullets li{ display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; }
+  .offer-card__bullets .icon{ width: 18px; height: 18px; color: var(--ember); flex-shrink: 0; margin-top: 2px; }
+
+  .offer-split{
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--graphite);
+    margin: 0 0 40px;
+  }
+
+  .guarantee{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    max-width: 620px;
+    margin-inline: auto;
+    padding: 18px 24px;
+    border: 1px dashed var(--line-on-paper);
+    border-radius: 6px;
+  }
+  .guarantee .icon{ width: 22px; height: 22px; color: var(--ember); flex-shrink: 0; }
+  .guarantee p{ margin: 0; font-size: 0.88rem; color: var(--graphite); }
+  .guarantee strong{ color: var(--ink); }
+
+  /* ---------- Case studies ---------- */
+  .case{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding-block: clamp(40px, 6vw, 64px);
+    border-bottom: 1px solid var(--line-on-paper);
+  }
+  .case:last-of-type{ border-bottom: none; }
+  .case--reverse .case__copy{ order: 2; }
+  .case--reverse .case__card{ order: 1; }
+
+  .case__avatar-wrap{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .case__avatar{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--ember);
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(255,75,31,0.25);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .case__avatar:hover{
+    transform: scale(1.2);
+    position: relative;
+    z-index: 3;
+  }
+  .case__avatar-meta .eyebrow{ margin-bottom: 2px; }
+
+  .case__copy .eyebrow{ margin-bottom: 12px; }
+  .case__quote{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.12;
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+  .case__desc{ color: var(--graphite); margin: 0 0 20px; max-width: 46ch; }
+  .case__bullets{
+    list-style: none;
+    margin: 0 0 22px; padding: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .case__bullets li{ display: flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 500; }
+  .case__bullets .icon{ width: 18px; height: 18px; color: var(--ember); flex-shrink: 0; }
+  .case__link{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ember);
+    padding-bottom: 3px;
+  }
+
+  .lesson-card{
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .lesson-card::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 6px;
+    background: var(--ember);
+  }
+  .lesson-card__row{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 26px; }
+  .lesson-card__tag{ font-family: var(--font-mono); font-size: 0.72rem; color: rgba(236,231,222,0.5); letter-spacing: 0.1em; }
+  .lesson-card__level{ font-family: var(--font-mono); font-size: 0.72rem; color: var(--rope); letter-spacing: 0.08em; text-transform: uppercase; }
+  .lesson-card__title{
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    margin: 0 0 22px;
+    letter-spacing: -0.01em;
+  }
+  .lesson-card__stats{ display: flex; gap: 28px; border-top: 1px solid var(--line-on-ink); padding-top: 18px; }
+  .lesson-card__stat span{ display: block; }
+  .lesson-card__stat .k{ font-family: var(--font-mono); font-size: 0.66rem; color: rgba(236,231,222,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .lesson-card__stat .v{ font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600; color: var(--paper); }
+
+  /* ---------- Results ---------- */
+  .stats-grid{ display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat{ padding: 28px clamp(12px,2vw,28px); border-left: 1px solid var(--line-on-ink); }
+  .stat:first-child{ padding-left: 0; border-left: none; }
+  .stat__num{
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    color: var(--ember);
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+  .stat__desc{ font-size: 0.88rem; color: rgba(236,231,222,0.68); margin: 0; max-width: 22ch; }
+
+  .results-media{
+    margin-top: clamp(36px, 5vw, 56px);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line-on-ink);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .results-media__img{
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{ max-width: 760px; }
+  .faq-item{ border-bottom: 1px solid var(--line-on-paper); }
+  .faq-item summary{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 0;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .faq-item summary::-webkit-details-marker{ display: none; }
+  .faq-item__toggle{
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--line-on-paper);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ember);
+    transition: transform 0.2s ease;
+  }
+  .faq-item[open] .faq-item__toggle{ transform: rotate(45deg); }
+  .faq-item p{ margin: 0 0 26px; max-width: 62ch; color: var(--graphite); }
+
+  /* ---------- CTA ---------- */
+  .cta-section{
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(180deg, rgba(14,13,8,0.85) 0%, rgba(14,13,8,0.94) 100%), url('assets/images/cta_final.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .cta-section .container{ position: relative; z-index: 2; }
+  .cta-section .section__head{ margin-inline: auto; }
+  .cta-section .lede{ margin-inline: auto; margin-bottom: 34px; }
+  .cta-section__actions{
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 18px;
+    margin-bottom: 28px;
+  }
+  .cta-section__note{
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: rgba(236,231,222,0.5);
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer{ background: var(--ink-2); color: rgba(236,231,222,0.7); padding-top: clamp(48px, 6vw, 72px); }
+  .footer__top{
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line-on-ink);
+  }
+  .footer__brand .brand{ margin-bottom: 14px; }
+  .footer__brand p{ max-width: 32ch; font-size: 0.85rem; margin: 0; }
+  .footer__nav ul{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+  .footer__nav a{ text-decoration: none; font-size: 0.88rem; }
+  .footer__nav a:hover{ color: var(--paper); }
+  .footer__social{ display: flex; gap: 12px; }
+  .footer__social a{
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line-on-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .footer__social a:hover{ border-color: var(--paper); color: var(--paper); }
+
+  .footer__bottom{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-block: 24px; font-size: 0.78rem; }
+  .footer__legal{ display: flex; flex-wrap: wrap; gap: 20px; }
+  .footer__legal a{ text-decoration: none; }
+  .footer__legal a:hover{ color: var(--paper); }
+  .footer__disclaimer{ max-width: 720px; font-size: 0.72rem; color: rgba(236,231,222,0.45); padding-bottom: 24px; }
+
+  @media (max-width: 900px){
+    .diff-container{ grid-template-columns: 1fr; }
+    .diff-media{ order: -1; min-height: 300px; }
+    .diff-media__img{ min-height: 300px; }
+    .diff-grid{ grid-template-columns: 1fr; }
+    .offer-grid{ grid-template-columns: 1fr; }
+    .case, .case--reverse .case__copy, .case--reverse .case__card{ order: initial; }
+    .case{ grid-template-columns: 1fr; }
+    .case__card{ order: -1 !important; }
+    .stats-grid{ grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+    .stat:nth-child(3){ border-left: none; }
+    .stat:nth-child(odd){ border-left: none; padding-left: 0; }
+  }
+  @media (max-width: 560px){
+    .stats-grid{ grid-template-columns: 1fr 1fr; }
+    .audience__row span{ padding: 0 12px; font-size: 1rem; }
+    .footer__top{ flex-direction: column; }
+    .guarantee{ flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><line x1="12" y1="13" x2="15" y2="9.5"/><line x1="9" y1="2" x2="15" y2="2"/><line x1="12" y1="2" x2="12" y2="5"/></symbol>
+  <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 5 C7 3 10 3 12 5 C14 3 17 3 20 5 L20 18 C17 16 14 16 12 18 C10 16 7 16 4 18 Z"/><line x1="12" y1="5" x2="12" y2="18"/></symbol>
+  <symbol id="icon-list" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1.4"/><circle cx="4.5" cy="12" r="1.4"/><circle cx="4.5" cy="18" r="1.4"/></symbol>
+  <symbol id="icon-pace" viewBox="0 0 24 24"><path d="M3 17 L9 17"/><path d="M9 8 L17 8"/><path d="M13 4 L21 12 L13 20"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6"/></symbol>
+  <symbol id="icon-plus" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/></symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="icon-run" viewBox="0 0 24 24"><path d="M4 18 L9 13 L13 16 L20 6"/><path d="M15 6 L20 6 L20 11"/></symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"/><path d="M9 12 L11.3 14.3 L15.5 9.5"/></symbol>
+</svg>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#top" class="brand">
+      <span class="brand__mark"><svg class="icon"><use href="#icon-clock"/></svg></span>
+      <span class="brand__word"><strong>HYROX</strong><span>DAILY WOD</span></span>
+    </a>
+    <nav class="main-nav">
+      <ul class="main-nav__links">
+        <li><a href="#oferta">Produtos</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#cases">Cases</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a href="#oferta" class="btn btn--primary header-cta">Ver os materiais</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <svg class="icon icon--menu"><use href="#icon-menu"/></svg>
+      <svg class="icon icon--close"><use href="#icon-close"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <ul>
+    <li><a href="#oferta">Produtos</a></li>
+    <li><a href="#diferenciais">Diferenciais</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#oferta" class="btn btn--primary">Ver os materiais</a>
+</div>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <p class="eyebrow">Para professores de treino funcional</p>
+        <h1 class="hero__heading">Pare de inventar a aula de <em>última hora.</em></h1>
+        <p class="hero__desc">Manual técnico + 250 Daily WODs prontos, estruturados em cima das 8 estações oficiais do HYROX — pra você aplicar aula com fundamento, sem gastar sua noite planejando o treino de amanhã.</p>
+        <div class="hero__actions">
+          <a href="#oferta" class="btn btn--primary">Ver os 2 materiais</a>
+          <a href="#diferenciais" class="hero__scroll-hint">Por que isso funciona ↓</a>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <video class="hero__video" autoplay loop muted playsinline poster="assets/images/colt-training.webp">
+          <source src="assets/images/thirdspacelondon_pindown.io_1785350008.mp4" type="video/mp4">
+          Seu navegador não suporta a exibição deste vídeo.
+        </video>
+      </div>
+    </div>
+    <div class="container splitbar">
+      <p class="splitbar__label">Base técnica de todo o catálogo — sequência oficial do HYROX</p>
+      <div class="splitbar__track">
+        <div class="station"><span class="station__num">01</span><span class="station__name">SkiErg</span><span class="station__meta">1000M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">02</span><span class="station__name">Sled Push</span><span class="station__meta">50M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">03</span><span class="station__name">Sled Pull</span><span class="station__meta">50M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">04</span><span class="station__name">Burpee Broad Jump</span><span class="station__meta">80M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">05</span><span class="station__name">Rowing</span><span class="station__meta">1000M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">06</span><span class="station__name">Farmers Carry</span><span class="station__meta">200M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">07</span><span class="station__name">Sandbag Lunges</span><span class="station__meta">100M</span></div>
+        <div class="run-tick"><svg class="icon"><use href="#icon-run"/></svg>1KM RUN</div>
+        <div class="station"><span class="station__num">08</span><span class="station__name">Wall Balls</span><span class="station__meta">100 REP</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="audience">
+    <div class="container">
+      <p class="audience__label">Feito pra quem dá aula em:</p>
+      <div class="audience__row">
+        <span>Crossfit Box</span>
+        <span>Academia de Funcional</span>
+        <span>Personal Trainer</span>
+        <span>Studio de Treino</span>
+        <span>Preparação Física</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="resultados">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <p class="eyebrow">Resultados</p>
+        <h2 class="section-title">O que muda no seu planejamento de aula</h2>
+        <p class="lede">Menos tempo montando treino do zero, mais consistência técnica em cada estação da sua turma.</p>
+      </div>
+      <div class="stats-grid" data-reveal>
+        <div class="stat"><span class="stat__num">250</span><p class="stat__desc">aulas prontas, uma pra cada dia de treino</p></div>
+        <div class="stat"><span class="stat__num">150</span><p class="stat__desc">páginas de fundamentação técnica no manual</p></div>
+        <div class="stat"><span class="stat__num">-5h</span><p class="stat__desc">por semana a menos planejando aula do zero</p></div>
+        <div class="stat"><span class="stat__num">3x</span><p class="stat__desc">níveis de adaptação em cada treino do catálogo</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="diferenciais">
+    <div class="container">
+      <div class="section__head section__head--center" data-reveal>
+        <p class="eyebrow">Por que esse material</p>
+        <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">O que muda quando o material é feito pra HYROX</h2>
+      </div>
+      <div class="diff-container" data-reveal>
+        <div class="diff-media">
+          <img src="assets/images/colt-training.webp" alt="Instrutor corrigindo a postura de uma aluna durante o farmers carry" class="diff-media__img" loading="lazy">
+          <div class="diff-media__caption"><span>Técnica corrigida, não achismo</span></div>
+        </div>
+        <div class="diff-grid">
+          <div class="diff-card">
+            <div class="diff-card__icon"><svg class="icon"><use href="#icon-book"/></svg></div>
+            <div class="diff-card__rule"></div>
+            <h3>Fundamentação, não só treino pronto</h3>
+            <p>O Manual do Coach explica a fisiologia do treino funcional, periodização e prevenção de lesão por trás de cada escolha de estação.</p>
+          </div>
+          <div class="diff-card">
+            <div class="diff-card__icon"><svg class="icon"><use href="#icon-list"/></svg></div>
+            <div class="diff-card__rule"></div>
+            <h3>Aula pronta pra aplicar hoje</h3>
+            <p>Cada Daily WOD já vem com aquecimento, estações, tempo e adaptação de nível definidos — você só chega e aplica.</p>
+          </div>
+          <div class="diff-card">
+            <div class="diff-card__icon"><svg class="icon"><use href="#icon-pace"/></svg></div>
+            <div class="diff-card__rule"></div>
+            <h3>Progressão pensada pra HYROX</h3>
+            <p>Nada de treino genérico de funcional: a progressão de carga segue a lógica das 8 estações oficiais da prova.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper-alt" id="oferta">
+    <div class="container">
+      <div class="section__head section__head--center" data-reveal>
+        <p class="eyebrow">Os materiais</p>
+        <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Escolha o que resolve sua aula amanhã</h2>
+        <p class="lede" style="margin-inline:auto;">Dois produtos independentes — leve um ou os dois. Cada um tem seu próprio checkout.</p>
+      </div>
+
+      <div class="offer-grid" data-reveal>
+        <div class="offer-card">
+          <div class="offer-card__media">
+            <img src="assets/images/oferta_150_pag.jpg" alt="Manual do Coach 150 Páginas - Fundamentação técnica" loading="lazy">
+          </div>
+          <p class="offer-card__label">Para fundamentar seu treino</p>
+          <h3 class="offer-card__title">Manual do Coach</h3>
+          <p class="offer-card__subtitle">150 páginas · PDF digital</p>
+          <div class="offer-card__price">
+            <span class="amount">R$ 19,90</span>
+            <span class="terms">pagamento único</span>
+          </div>
+          <p class="offer-card__desc">Fundamentação técnica completa: fisiologia do treino funcional, periodização, prevenção de lesões e progressão de carga aplicada ao HYROX.</p>
+          <ul class="offer-card__bullets">
+            <li><svg class="icon"><use href="#icon-check"/></svg>Fisiologia aplicada ao treino funcional</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Periodização por mesociclo</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Prevenção de lesão nas 8 estações oficiais</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Progressão de carga passo a passo</li>
+          </ul>
+          <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary btn--block">Quero o Manual — R$19,90</a>
+        </div>
+
+        <div class="offer-card">
+          <div class="offer-card__media">
+            <img src="assets/images/oferta_250_pag_.jpg" alt="250 Aulas Prontas Daily WOD - Material completo" loading="lazy">
+          </div>
+          <p class="offer-card__label">Para aplicar amanhã</p>
+          <h3 class="offer-card__title">250 Aulas Prontas</h3>
+          <p class="offer-card__subtitle">Daily WOD · acesso digital imediato</p>
+          <div class="offer-card__price">
+            <span class="amount">R$ 30,90</span>
+            <span class="terms">pagamento único</span>
+          </div>
+          <p class="offer-card__desc">Um treino do dia pronto pra cada aula: aquecimento, estações, tempo e adaptação de nível já definidos.</p>
+          <ul class="offer-card__bullets">
+            <li><svg class="icon"><use href="#icon-check"/></svg>250 aulas — uma pra cada dia útil do ano</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Aquecimento e estações definidos</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>3 níveis de adaptação por aula</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Zero tempo de planejamento</li>
+          </ul>
+          <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--primary btn--block">Quero as 250 Aulas — R$30,90</a>
+        </div>
+      </div>
+
+      <p class="offer-split" data-reveal>São dois produtos independentes — sem combo obrigatório, sem carrinho compartilhado.</p>
+
+      <div class="guarantee" data-reveal>
+        <svg class="icon"><use href="#icon-shield"/></svg>
+        <p><strong>Garantia incondicional de 7 dias</strong> em qualquer um dos dois materiais. Se não fizer sentido pra sua aula, devolvemos o valor.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cases">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <p class="eyebrow">Casos reais</p>
+        <h2 class="section-title">Três professores, três turmas diferentes</h2>
+      </div>
+
+      <div class="case" data-reveal>
+        <div class="case__copy">
+          <div class="case__avatar-wrap">
+            <img src="assets/images/avatar_case_1.png" alt="Professor Dono de Box" class="case__avatar" loading="lazy">
+            <div class="case__avatar-meta">
+              <p class="eyebrow" style="margin:0;">Professor · Box próprio</p>
+            </div>
+          </div>
+          <p class="case__quote">"Parei de ficar acordado até tarde pensando na aula de amanhã."</p>
+          <p class="case__desc">Comecei a usar o catálogo de Daily WODs há 3 meses. Hoje eu só abro a aula do dia, ajusto o nível da turma e aplico.</p>
+          <ul class="case__bullets">
+            <li><svg class="icon"><use href="#icon-check"/></svg>Zero tempo de planejamento por semana</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Aula sempre com progressão técnica</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Turma percebeu mais estrutura</li>
+          </ul>
+          <a href="#oferta" class="case__link">Ver os materiais →</a>
+        </div>
+        <div class="case__card">
+          <div class="lesson-card">
+            <div class="lesson-card__row"><span class="lesson-card__tag">AULA #142</span><span class="lesson-card__level">NÍVEL 2</span></div>
+            <p class="lesson-card__title">Sled + Wall Ball Day</p>
+            <div class="lesson-card__stats">
+              <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">45 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">3</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case case--reverse" data-reveal>
+        <div class="case__copy">
+          <div class="case__avatar-wrap">
+            <img src="assets/images/avatar_case_2.png" alt="Personal Trainer" class="case__avatar" loading="lazy">
+            <div class="case__avatar-meta">
+              <p class="eyebrow" style="margin:0;">Personal Trainer</p>
+            </div>
+          </div>
+          <p class="case__quote">"Nunca competi um HYROX, mas hoje monto aula com confiança técnica."</p>
+          <p class="case__desc">O manual me deu a base de periodização que eu não tinha. Uso as aulas prontas como estrutura e ajusto pros meus alunos 1:1.</p>
+          <ul class="case__bullets">
+            <li><svg class="icon"><use href="#icon-check"/></svg>Base técnica sem nunca ter competido</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Progressão de carga aplicada certo</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Aula 1:1 estruturada em minutos</li>
+          </ul>
+          <a href="#oferta" class="case__link">Ver os materiais →</a>
+        </div>
+        <div class="case__card">
+          <div class="lesson-card">
+            <div class="lesson-card__row"><span class="lesson-card__tag">AULA #087</span><span class="lesson-card__level">NÍVEL 1</span></div>
+            <p class="lesson-card__title">Farmers Carry + Lunges Day</p>
+            <div class="lesson-card__stats">
+              <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">40 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">2</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case" data-reveal>
+        <div class="case__copy">
+          <div class="case__avatar-wrap">
+            <img src="assets/images/avatar_case_3.png" alt="Coordenador de academia" class="case__avatar" loading="lazy">
+            <div class="case__avatar-meta">
+              <p class="eyebrow" style="margin:0;">Coordenador de academia</p>
+            </div>
+          </div>
+          <p class="case__quote">"Padronizei o treino de 6 professores diferentes com o mesmo catálogo."</p>
+          <p class="case__desc">Todo mundo aplicando a partir do mesmo Daily WOD, no mesmo padrão técnico, mesmo revezando professor durante a semana.</p>
+          <ul class="case__bullets">
+            <li><svg class="icon"><use href="#icon-check"/></svg>Mesmo padrão entre professores</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Onboarding de professor novo mais rápido</li>
+            <li><svg class="icon"><use href="#icon-check"/></svg>Turma não percebe troca de professor</li>
+          </ul>
+          <a href="#oferta" class="case__link">Ver os materiais →</a>
+        </div>
+        <div class="case__card">
+          <div class="lesson-card">
+            <div class="lesson-card__row"><span class="lesson-card__tag">AULA #219</span><span class="lesson-card__level">NÍVEL 3</span></div>
+            <p class="lesson-card__title">Row + Sandbag Day</p>
+            <div class="lesson-card__stats">
+              <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">50 min</span></div>
+              <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">2</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <p class="eyebrow">FAQ</p>
+        <h2 class="section-title">Perguntas de quem tá pensando em levar</h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <details class="faq-item" open>
+          <summary>Preciso ter experiência com HYROX pra usar o material?<span class="faq-item__toggle"><svg class="icon"><use href="#icon-plus"/></svg></span></summary>
+          <p>Não. O Manual explica a fundamentação do zero, e cada Daily WOD já vem com o nível de adaptação definido — funciona mesmo se você nunca competiu.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como recebo o Manual e as Aulas depois de comprar?<span class="faq-item__toggle"><svg class="icon"><use href="#icon-plus"/></svg></span></summary>
+          <p>Acesso digital imediato após a confirmação do pagamento, direto no e-mail cadastrado no checkout.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Preciso comprar os dois produtos juntos?<span class="faq-item__toggle"><svg class="icon"><use href="#icon-plus"/></svg></span></summary>
+          <p>Não. São dois produtos independentes, cada um com checkout próprio — você pode levar só o Manual, só as Aulas, ou os dois.</p>
+        </details>
+        <details class="faq-item">
+          <summary>As aulas servem só pra turma de HYROX ou funcionam pra funcional em geral?<span class="faq-item__toggle"><svg class="icon"><use href="#icon-plus"/></svg></span></summary>
+          <p>O catálogo é estruturado em cima das 8 estações oficiais do HYROX, mas se aplica a qualquer aula de treino funcional em formato de estação.</p>
+        </details>
+        <details class="faq-item">
+          <summary>E se o material não for o que eu esperava?<span class="faq-item__toggle"><svg class="icon"><use href="#icon-plus"/></svg></span></summary>
+          <p>Garantia incondicional de 7 dias em qualquer um dos dois produtos — se não fizer sentido pra sua aula, devolvemos o valor.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark-2 cta-section" id="cta">
+    <div class="container">
+      <div class="section__head section__head--center" data-reveal>
+        <p class="eyebrow">Próximo passo</p>
+        <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Sua aula de amanhã pode já estar pronta</h2>
+        <p class="lede">Preço de lançamento — pode subir a qualquer momento. Escolha o material e comece a aplicar ainda essa semana.</p>
+      </div>
+      <div class="cta-section__actions" data-reveal>
+        <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary">Quero o Manual — R$19,90</a>
+        <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--ghost-light">Quero as 250 Aulas — R$30,90</a>
+      </div>
+      <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="#top" class="brand">
+          <span class="brand__mark"><svg class="icon"><use href="#icon-clock"/></svg></span>
+          <span class="brand__word"><strong>HYROX</strong><span>DAILY WOD</span></span>
+        </a>
+        <p>Manual do Coach e 250 Aulas Prontas pra quem dá aula de treino funcional no formato HYROX.</p>
+      </div>
+      <nav class="footer__nav">
+        <ul>
+          <li><a href="#oferta">Produtos</a></li>
+          <li><a href="#diferenciais">Diferenciais</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#cases">Cases</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="YouTube">YT</a>
+        <a href="#" aria-label="X (Twitter)">X</a>
+        <a href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <p class="footer__disclaimer">HYROX® é marca registrada de seus respectivos proprietários. HYROX Daily WOD é um material técnico independente, focado na preparação de professores de treino funcional, sem afiliação oficial com a organização da competição.</p>
+    <div class="footer__bottom">
+      <p>© 2026 HYROX Daily WOD. Todos os direitos reservados.</p>
+      <div class="footer__legal">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">Termos de Uso</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var header = document.getElementById('siteHeader');
+  var onScroll = function(){
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var navToggle = document.getElementById('navToggle');
+  var drawer = document.getElementById('mobileDrawer');
+  var closeDrawer = function(){
+    document.body.classList.remove('nav-open');
+    drawer.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  };
+  navToggle.addEventListener('click', function(){
+    var isOpen = drawer.classList.toggle('is-open');
+    document.body.classList.toggle('nav-open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDrawer(); });
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+})();
+</script>
+
+</body>
+</html>
