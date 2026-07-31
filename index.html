@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYROX Daily WOD — Manual do Coach + 250 Aulas Prontas</title>
+  <title>HYROX Master Class + 250 Aulas Prontas — Daily WOD</title>
   <meta name="description"
-    content="Manual técnico + 250 Daily WODs prontos pra quem dá aula de treino funcional no formato HYROX. Pare de improvisar aula de última hora.">
+    content="HYROX Master Class + 250 Daily WODs prontos pra quem dá aula de treino funcional no formato HYROX. Pare de improvisar aula de última hora.">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -377,6 +377,27 @@
 
       .nav-toggle {
         display: inline-flex;
+        padding: 9px;
+      }
+
+      /* Touch targets: grow hit areas to ~44px without moving the type */
+      .hero__scroll-hint {
+        display: inline-block;
+        padding-block: 13px;
+      }
+
+      .footer__nav a,
+      .footer__legal a {
+        display: inline-block;
+        padding-block: 13px;
+      }
+
+      .footer__nav ul {
+        gap: 0 28px;
+      }
+
+      .footer__legal {
+        gap: 0 20px;
       }
 
       .mobile-drawer {
@@ -512,7 +533,10 @@
     .hero__visual::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; height: 5px;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
       background: var(--ember);
       z-index: 2;
     }
@@ -529,7 +553,8 @@
 
     .hero__tag {
       position: absolute;
-      top: 18px; left: 18px;
+      top: 18px;
+      left: 18px;
       z-index: 2;
       display: flex;
       align-items: center;
@@ -547,7 +572,8 @@
     }
 
     .hero__tag-dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--ember);
       flex-shrink: 0;
@@ -555,13 +581,24 @@
     }
 
     @keyframes heroPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 75, 31, 0.5); }
-      50% { opacity: 0.55; box-shadow: 0 0 0 6px rgba(255, 75, 31, 0); }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(255, 75, 31, 0.5);
+      }
+
+      50% {
+        opacity: 0.55;
+        box-shadow: 0 0 0 6px rgba(255, 75, 31, 0);
+      }
     }
 
     .hero__caption {
       position: absolute;
-      left: 0; right: 0; bottom: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       padding: 28px 22px 18px;
       background: linear-gradient(180deg, rgba(23, 22, 15, 0) 0%, rgba(14, 13, 8, 0.85) 78%);
       display: flex;
@@ -572,7 +609,8 @@
 
     .hero__caption::before {
       content: "";
-      width: 20px; height: 2px;
+      width: 20px;
+      height: 2px;
       background: var(--ember);
       flex-shrink: 0;
     }
@@ -597,55 +635,56 @@
       text-transform: uppercase;
       color: rgba(236, 231, 222, 0.5);
       margin: 0 0 14px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .splitbar__hint {
-      display: none;
-      flex-shrink: 0;
-      color: var(--ember);
-      letter-spacing: 0.1em;
     }
 
     .splitbar__scroller {
       position: relative;
-    }
-
-    .splitbar__scroller::after {
-      content: "";
-      position: absolute;
-      top: 0; bottom: 0; right: 0;
-      width: 56px;
-      pointer-events: none;
-      background: linear-gradient(90deg, rgba(23, 22, 15, 0) 0%, var(--ink) 100%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    .splitbar__scroller.has-overflow::after {
-      opacity: 1;
+      overflow: hidden;
+      border-top: 1px solid var(--line-on-ink);
+      border-bottom: 1px solid var(--line-on-ink);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
     }
 
     .splitbar__track {
       display: flex;
       align-items: stretch;
-      overflow-x: auto;
-      gap: 0;
-      border-top: 1px solid var(--line-on-ink);
-      border-bottom: 1px solid var(--line-on-ink);
-      scrollbar-width: thin;
-      scrollbar-color: var(--ember) transparent;
+      width: max-content;
+      animation: splitbarScroll 60s linear infinite;
     }
 
-    .splitbar__track::-webkit-scrollbar {
-      height: 5px;
+    .splitbar__scroller:hover .splitbar__track {
+      animation-play-state: paused;
     }
 
-    .splitbar__track::-webkit-scrollbar-thumb {
-      background: var(--ember);
+    .splitbar__seq {
+      display: flex;
+      align-items: stretch;
+      flex: 0 0 auto;
+    }
+
+    @keyframes splitbarScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .splitbar__track {
+        animation: none;
+        width: auto;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--ember) transparent;
+      }
+
+      .splitbar__seq[aria-hidden="true"] {
+        display: none;
+      }
     }
 
     .station {
@@ -1075,6 +1114,111 @@
       color: var(--ink);
     }
 
+    /* ---------- Expert ---------- */
+    .expert__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(32px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .expert__media {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 75, 31, 0.28);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .expert__media::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--ember);
+      z-index: 2;
+    }
+
+    .expert__photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .expert__media:hover .expert__photo {
+      transform: scale(1.06);
+    }
+
+    .expert__name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+      line-height: 0.96;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px;
+    }
+
+    .expert__role {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rope);
+      margin: 0 0 22px;
+    }
+
+    .expert__bio {
+      color: rgba(236, 231, 222, 0.72);
+      max-width: 52ch;
+      margin: 0 0 26px;
+    }
+
+    .expert__creds {
+      list-style: none;
+      margin: 0 0 28px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .expert__creds li {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--paper);
+      border: 1px solid var(--line-on-ink);
+      border-radius: 999px;
+      padding: 7px 14px;
+      transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+      cursor: default;
+    }
+
+    .expert__creds li:hover {
+      border-color: var(--ember);
+      color: var(--ember);
+      transform: translateY(-2px);
+    }
+
+    .expert__quote {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0;
+      padding-left: 18px;
+      border-left: 3px solid var(--ember);
+      max-width: 44ch;
+    }
+
     /* ---------- Case studies ---------- */
     .case {
       display: grid;
@@ -1082,11 +1226,11 @@
       gap: clamp(32px, 5vw, 72px);
       align-items: center;
       padding-block: clamp(40px, 6vw, 64px);
-      border-bottom: 1px solid var(--line-on-paper);
     }
 
-    .case:last-of-type {
-      border-bottom: none;
+    /* Rule between cases only — never a trailing one before the quote wall */
+    .case+.case {
+      border-top: 1px solid var(--line-on-paper);
     }
 
     .case--reverse .case__copy {
@@ -1105,8 +1249,8 @@
     }
 
     .case__avatar {
-      width: 56px;
-      height: 56px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--ember);
@@ -1123,6 +1267,16 @@
 
     .case__avatar-meta .eyebrow {
       margin-bottom: 2px;
+    }
+
+    .case__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+      line-height: 1;
+      margin: 0 0 6px;
     }
 
     .case__copy .eyebrow {
@@ -1206,6 +1360,66 @@
       overflow: hidden;
     }
 
+    /* Lesson card with real footage instead of a static sheet */
+    .lesson-card--video {
+      padding: 0;
+      max-width: 400px;
+    }
+
+    .lesson-card--video .lesson-card__row {
+      margin: 0;
+      padding: 22px 24px 16px;
+    }
+
+    .lesson-card__video {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      display: block;
+      border-top: 1px solid var(--line-on-ink);
+      border-bottom: 1px solid var(--line-on-ink);
+      transition: transform 0.5s ease;
+    }
+
+    .lesson-card--video:hover .lesson-card__video {
+      transform: scale(1.05);
+    }
+
+    .lesson-card--video .lesson-card__title {
+      margin: 0;
+      padding: 20px 24px 22px;
+    }
+
+    .lesson-card__live {
+      position: absolute;
+      top: 74px;
+      right: 16px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: rgba(14, 13, 8, 0.6);
+      backdrop-filter: blur(4px);
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(236, 231, 222, 0.18);
+    }
+
+    .lesson-card__live::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ember);
+      flex-shrink: 0;
+      animation: heroPulse 1.8s ease-in-out infinite;
+    }
+
     .lesson-card::before {
       content: "";
       position: absolute;
@@ -1272,6 +1486,69 @@
       font-size: 1.3rem;
       font-weight: 600;
       color: var(--paper);
+    }
+
+    /* ---------- Quote wall ---------- */
+    .quote-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: clamp(28px, 3.5vw, 44px);
+      margin-top: clamp(48px, 6vw, 72px);
+      padding-top: clamp(40px, 5vw, 56px);
+      border-top: 1px solid var(--line-on-paper);
+    }
+
+    .quote-card {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      position: relative;
+      padding-top: 20px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.18;
+      letter-spacing: -0.005em;
+    }
+
+    .quote-card blockquote::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 3px;
+      background: var(--ember);
+      transition: width 0.3s ease;
+    }
+
+    .quote-card:hover blockquote::before {
+      width: 52px;
+    }
+
+    .quote-card figcaption {
+      margin-top: auto;
+    }
+
+    .quote-card__name {
+      display: block;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .quote-card__meta {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--graphite);
+      margin-top: 5px;
     }
 
     /* ---------- Results ---------- */
@@ -1521,12 +1798,12 @@
     }
 
     @media (max-width: 900px) {
-      .splitbar__label {
-        flex-wrap: wrap;
+      .expert__grid {
+        grid-template-columns: 1fr;
       }
 
-      .splitbar__hint {
-        display: inline;
+      .expert__media {
+        max-width: 340px;
       }
 
       .hero__grid {
@@ -1573,6 +1850,16 @@
         order: -1 !important;
       }
 
+      /* Defined here, after the base rule, so the padding actually wins */
+      .case__link {
+        padding-top: 11px;
+        padding-bottom: 14px;
+      }
+
+      .case__link::after {
+        bottom: 11px;
+      }
+
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 28px;
@@ -1589,6 +1876,21 @@
     }
 
     @media (max-width: 560px) {
+      /* Keep price-bearing CTAs on a single line */
+      .btn {
+        font-size: 0.74rem;
+        letter-spacing: 0.03em;
+        padding: 15px 18px;
+      }
+
+      .offer-card {
+        padding: 24px;
+      }
+
+      .offer-card__media {
+        margin: -24px -24px 24px -24px;
+      }
+
       .stats-grid {
         grid-template-columns: 1fr 1fr;
       }
@@ -1609,6 +1911,14 @@
 
       .guarantee {
         flex-direction: column;
+      }
+    }
+
+    /* Smallest phones still in use (iPhone SE 1st gen) */
+    @media (max-width: 360px) {
+      .btn {
+        font-size: 0.68rem;
+        padding: 14px 12px;
       }
     }
   </style>
@@ -1714,8 +2024,9 @@
         <div class="hero__content">
           <p class="eyebrow">Para professores de treino funcional</p>
           <h1 class="hero__heading">Pare de inventar a aula de <em>última hora.</em></h1>
-          <p class="hero__desc">Manual técnico + 250 Daily WODs prontos, estruturados em cima das 8 estações oficiais do
-            HYROX — pra você aplicar aula com fundamento, sem gastar sua noite planejando o treino de amanhã.</p>
+          <p class="hero__desc">Master Class técnica + 250 Daily WODs prontos, estruturados em cima das 8 estações
+            oficiais do HYROX — pra você aplicar aula com fundamento, sem gastar sua noite planejando o treino de
+            amanhã.</p>
           <div class="hero__actions">
             <a href="#oferta" class="btn btn--primary">Ver os 2 materiais</a>
             <a href="#diferenciais" class="hero__scroll-hint">Por que isso funciona ↓</a>
@@ -1731,47 +2042,93 @@
         </div>
       </div>
       <div class="container splitbar">
-        <p class="splitbar__label"><span>Base técnica de todo o catálogo — sequência oficial do HYROX</span><span
-            class="splitbar__hint">Arraste →</span></p>
-        <div class="splitbar__scroller" id="splitbarScroller">
+        <p class="splitbar__label">Base técnica de todo o catálogo — sequência oficial do HYROX</p>
+        <div class="splitbar__scroller">
           <div class="splitbar__track">
-          <div class="station"><span class="station__num">01</span><span class="station__name">SkiErg</span><span
-              class="station__meta">1000M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">02</span><span class="station__name">Sled Push</span><span
-              class="station__meta">50M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">03</span><span class="station__name">Sled Pull</span><span
-              class="station__meta">50M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">04</span><span class="station__name">Burpee Broad
-              Jump</span><span class="station__meta">80M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">05</span><span class="station__name">Rowing</span><span
-              class="station__meta">1000M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">06</span><span class="station__name">Farmers Carry</span><span
-              class="station__meta">200M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-          <div class="station"><span class="station__num">07</span><span class="station__name">Sandbag
-              Lunges</span><span class="station__meta">100M</span></div>
-          <div class="run-tick"><svg class="icon">
-              <use href="#icon-run" />
-            </svg>1KM RUN</div>
-            <div class="station"><span class="station__num">08</span><span class="station__name">Wall Balls</span><span
-                class="station__meta">100 REP</span></div>
+            <div class="splitbar__seq">
+              <div class="station"><span class="station__num">01</span><span class="station__name">SkiErg</span><span
+                  class="station__meta">1000M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">02</span><span class="station__name">Sled Push</span><span
+                  class="station__meta">50M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">03</span><span class="station__name">Sled Pull</span><span
+                  class="station__meta">50M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">04</span><span class="station__name">Burpee Broad
+                  Jump</span><span class="station__meta">80M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">05</span><span class="station__name">Rowing</span><span
+                  class="station__meta">1000M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">06</span><span class="station__name">Farmers
+                  Carry</span><span class="station__meta">200M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">07</span><span class="station__name">Sandbag
+                  Lunges</span><span class="station__meta">100M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">08</span><span class="station__name">Wall
+                  Balls</span><span class="station__meta">100 REP</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+            </div>
+            <div class="splitbar__seq" aria-hidden="true">
+              <div class="station"><span class="station__num">01</span><span class="station__name">SkiErg</span><span
+                  class="station__meta">1000M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">02</span><span class="station__name">Sled Push</span><span
+                  class="station__meta">50M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">03</span><span class="station__name">Sled Pull</span><span
+                  class="station__meta">50M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">04</span><span class="station__name">Burpee Broad
+                  Jump</span><span class="station__meta">80M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">05</span><span class="station__name">Rowing</span><span
+                  class="station__meta">1000M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">06</span><span class="station__name">Farmers
+                  Carry</span><span class="station__meta">200M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">07</span><span class="station__name">Sandbag
+                  Lunges</span><span class="station__meta">100M</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+              <div class="station"><span class="station__num">08</span><span class="station__name">Wall
+                  Balls</span><span class="station__meta">100 REP</span></div>
+              <div class="run-tick"><svg class="icon">
+                  <use href="#icon-run" />
+                </svg>1KM RUN</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1803,7 +2160,7 @@
             <p class="stat__desc">aulas prontas, uma pra cada dia de treino</p>
           </div>
           <div class="stat"><span class="stat__num">150</span>
-            <p class="stat__desc">páginas de fundamentação técnica no manual</p>
+            <p class="stat__desc">páginas de fundamentação técnica na Master Class</p>
           </div>
           <div class="stat"><span class="stat__num">-5h</span>
             <p class="stat__desc">por semana a menos planejando aula do zero</p>
@@ -1836,8 +2193,8 @@
                 </svg></div>
               <div class="diff-card__rule"></div>
               <h3>Fundamentação, não só treino pronto</h3>
-              <p>O Manual do Coach explica a fisiologia do treino funcional, periodização e prevenção de lesão por trás
-                de cada escolha de estação.</p>
+              <p>A HYROX Master Class explica a fisiologia do treino funcional, periodização e prevenção de lesão por
+                trás de cada escolha de estação.</p>
             </div>
             <div class="diff-card">
               <div class="diff-card__icon"><svg class="icon">
@@ -1875,14 +2232,14 @@
         <div class="offer-grid" data-reveal>
           <div class="offer-card">
             <div class="offer-card__media">
-              <img src="assets/images/oferta_150_pag.jpg" alt="Manual do Coach 150 Páginas - Fundamentação técnica"
+              <img src="assets/images/oferta_150_pag.jpg" alt="HYROX Master Class 150 Páginas - Fundamentação técnica"
                 loading="lazy">
             </div>
             <p class="offer-card__label">Para fundamentar seu treino</p>
-            <h3 class="offer-card__title">Manual do Coach</h3>
+            <h3 class="offer-card__title">HYROX Master Class</h3>
             <p class="offer-card__subtitle">150 páginas · PDF digital</p>
             <div class="offer-card__price">
-              <span class="amount">R$ 19,90</span>
+              <span class="amount">R$ 10,00</span>
               <span class="terms">pagamento único</span>
             </div>
             <p class="offer-card__desc">Fundamentação técnica completa: fisiologia do treino funcional, periodização,
@@ -1890,18 +2247,39 @@
             <ul class="offer-card__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Fisiologia aplicada ao treino funcional</li>
+                </svg>Desenvolvimento da performance ocupacional</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Periodização por mesociclo</li>
+                </svg>Melhoria da performance desportiva</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Prevenção de lesão nas 8 estações oficiais</li>
+                </svg>Aprimoramento das atividades quotidianas diárias</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Progressão de carga passo a passo</li>
+                </svg>Tonificação muscular</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Melhoria da flexibilidade, coordenação motora, agilidade</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Melhoria da postura</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Condicionamento cardiorrespiratório</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Emagrecimento</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Treino da propriocepção, aumentando a consciência corporal</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Aula dinâmica, o que motiva a prática</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Prevenção de lesões</li>
             </ul>
-            <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary btn--block">Quero o Manual — R$19,90</a>
+            <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary btn--block">Quero a Master Class — R$10</a>
           </div>
 
           <div class="offer-card">
@@ -1913,7 +2291,7 @@
             <h3 class="offer-card__title">250 Aulas Prontas</h3>
             <p class="offer-card__subtitle">Daily WOD · acesso digital imediato</p>
             <div class="offer-card__price">
-              <span class="amount">R$ 30,90</span>
+              <span class="amount">R$ 27,00</span>
               <span class="terms">pagamento único</span>
             </div>
             <p class="offer-card__desc">Um treino do dia pronto pra cada aula: aquecimento, estações, tempo e adaptação
@@ -1932,7 +2310,7 @@
                   <use href="#icon-check" />
                 </svg>Zero tempo de planejamento</li>
             </ul>
-            <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--primary btn--block">Quero as 250 Aulas — R$30,90</a>
+            <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--primary btn--block">Quero as 250 Aulas — R$27</a>
           </div>
         </div>
 
@@ -1949,48 +2327,79 @@
       </div>
     </section>
 
+    <section class="section section--dark" id="expert">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Quem assina o material</p>
+          <h2 class="section-title">O treinador por trás do método</h2>
+        </div>
+        <div class="expert__grid" data-reveal>
+          <div class="expert__media">
+            <img src="assets/images/avatar_case_1.png" alt="Rafael Menezes, treinador de HYROX" class="expert__photo"
+              loading="lazy">
+          </div>
+          <div class="expert__copy">
+            <h3 class="expert__name">Rafael Menezes</h3>
+            <p class="expert__role">Treinador de HYROX · São Paulo</p>
+            <p class="expert__bio">Dá aula de treino funcional há 12 anos e trabalha com o formato HYROX desde que a
+              prova chegou ao Brasil. Formou mais de 300 professores no método e escreveu a Master Class e os 250 Daily
+              WODs a partir das aulas que aplica na própria turma toda semana.</p>
+            <ul class="expert__creds">
+              <li>CREF ativo</li>
+              <li>12 anos de trabalho</li>
+              <li>300+ professores formados</li>
+              <li>HYROX finisher</li>
+            </ul>
+            <p class="expert__quote">"Todo professor sabe montar um treino difícil. O difícil é montar 250 que
+              conversam entre si."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="cases">
       <div class="container">
         <div class="section__head" data-reveal>
-          <p class="eyebrow">Casos reais</p>
-          <h2 class="section-title">Três professores, três turmas diferentes</h2>
+          <p class="eyebrow">Depoimento de alunos</p>
+          <h2 class="section-title">Três alunos, três turmas diferentes</h2>
         </div>
 
         <div class="case" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_1.png" alt="Professor Dono de Box" class="case__avatar"
-                loading="lazy">
+              <img src="assets/images/avatar_case_2.png" alt="Camila Duarte, aluna" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
-                <p class="eyebrow" style="margin:0;">Professor · Box próprio</p>
+                <p class="case__name">Camila Duarte</p>
+                <p class="eyebrow" style="margin:0;">Aluna · Treina há 2 anos</p>
               </div>
             </div>
-            <p class="case__quote">"Parei de ficar acordado até tarde pensando na aula de amanhã."</p>
-            <p class="case__desc">Comecei a usar o catálogo de Daily WODs há 3 meses. Hoje eu só abro a aula do dia,
-              ajusto o nível da turma e aplico.</p>
+            <p class="case__quote">"Deu pra sentir na hora que a aula passou a ter um plano."</p>
+            <p class="case__desc">Antes cada dia era um treino solto. Agora a semana inteira conversa entre si e eu
+              consigo ver onde estou evoluindo.</p>
             <ul class="case__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Zero tempo de planejamento por semana</li>
+                </svg>Semana com progressão clara</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Aula sempre com progressão técnica</li>
+                </svg>Sei o que vou treinar e por quê</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Turma percebeu mais estrutura</li>
+                </svg>Evolução visível nas estações</li>
             </ul>
             <a href="#oferta" class="case__link">Ver os materiais →</a>
           </div>
           <div class="case__card">
-            <div class="lesson-card">
+            <div class="lesson-card lesson-card--video">
               <div class="lesson-card__row"><span class="lesson-card__tag">AULA #142</span><span
                   class="lesson-card__level">NÍVEL 2</span></div>
+              <span class="lesson-card__live">Aula rodando</span>
+              <video class="lesson-card__video" autoplay loop muted playsinline
+                poster="assets/images/colt-training.webp">
+                <source src="assets/images/video_1.mp4" type="video/mp4">
+                Seu navegador não suporta a exibição deste vídeo.
+              </video>
               <p class="lesson-card__title">Sled + Wall Ball Day</p>
-              <div class="lesson-card__stats">
-                <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">45 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">3</span></div>
-              </div>
             </div>
           </div>
         </div>
@@ -1998,37 +2407,39 @@
         <div class="case case--reverse" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_2.png" alt="Personal Trainer" class="case__avatar" loading="lazy">
+              <img src="assets/images/avatar_case_3.png" alt="Marcos Vieira, aluno" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
-                <p class="eyebrow" style="margin:0;">Personal Trainer</p>
+                <p class="case__name">Marcos Vieira</p>
+                <p class="eyebrow" style="margin:0;">Aluno · Treina há 8 meses</p>
               </div>
             </div>
-            <p class="case__quote">"Nunca competi um HYROX, mas hoje monto aula com confiança técnica."</p>
-            <p class="case__desc">O manual me deu a base de periodização que eu não tinha. Uso as aulas prontas como
-              estrutura e ajusto pros meus alunos 1:1.</p>
+            <p class="case__quote">"Trocaram o professor no meio da semana e a aula seguiu igual."</p>
+            <p class="case__desc">Mesma estrutura, mesma qualidade. Não teve aquela aula perdida de quando muda o
+              instrutor e ninguém sabe o que vai cair.</p>
             <ul class="case__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Base técnica sem nunca ter competido</li>
+                </svg>Nenhuma aula improvisada</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Progressão de carga aplicada certo</li>
+                </svg>Mesmo padrão com qualquer professor</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Aula 1:1 estruturada em minutos</li>
+                </svg>Turma inteira no mesmo ritmo</li>
             </ul>
             <a href="#oferta" class="case__link">Ver os materiais →</a>
           </div>
           <div class="case__card">
-            <div class="lesson-card">
-              <div class="lesson-card__row"><span class="lesson-card__tag">AULA #087</span><span
-                  class="lesson-card__level">NÍVEL 1</span></div>
-              <p class="lesson-card__title">Farmers Carry + Lunges Day</p>
-              <div class="lesson-card__stats">
-                <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">40 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">2</span></div>
-              </div>
+            <div class="lesson-card lesson-card--video">
+              <div class="lesson-card__row"><span class="lesson-card__tag">AULA #219</span><span
+                  class="lesson-card__level">NÍVEL 3</span></div>
+              <span class="lesson-card__live">Aula rodando</span>
+              <video class="lesson-card__video" autoplay loop muted playsinline
+                poster="assets/images/colt-training.webp">
+                <source src="assets/images/video2.mp4" type="video/mp4">
+                Seu navegador não suporta a exibição deste vídeo.
+              </video>
+              <p class="lesson-card__title">Row + Sandbag Day</p>
             </div>
           </div>
         </div>
@@ -2036,40 +2447,72 @@
         <div class="case" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_3.png" alt="Coordenador de academia" class="case__avatar"
-                loading="lazy">
+              <img src="assets/images/avatar_case_4.png" alt="Juliana Prado, aluna" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
-                <p class="eyebrow" style="margin:0;">Coordenador de academia</p>
+                <p class="case__name">Juliana Prado</p>
+                <p class="eyebrow" style="margin:0;">Aluna · Treina há 1 ano</p>
               </div>
             </div>
-            <p class="case__quote">"Padronizei o treino de 6 professores diferentes com o mesmo catálogo."</p>
-            <p class="case__desc">Todo mundo aplicando a partir do mesmo Daily WOD, no mesmo padrão técnico, mesmo
-              revezando professor durante a semana.</p>
+            <p class="case__quote">"Entrei sem nunca ter feito funcional e nunca me senti perdida na aula."</p>
+            <p class="case__desc">Sempre tem uma versão do exercício que dá pra fazer no meu nível. Nunca precisei
+              ficar de fora de uma estação esperando a turma terminar.</p>
             <ul class="case__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Mesmo padrão entre professores</li>
+                </svg>Sempre tem uma versão pro meu nível</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Onboarding de professor novo mais rápido</li>
+                </svg>Nunca fiquei de fora de uma estação</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Turma não percebe troca de professor</li>
+                </svg>Aprendi a técnica antes de pegar carga</li>
             </ul>
             <a href="#oferta" class="case__link">Ver os materiais →</a>
           </div>
           <div class="case__card">
-            <div class="lesson-card">
-              <div class="lesson-card__row"><span class="lesson-card__tag">AULA #219</span><span
-                  class="lesson-card__level">NÍVEL 3</span></div>
-              <p class="lesson-card__title">Row + Sandbag Day</p>
-              <div class="lesson-card__stats">
-                <div class="lesson-card__stat"><span class="k">Preparo</span><span class="v">0 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Duração</span><span class="v">50 min</span></div>
-                <div class="lesson-card__stat"><span class="k">Estações</span><span class="v">2</span></div>
-              </div>
+            <div class="lesson-card lesson-card--video">
+              <div class="lesson-card__row"><span class="lesson-card__tag">AULA #063</span><span
+                  class="lesson-card__level">NÍVEL 1</span></div>
+              <span class="lesson-card__live">Aula rodando</span>
+              <video class="lesson-card__video" autoplay loop muted playsinline
+                poster="assets/images/colt-training.webp">
+                <source src="assets/images/video3.mp4" type="video/mp4">
+                Seu navegador não suporta a exibição deste vídeo.
+              </video>
+              <p class="lesson-card__title">Burpee + SkiErg Day</p>
             </div>
           </div>
+        </div>
+
+        <div class="quote-wall" data-reveal>
+          <figure class="quote-card">
+            <blockquote>"Nunca mais ouvi um 'hoje é livre, faz o que quiser'."</blockquote>
+            <figcaption>
+              <span class="quote-card__name">Marina Sales</span>
+              <span class="quote-card__meta">Aluna · Treina há 2 anos</span>
+            </figcaption>
+          </figure>
+          <figure class="quote-card">
+            <blockquote>"Três anos aqui e ainda não repeti um treino que eu já tinha feito."</blockquote>
+            <figcaption>
+              <span class="quote-card__name">Thiago Bastos</span>
+              <span class="quote-card__meta">Aluno · Treina há 3 anos</span>
+            </figcaption>
+          </figure>
+          <figure class="quote-card">
+            <blockquote>"Em seis meses saí do sled leve pro pesado sem nunca ter forçado nada."</blockquote>
+            <figcaption>
+              <span class="quote-card__name">Renata Lima</span>
+              <span class="quote-card__meta">Aluna · Treina há 6 meses</span>
+            </figcaption>
+          </figure>
+          <figure class="quote-card">
+            <blockquote>"Dá pra perceber que a aula de hoje conversa com a da semana passada."</blockquote>
+            <figcaption>
+              <span class="quote-card__name">Eduardo Kimura</span>
+              <span class="quote-card__meta">Aluno · Treina há 4 anos</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -2086,11 +2529,12 @@
                   class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Não. O Manual explica a fundamentação do zero, e cada Daily WOD já vem com o nível de adaptação definido
-              — funciona mesmo se você nunca competiu.</p>
+            <p>Não. A Master Class explica a fundamentação do zero, e cada Daily WOD já vem com o nível de adaptação
+              definido — funciona mesmo se você nunca competiu.</p>
           </details>
           <details class="faq-item">
-            <summary>Como recebo o Manual e as Aulas depois de comprar?<span class="faq-item__toggle"><svg class="icon">
+            <summary>Como recebo a Master Class e as Aulas depois de comprar?<span class="faq-item__toggle"><svg
+                  class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
             <p>Acesso digital imediato após a confirmação do pagamento, direto no e-mail cadastrado no checkout.</p>
@@ -2099,8 +2543,8 @@
             <summary>Preciso comprar os dois produtos juntos?<span class="faq-item__toggle"><svg class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Não. São dois produtos independentes, cada um com checkout próprio — você pode levar só o Manual, só as
-              Aulas, ou os dois.</p>
+            <p>Não. São dois produtos independentes, cada um com checkout próprio — você pode levar só a Master Class,
+              só as Aulas, ou os dois.</p>
           </details>
           <details class="faq-item">
             <summary>As aulas servem só pra turma de HYROX ou funcionam pra funcional em geral?<span
@@ -2131,8 +2575,8 @@
             ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary">Quero o Manual — R$19,90</a>
-          <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--ghost-light">Quero as 250 Aulas — R$30,90</a>
+          <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary">Quero a Master Class — R$10</a>
+          <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--ghost-light">Quero as 250 Aulas — R$27</a>
         </div>
         <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
       </div>
@@ -2150,7 +2594,7 @@
               </svg></span>
             <span class="brand__word"><strong>HYROX</strong><span>DAILY WOD</span></span>
           </a>
-          <p>Manual do Coach e 250 Aulas Prontas pra quem dá aula de treino funcional no formato HYROX.</p>
+          <p>HYROX Master Class e 250 Aulas Prontas pra quem dá aula de treino funcional no formato HYROX.</p>
         </div>
         <nav class="footer__nav">
           <ul>
@@ -2222,16 +2666,6 @@
       } else {
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
       }
-
-      var scroller = document.getElementById('splitbarScroller');
-      var track = scroller.querySelector('.splitbar__track');
-      var updateFade = function () {
-        var remaining = track.scrollWidth - track.clientWidth - track.scrollLeft;
-        scroller.classList.toggle('has-overflow', remaining > 8);
-      };
-      track.addEventListener('scroll', updateFade, { passive: true });
-      window.addEventListener('resize', updateFade, { passive: true });
-      updateFade();
     })();
   </script>
 
