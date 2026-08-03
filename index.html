@@ -172,6 +172,7 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       text-decoration: none;
+      white-space: nowrap;
       padding: 15px 26px;
       border-radius: 3px;
       border: 2px solid transparent;
@@ -651,10 +652,6 @@
       align-items: stretch;
       width: max-content;
       animation: splitbarScroll 60s linear infinite;
-    }
-
-    .splitbar__scroller:hover .splitbar__track {
-      animation-play-state: paused;
     }
 
     .splitbar__seq {
@@ -1237,6 +1234,122 @@
       max-width: 44ch;
     }
 
+    /* ---------- Peek inside the material ---------- */
+    .peek__scroller {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+    }
+
+    .peek__track {
+      display: flex;
+      align-items: stretch;
+      width: max-content;
+      animation: peekScroll 70s linear infinite;
+    }
+
+    .peek__seq {
+      display: flex;
+      align-items: stretch;
+      flex: 0 0 auto;
+    }
+
+    @keyframes peekScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .peek-page {
+      flex: 0 0 auto;
+      width: 320px;
+      margin: 0 26px 0 0;
+      text-align: left;
+      position: relative;
+    }
+
+    .peek-page__shot {
+      display: block;
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 75, 31, 0.28);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+      transition: border-color 0.28s ease;
+    }
+
+    .peek-page__shot::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--ember);
+      z-index: 2;
+    }
+
+    .peek-page img {
+      width: 100%;
+      display: block;
+    }
+
+    .peek-page:hover .peek-page__shot {
+      border-color: var(--ember);
+    }
+
+
+    .peek-page__cap {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.55);
+      transition: color 0.3s ease;
+    }
+
+    .peek-page:hover .peek-page__cap {
+      color: var(--paper);
+    }
+
+    .peek-page__cap b {
+      color: var(--rope);
+      font-weight: 500;
+    }
+
+    .peek__hint {
+      margin: 26px 0 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.4);
+    }
+
+
+
+    @media (prefers-reduced-motion: reduce) {
+      .peek__track {
+        animation: none;
+        width: auto;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--ember) transparent;
+      }
+
+      .peek__seq[aria-hidden="true"] {
+        display: none;
+      }
+    }
+
     /* ---------- Case studies ---------- */
     .case {
       display: grid;
@@ -1815,6 +1928,21 @@
       padding-bottom: 24px;
     }
 
+    /* Six nav links + CTA get tight before the drawer takes over at 860px */
+    @media (max-width: 1080px) {
+      .main-nav__links {
+        gap: 18px;
+      }
+
+      .main-nav {
+        gap: 20px;
+      }
+
+      .site-header .container {
+        gap: 16px;
+      }
+    }
+
     @media (max-width: 900px) {
       .expert__grid {
         grid-template-columns: 1fr;
@@ -1894,6 +2022,13 @@
     }
 
     @media (max-width: 560px) {
+
+      /* A 320px page would span the whole phone and get eaten by the edge fade */
+      .peek-page {
+        width: 250px;
+        margin-right: 18px;
+      }
+
       /* Keep price-bearing CTAs on a single line */
       .btn {
         font-size: 0.74rem;
@@ -2005,6 +2140,7 @@
       <nav class="main-nav">
         <ul class="main-nav__links">
           <li><a href="#oferta">Produtos</a></li>
+          <li><a href="#pordentro">Por dentro</a></li>
           <li><a href="#diferenciais">Diferenciais</a></li>
           <li><a href="#resultados">Resultados</a></li>
           <li><a href="#cases">Cases</a></li>
@@ -2020,13 +2156,14 @@
         <svg class="icon icon--close">
           <use href="#icon-close" />
         </svg>
-      </button>
+        </figure>
     </div>
   </header>
 
   <div class="mobile-drawer" id="mobileDrawer">
     <ul>
       <li><a href="#oferta">Produtos</a></li>
+      <li><a href="#pordentro">Por dentro</a></li>
       <li><a href="#diferenciais">Diferenciais</a></li>
       <li><a href="#resultados">Resultados</a></li>
       <li><a href="#cases">Cases</a></li>
@@ -2297,7 +2434,8 @@
                   <use href="#icon-check" />
                 </svg>Prevenção de lesões</li>
             </ul>
-            <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary btn--block">Quero a Master Class — R$10</a>
+            <a href="https://pay.wiapy.com/yJpiZvRd2Vf" class="btn btn--primary btn--block" target="_blank"
+              rel="noopener">Quero a Master Class — R$10</a>
           </div>
 
           <div class="offer-card">
@@ -2381,7 +2519,8 @@
                   <use href="#icon-check" />
                 </svg>Cálculo de velocidade de corrida a partir do seu tempo de 2 km</li>
             </ul>
-            <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--primary btn--block">Quero as 250 Aulas — R$27</a>
+            <a href="https://pay.wiapy.com/HW6pkTdIpb_" class="btn btn--primary btn--block" target="_blank"
+              rel="noopener">Quero as 250 Aulas — R$27</a>
           </div>
         </div>
 
@@ -2394,6 +2533,105 @@
           </svg>
           <p><strong>Garantia incondicional de 7 dias</strong> em qualquer um dos dois materiais. Se não fizer sentido
             pra sua aula, devolvemos o valor.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="pordentro">
+      <div class="container">
+        <div class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">Por dentro do material</p>
+          <h2 class="section-title" style="max-width:24ch; margin-inline:auto;">Veja o que você recebe antes de
+            comprar</h2>
+          <p class="lede" style="margin-inline:auto;">Páginas reais dos dois materiais.</p>
+        </div>
+      </div>
+      <div class="peek__scroller" data-reveal>
+        <div class="peek__track">
+          <div class="peek__seq">
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa"
+                  loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Capa</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-02-indice.jpg"
+                  alt="Master Class — Índice — 11 blocos" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Índice — 11 blocos</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-03-tres-respostas.jpg"
+                  alt="Master Class — As três fontes comparadas" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · As três fontes comparadas</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-04-fisiologia.jpg"
+                  alt="Master Class — Fisiologia aplicada" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Fisiologia aplicada</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa"
+                  loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Capa</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-02-mesociclos.jpg"
+                  alt="250 Aulas — Os dez mesociclos" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Os dez mesociclos</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-03-aula001.jpg"
+                  alt="250 Aulas — Aula 001 — na íntegra" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 001 — na íntegra</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-04-aula003.jpg"
+                  alt="250 Aulas — Aula 003 — na íntegra" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 003 — na íntegra</figcaption>
+            </figure>
+          </div>
+          <div class="peek__seq" aria-hidden="true">
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa"
+                  loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Capa</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-02-indice.jpg"
+                  alt="Master Class — Índice — 11 blocos" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Índice — 11 blocos</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-03-tres-respostas.jpg"
+                  alt="Master Class — As três fontes comparadas" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · As três fontes comparadas</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/mc-04-fisiologia.jpg"
+                  alt="Master Class — Fisiologia aplicada" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>Master Class</b> · Fisiologia aplicada</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa"
+                  loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Capa</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-02-mesociclos.jpg"
+                  alt="250 Aulas — Os dez mesociclos" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Os dez mesociclos</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-03-aula001.jpg"
+                  alt="250 Aulas — Aula 001 — na íntegra" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 001 — na íntegra</figcaption>
+            </figure>
+            <figure class="peek-page">
+              <span class="peek-page__shot"><img src="assets/images/previews/wod-04-aula003.jpg"
+                  alt="250 Aulas — Aula 003 — na íntegra" loading="lazy"></span>
+              <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 003 — na íntegra</figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -2419,7 +2657,7 @@
               <li>CREF ativo</li>
               <li>12 anos de trabalho</li>
               <li>300+ professores formados</li>
-              <li>HYROX finisher</li>
+              <li>HYROX</li>
             </ul>
             <p class="expert__quote">"Todo professor sabe montar um treino difícil. O difícil é montar 250 que
               conversam entre si."</p>
@@ -2646,8 +2884,10 @@
             ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="[LINK_CHECKOUT_MANUAL]" class="btn btn--primary">Quero a Master Class — R$10</a>
-          <a href="[LINK_CHECKOUT_AULAS]" class="btn btn--ghost-light">Quero as 250 Aulas — R$27</a>
+          <a href="https://pay.wiapy.com/yJpiZvRd2Vf" class="btn btn--primary" target="_blank" rel="noopener">Quero a
+            Master Class — R$10</a>
+          <a href="https://pay.wiapy.com/HW6pkTdIpb_" class="btn btn--ghost-light" target="_blank" rel="noopener">Quero
+            as 250 Aulas — R$27</a>
         </div>
         <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
       </div>
@@ -2670,6 +2910,7 @@
         <nav class="footer__nav">
           <ul>
             <li><a href="#oferta">Produtos</a></li>
+            <li><a href="#pordentro">Por dentro</a></li>
             <li><a href="#diferenciais">Diferenciais</a></li>
             <li><a href="#resultados">Resultados</a></li>
             <li><a href="#cases">Cases</a></li>
@@ -2737,6 +2978,7 @@
       } else {
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
       }
+
     })();
   </script>
 
