@@ -991,6 +991,29 @@
       z-index: 2;
     }
 
+    /* Destaque do card principal. Usa outline, e não border, para não deslocar
+       o conteúdo — a mídia depende das margens negativas casarem com o padding. */
+    .offer-card--featured {
+      outline: 2px solid var(--ember);
+      box-shadow: 0 24px 54px rgba(255, 75, 31, 0.18);
+    }
+
+    .offer-card__badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      background: var(--ember);
+      border-radius: 999px;
+      padding: 7px 13px;
+    }
+
     .offer-card__media {
       margin: -32px -32px 24px -32px;
       height: 340px;
@@ -1040,10 +1063,21 @@
     .offer-card__price {
       display: flex;
       align-items: baseline;
+      flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--line-on-ink);
+    }
+
+    .offer-card__per {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--rope);
+      border: 1px solid rgba(228, 174, 35, 0.38);
+      border-radius: 999px;
+      padding: 4px 10px;
     }
 
     .offer-card__price .amount {
@@ -1402,6 +1436,8 @@
       height: 76px;
       border-radius: 50%;
       object-fit: cover;
+      /* As fotos são de corpo inteiro; sem isso o recorte cai na cintura. */
+      object-position: center top;
       border: 2px solid var(--ember);
       flex-shrink: 0;
       box-shadow: 0 4px 14px rgba(255, 75, 31, 0.25);
@@ -2415,48 +2451,31 @@
               <span class="amount">R$ 10,00</span>
               <span class="terms">pagamento único</span>
             </div>
-            <p class="offer-card__desc">Fundamentação técnica completa: fisiologia do treino funcional, periodização,
-              prevenção de lesões e progressão de carga aplicada ao HYROX.</p>
+            <p class="offer-card__desc">A base técnica por trás das escolhas da aula: por que essa estação, essa carga,
+              essa ordem.</p>
             <ul class="offer-card__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Como desenvolver performance ocupacional na sua turma</li>
+                </svg>Fisiologia do treino funcional aplicada à aula</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Como conduzir o aluno que busca performance desportiva</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Transferência do treino para as atividades do dia a dia</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Prescrição para tonificação muscular</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Como desenvolver flexibilidade, coordenação motora e agilidade</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Correção postural dentro da aula</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Como dosar o condicionamento cardiorrespiratório</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Como estruturar a aula de quem treina para emagrecer</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Propriocepção: o que incluir para aumentar a consciência corporal</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>O que mantém a aula dinâmica e a turma motivada</li>
+                </svg>Periodização e progressão de carga</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
                 </svg>Prevenção de lesões: o que vigiar na execução</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Correção postural e consciência corporal</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Como dosar a intensidade para o objetivo de cada aluno</li>
             </ul>
             <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary btn--block" target="_blank"
               rel="noopener">Quero a Master Class — R$10</a>
           </div>
 
-          <div class="offer-card">
+          <div class="offer-card offer-card--featured">
+            <span class="offer-card__badge">Mais completo</span>
             <div class="offer-card__media">
               <img src="assets/images/oferta_250_pag_.jpg" alt="250 Aulas Prontas Daily WOD - Material completo"
                 loading="lazy">
@@ -2467,9 +2486,10 @@
             <div class="offer-card__price">
               <span class="amount">R$ 27,00</span>
               <span class="terms">pagamento único</span>
+              <span class="offer-card__per">≈ R$ 0,11 por aula</span>
             </div>
-            <p class="offer-card__desc">Um treino do dia pronto pra cada aula: aquecimento, estações, tempo e adaptação
-              de nível já definidos.</p>
+            <p class="offer-card__desc">O ano inteiro de aula já planejado — do aquecimento ao arrefecimento, linha a
+              linha, com carga e intensidade definidas.</p>
             <ul class="offer-card__bullets">
               <li class="offer-card__group">Estrutura do ano</li>
               <li><svg class="icon">
@@ -2662,7 +2682,7 @@
         </div>
         <div class="expert__grid" data-reveal>
           <div class="expert__media">
-            <img src="assets/images/avatar_case_1.png" alt="Rafael Menezes, treinador de HYROX" class="expert__photo"
+            <img src="assets/images/expert_rafael.png" alt="Rafael Menezes, treinador de HYROX" class="expert__photo"
               loading="lazy">
           </div>
           <div class="expert__copy">
@@ -2694,7 +2714,7 @@
         <div class="case" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_2.png" alt="Camila Duarte, aluna" class="case__avatar" loading="lazy">
+              <img src="assets/images/avatar_case_2.jpg" alt="Camila Duarte, aluna" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
                 <p class="case__name">Camila Duarte</p>
                 <p class="eyebrow" style="margin:0;">Aluna · Treina há 2 anos</p>
@@ -2734,7 +2754,7 @@
         <div class="case case--reverse" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_3.png" alt="Marcos Vieira, aluno" class="case__avatar" loading="lazy">
+              <img src="assets/images/avatar_case_3.jpg" alt="Marcos Vieira, aluno" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
                 <p class="case__name">Marcos Vieira</p>
                 <p class="eyebrow" style="margin:0;">Aluno · Treina há 8 meses</p>
@@ -2774,7 +2794,7 @@
         <div class="case" data-reveal>
           <div class="case__copy">
             <div class="case__avatar-wrap">
-              <img src="assets/images/avatar_case_4.png" alt="Juliana Prado, aluna" class="case__avatar" loading="lazy">
+              <img src="assets/images/avatar_case_4.jpg" alt="Juliana Prado, aluna" class="case__avatar" loading="lazy">
               <div class="case__avatar-meta">
                 <p class="case__name">Juliana Prado</p>
                 <p class="eyebrow" style="margin:0;">Aluna · Treina há 1 ano</p>
