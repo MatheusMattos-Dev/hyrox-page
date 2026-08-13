@@ -2471,7 +2471,7 @@
                 </svg>Como dosar a intensidade para o objetivo de cada aluno</li>
             </ul>
             <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary btn--block" target="_blank"
-              rel="noopener">Quero a Master Class — R$10</a>
+              rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a Master Class — R$10</a>
           </div>
 
           <div class="offer-card offer-card--featured">
@@ -2558,7 +2558,7 @@
                 </svg>Cálculo de velocidade de corrida a partir do seu tempo de 2 km</li>
             </ul>
             <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary btn--block" target="_blank"
-              rel="noopener">Quero as 250 Aulas — R$27</a>
+              rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
           </div>
         </div>
 
@@ -2922,9 +2922,9 @@
             ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary" target="_blank" rel="noopener">Quero a
+          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary" target="_blank" rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
             Master Class — R$10</a>
-          <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost-light" target="_blank" rel="noopener">Quero
+          <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost-light" target="_blank" rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero
             as 250 Aulas — R$27</a>
         </div>
         <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
@@ -3017,6 +3017,21 @@
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
       }
 
+      /* Meta: sinaliza intenção de compra ao sair para o checkout.
+         Os links abrem em nova aba, então o beacon tem tempo de sair. */
+      document.querySelectorAll('[data-checkout]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (typeof fbq !== 'function') return;
+          fbq('track', 'InitiateCheckout', {
+            content_name: link.dataset.checkout,
+            content_ids: [link.dataset.sku],
+            content_type: 'product',
+            num_items: 1,
+            value: parseFloat(link.dataset.price),
+            currency: 'BRL'
+          });
+        });
+      });
     })();
   </script>
 
