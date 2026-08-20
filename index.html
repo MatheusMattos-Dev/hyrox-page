@@ -417,11 +417,6 @@
       }
 
       /* Touch targets: grow hit areas to ~44px without moving the type */
-      .hero__scroll-hint {
-        display: inline-block;
-        padding-block: 13px;
-      }
-
       .footer__nav a,
       .footer__legal a {
         display: inline-block;
@@ -2023,13 +2018,40 @@
         max-width: 340px;
       }
 
+      /* O padding-top só precisa livrar o header fixo (~74px). O valor de
+         desktop deixava ~66px de vazio depois dele. */
+      .hero {
+        padding-top: clamp(100px, 24vw, 132px);
+      }
+
       .hero__grid {
         grid-template-columns: 1fr;
+        /* Sem o gap do grid: empilhado, quem espaça são as margens de cada
+           elemento, senão o hero abre 32-64px entre título e parágrafo. */
+        gap: 0;
+      }
+
+      /* Dissolve o wrapper para o vídeo virar irmão do parágrafo e do botão —
+         order() só reordena irmãos. */
+      .hero__content {
+        display: contents;
       }
 
       .hero__visual {
-        max-width: 420px;
+        order: 1;
+        max-width: 340px;
         margin-inline: auto;
+        margin-bottom: 34px;
+      }
+
+      .hero__actions {
+        order: 2;
+        justify-content: center;
+      }
+
+      /* Empilhado, o vídeo já cumpre o papel de indicar que a página continua. */
+      .hero__scroll-hint {
+        display: none;
       }
 
       .diff-container {
@@ -2250,9 +2272,8 @@
         <div class="hero__content">
           <p class="eyebrow">Para professores de treino funcional</p>
           <h1 class="hero__heading">Pare de inventar a aula de <em>última hora.</em></h1>
-          <p class="hero__desc">Master Class técnica + 250 Daily WODs prontos, estruturados em cima das 8 estações
-            oficiais do HYROX — pra você aplicar aula com fundamento, sem gastar sua noite planejando o treino de
-            amanhã.</p>
+          <p class="hero__desc">250 aulas prontas + a base técnica por trás de cada escolha. Você chega, abre e
+            aplica.</p>
           <div class="hero__actions">
             <a href="#oferta" class="btn btn--primary">Ver os 2 materiais</a>
             <a href="#diferenciais" class="hero__scroll-hint">Por que isso funciona ↓</a>
