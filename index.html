@@ -2167,6 +2167,188 @@
         padding: 14px 12px;
       }
     }
+
+    /* ---------- Oferta Relâmpago (upsell no clique da oferta de R$10) ---------- */
+    body.flash-open {
+      overflow: hidden;
+    }
+
+    .flash {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(14, 13, 8, 0.82);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .flash.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .flash__dialog {
+      position: relative;
+      width: min(460px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      background: var(--ink);
+      color: var(--paper);
+      border: 1px solid rgba(255, 75, 31, 0.4);
+      border-radius: 8px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 75, 31, 0.18);
+      padding: 36px 28px 28px;
+      text-align: center;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+
+    .flash.is-open .flash__dialog {
+      transform: none;
+    }
+
+    .flash__dialog::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--ember);
+    }
+
+    .flash__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--line-on-ink);
+      border-radius: 50%;
+      color: rgba(236, 231, 222, 0.6);
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .flash__close:hover {
+      color: var(--ember);
+      border-color: var(--ember);
+    }
+
+    .flash__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rope);
+      margin: 0 0 14px;
+    }
+
+    .flash__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ember);
+      flex-shrink: 0;
+      animation: heroPulse 1.8s ease-in-out infinite;
+    }
+
+    .flash__title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.01em;
+      margin: 0 0 12px;
+    }
+
+    .flash__text {
+      color: rgba(236, 231, 222, 0.72);
+      font-size: 0.95rem;
+      margin: 0 0 18px;
+    }
+
+    .flash__price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 0 0 22px;
+    }
+
+    .flash__price-old {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: rgba(236, 231, 222, 0.45);
+      text-decoration: line-through;
+    }
+
+    .flash__price-new {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: clamp(2rem, 8vw, 2.6rem);
+      line-height: 1;
+      color: var(--ember);
+    }
+
+    .flash__price-off {
+      align-self: center;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      background: var(--rope);
+      border-radius: 999px;
+      padding: 4px 9px;
+    }
+
+    .flash__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .flash__keep {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: rgba(236, 231, 222, 0.55);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      padding-block: 10px;
+    }
+
+    .flash__keep:hover {
+      color: var(--paper);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flash,
+      .flash__dialog {
+        transition: none;
+      }
+
+      .flash__dot {
+        animation: none;
+      }
+    }
   </style>
 </head>
 
@@ -3018,6 +3200,35 @@
     </div>
   </footer>
 
+  <!-- Upsell disparado quando o visitante clica na oferta de R$10 -->
+  <div class="flash" id="flashOffer" role="dialog" aria-modal="true" aria-labelledby="flashTitle" aria-hidden="true">
+    <div class="flash__dialog">
+      <button class="flash__close" id="flashClose" type="button" aria-label="Fechar">
+        <svg class="icon">
+          <use href="#icon-close" />
+        </svg>
+      </button>
+      <p class="flash__eyebrow"><span class="flash__dot"></span>Oferta Relâmpago</p>
+      <h2 class="flash__title" id="flashTitle">250 Aulas Prontas</h2>
+      <p class="flash__text">A Master Class te dá o porquê. Estas 250 aulas te dão o que aplicar amanhã — uma pra cada
+        dia útil do ano, já periodizadas. Esse preço só aparece aqui.</p>
+      <div class="flash__price">
+        <span class="flash__price-old">R$ 27,00</span>
+        <span class="flash__price-new">R$ 18,90</span>
+        <span class="flash__price-off">-30%</span>
+      </div>
+      <div class="flash__actions">
+        <a href="https://pay.wiapy.com/edBBBIpvphVB" class="btn btn--primary btn--block" id="flashTake" target="_blank"
+          rel="noopener" data-checkout="250 Aulas Prontas — Oferta Relâmpago" data-sku="250-aulas-relampago"
+          data-price="18.90">Quero as 250 Aulas —
+          R$18,90</a>
+        <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="flash__keep" id="flashKeep" target="_blank" rel="noopener"
+          data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Continuar com a Master Class —
+          R$10</a>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function () {
       var header = document.getElementById('siteHeader');
@@ -3059,19 +3270,70 @@
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
       }
 
+      /* Oferta Relâmpago: intercepta a saída para o checkout de R$10 e mostra as
+         250 Aulas antes de liberar o visitante. Fica ANTES do rastreio de
+         propósito: registrado primeiro, pode usar stopImmediatePropagation()
+         para impedir que o link original dispare um InitiateCheckout que talvez
+         não se concretize. Quem contabiliza são os botões do próprio modal. */
+      var flash = document.getElementById('flashOffer');
+      var flashTake = document.getElementById('flashTake');
+      var flashKeep = document.getElementById('flashKeep');
+      var flashOrigin = null;
+
+      var closeFlash = function () {
+        flash.classList.remove('is-open');
+        flash.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('flash-open');
+        if (flashOrigin) flashOrigin.focus();
+      };
+
+      var openFlash = function (origin) {
+        flashOrigin = origin;
+        /* Espelha o destino real do botão clicado, para o "continuar" levar
+           exatamente ao mesmo checkout. */
+        flashKeep.href = origin.href;
+        flash.classList.add('is-open');
+        flash.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('flash-open');
+        flashTake.focus();
+      };
+
+      /* Escopo em main: o próprio "continuar" do modal também carrega
+         data-sku="master-class" e não pode reabrir o modal. */
+      document.querySelectorAll('main a[data-sku="master-class"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          openFlash(link);
+        });
+      });
+
+      document.getElementById('flashClose').addEventListener('click', closeFlash);
+      flashKeep.addEventListener('click', closeFlash);
+      flash.addEventListener('click', function (e) {
+        if (e.target === flash) closeFlash();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && flash.classList.contains('is-open')) closeFlash();
+      });
+
       /* Meta: sinaliza intenção de compra ao sair para o checkout.
          Os links abrem em nova aba, então o beacon tem tempo de sair. */
       document.querySelectorAll('[data-checkout]').forEach(function (link) {
         link.addEventListener('click', function () {
           if (typeof fbq !== 'function') return;
-          fbq('track', 'InitiateCheckout', {
+          var payload = {
             content_name: link.dataset.checkout,
             content_ids: [link.dataset.sku],
             content_type: 'product',
             num_items: 1,
-            value: parseFloat(link.dataset.price),
             currency: 'BRL'
-          });
+          };
+          /* A oferta relâmpago não tem preço declarado aqui; sem o guarda o
+             evento sairia com value: NaN. */
+          var price = parseFloat(link.dataset.price);
+          if (!isNaN(price)) payload.value = price;
+          fbq('track', 'InitiateCheckout', payload);
         });
       });
     })();
