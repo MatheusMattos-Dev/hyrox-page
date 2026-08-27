@@ -1381,8 +1381,13 @@
       background: var(--line-on-ink);
     }
 
+    .peek-row__text {
+      flex: 0 1 auto;
+    }
+
     .peek-row__tag {
       display: inline-block;
+      flex: 0 0 auto;
       padding: 4px 9px;
       border-radius: 3px;
       background: var(--ember);
@@ -2268,12 +2273,33 @@
       }
 
       .peek-row__label {
-        font-size: 0.63rem;
-        letter-spacing: 0.1em;
+        font-size: 0.62rem;
+        letter-spacing: 0.06em;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .peek-row__text {
+        text-wrap: balance;
       }
 
       /* O rotulo quebra em duas linhas no telemovel e a regua fica sem espaco */
       .peek-row__label::after {
+        display: none;
+      }
+
+      /* Num cartao de 250px quase nenhuma legenda cabe numa linha: em vez de
+         doze quebras diferentes, todas passam a ter a mesma forma - produto em
+         cima, pagina em baixo. */
+      .peek-page__cap {
+        letter-spacing: 0.08em;
+      }
+
+      .peek-page__cap b {
+        display: block;
+      }
+
+      .peek-page__sep {
         display: none;
       }
 
@@ -2965,8 +2991,9 @@
 
       <div class="peek-row" data-reveal>
         <div class="container">
-          <p class="peek-row__label"><span class="peek-row__tag">Materiais</span>Master Class e 250 Aulas — <span
-              class="peek-row__off">o que você compra</span></p>
+          <p class="peek-row__label"><span class="peek-row__tag">Materiais</span><span
+              class="peek-row__text">Master Class e 250 Aulas&nbsp;— <span class="peek-row__off">o que você
+                compra</span></span></p>
         </div>
         <div class="peek__scroller">
           <div class="peek__track">
@@ -2975,55 +3002,63 @@
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-02-indice.jpg" alt="Master Class — Índice — 11 blocos"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Índice — 11 blocos</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Índice — 11 blocos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-03-tres-respostas.jpg"
                       alt="Master Class — As três fontes comparadas" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · As três fontes comparadas</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>As três fontes comparadas</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-04-fisiologia.jpg" alt="Master Class — Fisiologia aplicada"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Fisiologia aplicada</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Fisiologia aplicada</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Os dez mesociclos</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Os dez mesociclos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 001 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Aula 001 — na íntegra</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 003 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Aula 003 — na íntegra</figcaption>
               </figure>
             </div>
             <div class="peek__seq" aria-hidden="true">
@@ -3031,55 +3066,63 @@
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-02-indice.jpg" alt="Master Class — Índice — 11 blocos"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Índice — 11 blocos</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Índice — 11 blocos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-03-tres-respostas.jpg"
                       alt="Master Class — As três fontes comparadas" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · As três fontes comparadas</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>As três fontes comparadas</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/mc-04-fisiologia.jpg" alt="Master Class — Fisiologia aplicada"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b> · Fisiologia aplicada</figcaption>
+                <figcaption class="peek-page__cap"><b>Master Class</b><span
+                    class="peek-page__sep"> · </span>Fisiologia aplicada</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Os dez mesociclos</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Os dez mesociclos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 001 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Aula 001 — na íntegra</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
                   <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b> · Aula 003 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span
+                    class="peek-page__sep"> · </span>Aula 003 — na íntegra</figcaption>
               </figure>
             </div>
           </div>
@@ -3088,8 +3131,9 @@
 
       <div class="peek-row" data-reveal>
         <div class="container">
-          <p class="peek-row__label"><span class="peek-row__tag">Bônus</span>Oferecidos na hora da compra <span
-              class="peek-row__off">pela metade do preço</span></p>
+          <p class="peek-row__label"><span class="peek-row__tag">Bônus</span><span
+              class="peek-row__text">Oferecidos na hora da compra <span class="peek-row__off">pela metade do
+                preço</span></span></p>
         </div>
         <div class="peek__scroller">
           <div class="peek__track">
@@ -3099,7 +3143,8 @@
                   <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Manual do Coach — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3107,7 +3152,8 @@
                   <img src="assets/images/previews/bonus-plano-01-capa.jpg" alt="Plano 12 Semanas — Capa e arquitetura"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Capa e arquitetura</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Capa e arquitetura</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3115,7 +3161,8 @@
                   <img src="assets/images/previews/bonus-coach-02-indice.jpg"
                       alt="Manual do Coach — Índice — 12 capítulos" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Índice — 12 capítulos</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Índice — 12 capítulos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3123,7 +3170,8 @@
                   <img src="assets/images/previews/bonus-plano-02-mapa.jpg" alt="Plano 12 Semanas — Mapa das 12 semanas"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Mapa das 12 semanas</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Mapa das 12 semanas</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3131,7 +3179,8 @@
                   <img src="assets/images/previews/bonus-coach-03-testes.jpg"
                       alt="Manual do Coach — Cinco testes em dez minutos" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Cinco testes em dez minutos</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Cinco testes em dez minutos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3139,7 +3188,8 @@
                   <img src="assets/images/previews/bonus-plano-03-semana01.jpg"
                       alt="Plano 12 Semanas — Semana 01 — na íntegra" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Semana 01 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Semana 01 — na íntegra</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3147,7 +3197,8 @@
                   <img src="assets/images/previews/bonus-coach-04-correcao.jpg"
                       alt="Manual do Coach — As doze correções" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · As doze correções</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>As doze correções</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3155,7 +3206,8 @@
                   <img src="assets/images/previews/bonus-plano-04-intensidade.jpg"
                       alt="Plano 12 Semanas — Intensidade e estações" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Intensidade e estações</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Intensidade e estações</figcaption>
               </figure>
             </div>
             <div class="peek__seq" aria-hidden="true">
@@ -3164,7 +3216,8 @@
                   <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Manual do Coach — Capa" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Capa</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Capa</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3172,7 +3225,8 @@
                   <img src="assets/images/previews/bonus-plano-01-capa.jpg" alt="Plano 12 Semanas — Capa e arquitetura"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Capa e arquitetura</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Capa e arquitetura</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3180,7 +3234,8 @@
                   <img src="assets/images/previews/bonus-coach-02-indice.jpg"
                       alt="Manual do Coach — Índice — 12 capítulos" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Índice — 12 capítulos</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Índice — 12 capítulos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3188,7 +3243,8 @@
                   <img src="assets/images/previews/bonus-plano-02-mapa.jpg" alt="Plano 12 Semanas — Mapa das 12 semanas"
                       loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Mapa das 12 semanas</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Mapa das 12 semanas</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3196,7 +3252,8 @@
                   <img src="assets/images/previews/bonus-coach-03-testes.jpg"
                       alt="Manual do Coach — Cinco testes em dez minutos" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · Cinco testes em dez minutos</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>Cinco testes em dez minutos</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3204,7 +3261,8 @@
                   <img src="assets/images/previews/bonus-plano-03-semana01.jpg"
                       alt="Plano 12 Semanas — Semana 01 — na íntegra" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Semana 01 — na íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Semana 01 — na íntegra</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3212,7 +3270,8 @@
                   <img src="assets/images/previews/bonus-coach-04-correcao.jpg"
                       alt="Manual do Coach — As doze correções" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Manual do Coach</b> · As doze correções</figcaption>
+                <figcaption class="peek-page__cap"><b>Manual do Coach</b><span
+                    class="peek-page__sep"> · </span>As doze correções</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
@@ -3220,7 +3279,8 @@
                   <img src="assets/images/previews/bonus-plano-04-intensidade.jpg"
                       alt="Plano 12 Semanas — Intensidade e estações" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b> · Intensidade e estações</figcaption>
+                <figcaption class="peek-page__cap"><b>Plano 12 Semanas</b><span
+                    class="peek-page__sep"> · </span>Intensidade e estações</figcaption>
               </figure>
             </div>
           </div>
