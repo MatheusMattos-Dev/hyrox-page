@@ -872,6 +872,7 @@
 
     .fb-player {
       grid-area: video;
+      cursor: pointer;
       align-self: center;
       position: relative;
       width: 100%;
@@ -928,6 +929,41 @@
       border-radius: 50%;
       background: var(--ember);
       flex-shrink: 0;
+    }
+
+    /* Se o autoplay for bloqueado (iOS em modo de baixo consumo, por exemplo),
+       o vídeo ficaria parado sem nenhum sinal de que é um vídeo. Esse selo
+       aparece sempre que ele está pausado, e o player inteiro vira área de
+       toque. */
+    .fb-player__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(23, 22, 15, 0.62);
+      backdrop-filter: blur(6px);
+      color: var(--paper);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .fb-player__play .icon {
+      width: 26px;
+      height: 26px;
+      margin-left: 3px;
+    }
+
+    .fb-player.is-paused .fb-player__play {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     /* O botão fica FORA do vídeo: nada cobre a pessoa falando. */
@@ -2077,10 +2113,9 @@
         display: none;
       }
 
-      /* No celular empilha: texto, vídeo, botão. O vídeo mantém a proporção
-         original e pega quase toda a largura da tela. */
+      /* No celular empilha: texto, vídeo, botão. O vídeo usa a largura inteira
+         do container — na proporção original, é o formato em que foi gravado. */
       .fb-frame {
-        --fb-h: min(74vh, 600px);
         grid-template-columns: 1fr;
         grid-template-areas:
           "copy"
@@ -2092,7 +2127,7 @@
       }
 
       .fb-player {
-        width: min(calc(var(--fb-h) * 9 / 16), 100%);
+        width: 100%;
       }
 
       .fb-copy {
@@ -2104,13 +2139,32 @@
         justify-content: center;
       }
 
-      .fb-sound {
-        justify-self: center;
-      }
-
       .fb-caption {
         font-size: 0.65rem;
         letter-spacing: 0.08em;
+      }
+
+      /* O vídeo em pé é mais alto que a tela do celular, então um botão ABAIXO
+         dele cairia fora da dobra: quem visse o vídeo não veria o controle de
+         som. Aqui ele sobe pra dentro do canto do player e acompanha o vídeo.
+         O recuo é o gap da grade (22px) + a altura do botão (46px) + 14px de
+         respiro até a borda de baixo. */
+      .fb-sound {
+        justify-self: end;
+        margin-top: -82px;
+        margin-right: 14px;
+        margin-bottom: 14px;
+        z-index: 2;
+        padding: 12px 18px;
+        background: rgba(23, 22, 15, 0.72);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        border-color: rgba(255, 255, 255, 0.28);
+        color: var(--paper);
+      }
+
+      .fb-sound:hover {
+        transform: none;
       }
 
       .offer-grid {
@@ -2444,6 +2498,9 @@
       <path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z" />
       <path d="M9 12 L11.3 14.3 L15.5 9.5" />
     </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24">
+      <path d="M8 5.5 L18.5 12 L8 18.5 Z" fill="currentColor" stroke-linejoin="round" />
+    </symbol>
     <symbol id="icon-sound-off" viewBox="0 0 24 24">
       <path d="M4 9 H7.5 L12 5 V19 L7.5 15 H4 Z" />
       <line x1="16" y1="9.5" x2="21" y2="14.5" />
@@ -2669,6 +2726,9 @@
               <source src="assets/images/feed.mp4" type="video/mp4">
               Seu navegador não suporta a exibição deste vídeo.
             </video>
+            <span class="fb-player__play" aria-hidden="true"><svg class="icon">
+                <use href="#icon-play" />
+              </svg></span>
           </div>
 
           <button type="button" class="fb-sound" id="feedbackSound" aria-pressed="false"
@@ -3308,11 +3368,12 @@
       }
 
       /* Feedbacks: o vídeo entra mudo (única forma de autoplay funcionar no
-         celular) e o botão devolve o som pra quem quiser ouvir os depoimentos.
+         celular) e o botão devolve o som pra quem quiser ouvir o depoimento.
          Ao sair da tela, volta a ficar mudo e pausado — evita áudio tocando
          numa seção que o visitante já passou. */
       var fbVideo = document.getElementById('feedbackVideo');
       var fbSound = document.getElementById('feedbackSound');
+      var fbPlayer = document.querySelector('.fb-player');
 
       if (fbVideo && fbSound) {
         var fbLabel = fbSound.querySelector('.fb-sound__label');
@@ -3324,23 +3385,46 @@
           if (fbLabel) fbLabel.textContent = on ? 'Desativar som' : 'Ativar som';
         };
 
+        /* O selo de play só existe pra quando o autoplay não rola (iOS em modo
+           de baixo consumo, aba em segundo plano). Sem ele o visitante veria um
+           quadro parado sem saber que dá pra tocar. */
+        var syncPaused = function () {
+          if (fbPlayer) fbPlayer.classList.toggle('is-paused', fbVideo.paused);
+        };
+        fbVideo.addEventListener('play', syncPaused);
+        fbVideo.addEventListener('pause', syncPaused);
+        syncPaused();
+
+        var tryPlay = function () {
+          var p = fbVideo.play();
+          if (p && p.catch) p.catch(function () { syncPaused(); });
+        };
+
         fbSound.addEventListener('click', function () {
           var turningOn = fbVideo.muted;
           setSound(turningOn);
           if (turningOn) {
             /* Voltar ao início: com som, o depoimento vale desde a primeira fala. */
             fbVideo.currentTime = 0;
-            var play = fbVideo.play();
-            if (play && play.catch) play.catch(function () { setSound(false); });
+            var p = fbVideo.play();
+            if (p && p.catch) p.catch(function () { setSound(false); syncPaused(); });
           }
         });
+
+        /* Tocar no próprio vídeo dá play/pause — é o gesto que o visitante já
+           espera de um vídeo vertical no celular. */
+        if (fbPlayer) {
+          fbPlayer.addEventListener('click', function (e) {
+            if (e.target.closest('.fb-sound')) return;
+            if (fbVideo.paused) tryPlay(); else fbVideo.pause();
+          });
+        }
 
         if ('IntersectionObserver' in window) {
           var fbIo = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
-                var p = fbVideo.play();
-                if (p && p.catch) p.catch(function () { });
+                tryPlay();
               } else {
                 fbVideo.pause();
                 if (!fbVideo.muted) setSound(false);
