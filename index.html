@@ -840,24 +840,51 @@
       justify-content: center;
     }
 
-    /* ---------- Differentiators ---------- */
-    .diff-container {
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: clamp(32px, 5vw, 56px);
-      align-items: stretch;
+    /* ---------- Feedbacks ---------- */
+    /* O vídeo é vertical (576x1024), gravado no celular. Em vez de espremê-lo
+       num quadro 16:9 — que cortava a pessoa pela metade — ele aparece inteiro,
+       em altura de tela, com o texto ao lado. A seção fica no papel, como as
+       outras: só o player é escuro, porque o vídeo já é escuro nas bordas. */
+    #feedbacks {
+      padding-block: clamp(56px, 7vw, 100px);
     }
 
-    .diff-media {
+    .fb-frame {
+      --fb-h: min(76vh, 700px);
+      display: grid;
+      grid-template-columns: 1fr calc(var(--fb-h) * 9 / 16);
+      grid-template-areas:
+        "copy video"
+        "sound video";
+      grid-template-rows: auto auto;
+      gap: clamp(22px, 3vw, 30px) clamp(32px, 5vw, 72px);
+    }
+
+    .fb-copy {
+      grid-area: copy;
+      align-self: end;
+      max-width: 42ch;
+    }
+
+    .fb-copy .section-title {
+      margin-bottom: 16px;
+    }
+
+    .fb-player {
+      grid-area: video;
+      align-self: center;
       position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
       border-radius: 8px;
       overflow: hidden;
+      background: var(--ink);
       border: 1px solid rgba(255, 75, 31, 0.22);
-      box-shadow: 0 20px 40px rgba(23, 22, 15, 0.14);
-      min-height: 100%;
+      box-shadow: 0 22px 46px rgba(23, 22, 15, 0.16);
     }
 
-    .diff-media::before {
+    /* Mesma barra ember que marca as outras mídias da página. */
+    .fb-player::before {
       content: "";
       position: absolute;
       top: 0;
@@ -865,112 +892,108 @@
       right: 0;
       height: 5px;
       background: var(--ember);
-      z-index: 2;
+      z-index: 3;
     }
 
-    .diff-media__img {
+    .fb-player__video {
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: cover;
-      object-position: center 20%;
-      min-height: 420px;
-      transition: transform 0.5s ease;
     }
 
-    .diff-media:hover .diff-media__img {
-      transform: scale(1.06);
-    }
-
-    .diff-media__caption {
+    .fb-player__tag {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 28px 22px 18px;
-      background: linear-gradient(180deg, rgba(23, 22, 15, 0) 0%, rgba(23, 22, 15, 0.82) 78%);
+      top: 18px;
+      left: 14px;
+      z-index: 2;
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .diff-media__caption::before {
-      content: "";
-      width: 20px;
-      height: 2px;
-      background: var(--ember);
-      flex-shrink: 0;
-    }
-
-    .diff-media__caption span {
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(23, 22, 15, 0.66);
+      backdrop-filter: blur(6px);
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--paper);
     }
 
-    .diff-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(24px, 3vw, 40px);
-    }
-
-    .diff-container .diff-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-
-    .diff-card__icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line-on-paper);
+    .fb-player__tag::before {
+      content: "";
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      color: var(--ember);
-      margin-bottom: 20px;
-      transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+      background: var(--ember);
+      flex-shrink: 0;
     }
 
-    .diff-card__icon .icon {
-      width: 24px;
-      height: 24px;
+    /* O botão fica FORA do vídeo: nada cobre a pessoa falando. */
+    .fb-sound {
+      grid-area: sound;
+      justify-self: start;
+      align-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 24px;
+      border: 1px solid var(--line-on-paper);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
     }
 
-    .diff-card:hover .diff-card__icon {
+    .fb-sound:hover {
       background: var(--ember);
       border-color: var(--ember);
       color: #fff;
-      transform: scale(1.08);
+      transform: translateY(-2px);
     }
 
-    .diff-card__rule {
-      width: 36px;
-      height: 3px;
-      background: var(--ember);
-      margin-bottom: 18px;
-      transition: width 0.3s ease;
+    .fb-sound .icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
 
-    .diff-card:hover .diff-card__rule {
-      width: 52px;
+    .fb-sound .icon--off {
+      display: none;
     }
 
-    .diff-card h3 {
-      font-family: var(--font-display);
-      font-weight: 700;
+    .fb-sound[aria-pressed="true"] .icon--on {
+      display: none;
+    }
+
+    .fb-sound[aria-pressed="true"] .icon--off {
+      display: block;
+    }
+
+    .fb-caption {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      font-size: 1.35rem;
-      margin: 0 0 10px;
-      letter-spacing: -0.01em;
+      color: var(--graphite);
     }
 
-    .diff-card p {
-      color: var(--graphite);
-      margin: 0;
-      font-size: 0.96rem;
+    .fb-caption::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--ember);
+      flex-shrink: 0;
     }
 
     /* ---------- Offer ---------- */
@@ -2054,21 +2077,40 @@
         display: none;
       }
 
-      .diff-container {
+      /* No celular empilha: texto, vídeo, botão. O vídeo mantém a proporção
+         original e pega quase toda a largura da tela. */
+      .fb-frame {
+        --fb-h: min(74vh, 600px);
         grid-template-columns: 1fr;
+        grid-template-areas:
+          "copy"
+          "video"
+          "sound";
+        grid-template-rows: auto auto auto;
+        justify-items: center;
+        text-align: center;
       }
 
-      .diff-media {
-        order: -1;
-        min-height: 300px;
+      .fb-player {
+        width: min(calc(var(--fb-h) * 9 / 16), 100%);
       }
 
-      .diff-media__img {
-        min-height: 300px;
+      .fb-copy {
+        max-width: 34ch;
       }
 
-      .diff-grid {
-        grid-template-columns: 1fr;
+      .fb-copy .eyebrow,
+      .fb-caption {
+        justify-content: center;
+      }
+
+      .fb-sound {
+        justify-self: center;
+      }
+
+      .fb-caption {
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
       }
 
       .offer-grid {
@@ -2402,6 +2444,16 @@
       <path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z" />
       <path d="M9 12 L11.3 14.3 L15.5 9.5" />
     </symbol>
+    <symbol id="icon-sound-off" viewBox="0 0 24 24">
+      <path d="M4 9 H7.5 L12 5 V19 L7.5 15 H4 Z" />
+      <line x1="16" y1="9.5" x2="21" y2="14.5" />
+      <line x1="21" y1="9.5" x2="16" y2="14.5" />
+    </symbol>
+    <symbol id="icon-sound-on" viewBox="0 0 24 24">
+      <path d="M4 9 H7.5 L12 5 V19 L7.5 15 H4 Z" />
+      <path d="M15.5 9 C17 10.6 17 13.4 15.5 15" />
+      <path d="M18.5 6.5 C21.2 9.4 21.2 14.6 18.5 17.5" />
+    </symbol>
   </svg>
 
   <header class="site-header" id="siteHeader">
@@ -2416,8 +2468,8 @@
         <ul class="main-nav__links">
           <li><a href="#oferta">Produtos</a></li>
           <li><a href="#pordentro">Por dentro</a></li>
-          <li><a href="#diferenciais">Diferenciais</a></li>
           <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#feedbacks">Feedbacks</a></li>
           <li><a href="#cases">Cases</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
@@ -2439,8 +2491,8 @@
     <ul>
       <li><a href="#oferta">Produtos</a></li>
       <li><a href="#pordentro">Por dentro</a></li>
-      <li><a href="#diferenciais">Diferenciais</a></li>
       <li><a href="#resultados">Resultados</a></li>
+      <li><a href="#feedbacks">Feedbacks</a></li>
       <li><a href="#cases">Cases</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -2458,7 +2510,7 @@
             aplica.</p>
           <div class="hero__actions">
             <a href="#oferta" class="btn btn--primary">Ver os 2 materiais</a>
-            <a href="#diferenciais" class="hero__scroll-hint">Por que isso funciona ↓</a>
+            <a href="#feedbacks" class="hero__scroll-hint">Veja os feedbacks ↓</a>
           </div>
         </div>
         <div class="hero__visual">
@@ -2601,49 +2653,34 @@
       </div>
     </section>
 
-    <section class="section" id="diferenciais">
+    <section class="section" id="feedbacks">
       <div class="container">
-        <div class="section__head section__head--center" data-reveal>
-          <p class="eyebrow">Por que esse material</p>
-          <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">O que muda quando o material é feito pra
-            HYROX</h2>
-        </div>
-        <div class="diff-container" data-reveal>
-          <div class="diff-media">
-            <img src="assets/images/colt-training.webp"
-              alt="Instrutor corrigindo a postura de uma aluna durante o farmers carry" class="diff-media__img"
-              loading="lazy">
-            <div class="diff-media__caption"><span>Técnica corrigida, não achismo</span></div>
+        <div class="fb-frame" data-reveal>
+          <div class="fb-copy">
+            <p class="eyebrow">Feedbacks</p>
+            <h2 class="section-title">Antes de decidir, ouça quem já usou</h2>
+            <p class="lede">Quem baixou o material levou pra própria turma e voltou pra gravar o que achou.</p>
+            <p class="fb-caption">Depoimento em vídeo · 32 segundos</p>
           </div>
-          <div class="diff-grid">
-            <div class="diff-card">
-              <div class="diff-card__icon"><svg class="icon">
-                  <use href="#icon-book" />
-                </svg></div>
-              <div class="diff-card__rule"></div>
-              <h3>Fundamentação, não só treino pronto</h3>
-              <p>A HYROX Master Class explica a fisiologia do treino funcional, periodização e prevenção de lesão por
-                trás de cada escolha de estação.</p>
-            </div>
-            <div class="diff-card">
-              <div class="diff-card__icon"><svg class="icon">
-                  <use href="#icon-list" />
-                </svg></div>
-              <div class="diff-card__rule"></div>
-              <h3>Aula pronta pra aplicar hoje</h3>
-              <p>Cada Daily WOD já vem com aquecimento, estações, tempo e adaptação de nível definidos — você só chega e
-                aplica.</p>
-            </div>
-            <div class="diff-card">
-              <div class="diff-card__icon"><svg class="icon">
-                  <use href="#icon-pace" />
-                </svg></div>
-              <div class="diff-card__rule"></div>
-              <h3>Progressão pensada pra HYROX</h3>
-              <p>Nada de treino genérico de funcional: a progressão de carga segue a lógica das 8 estações oficiais da
-                prova.</p>
-            </div>
+
+          <div class="fb-player">
+            <div class="fb-player__tag"><span>Feedback real</span></div>
+            <video class="fb-player__video" id="feedbackVideo" autoplay loop muted playsinline preload="metadata">
+              <source src="assets/images/feed.mp4" type="video/mp4">
+              Seu navegador não suporta a exibição deste vídeo.
+            </video>
           </div>
+
+          <button type="button" class="fb-sound" id="feedbackSound" aria-pressed="false"
+            aria-label="Ativar som do vídeo">
+            <svg class="icon icon--on">
+              <use href="#icon-sound-off" />
+            </svg>
+            <svg class="icon icon--off">
+              <use href="#icon-sound-on" />
+            </svg>
+            <span class="fb-sound__label">Ativar som</span>
+          </button>
         </div>
       </div>
     </section>
@@ -3173,8 +3210,8 @@
           <ul>
             <li><a href="#oferta">Produtos</a></li>
             <li><a href="#pordentro">Por dentro</a></li>
-            <li><a href="#diferenciais">Diferenciais</a></li>
             <li><a href="#resultados">Resultados</a></li>
+            <li><a href="#feedbacks">Feedbacks</a></li>
             <li><a href="#cases">Cases</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
@@ -3268,6 +3305,50 @@
         revealEls.forEach(function (el) { io.observe(el); });
       } else {
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+      }
+
+      /* Feedbacks: o vídeo entra mudo (única forma de autoplay funcionar no
+         celular) e o botão devolve o som pra quem quiser ouvir os depoimentos.
+         Ao sair da tela, volta a ficar mudo e pausado — evita áudio tocando
+         numa seção que o visitante já passou. */
+      var fbVideo = document.getElementById('feedbackVideo');
+      var fbSound = document.getElementById('feedbackSound');
+
+      if (fbVideo && fbSound) {
+        var fbLabel = fbSound.querySelector('.fb-sound__label');
+
+        var setSound = function (on) {
+          fbVideo.muted = !on;
+          fbSound.setAttribute('aria-pressed', String(on));
+          fbSound.setAttribute('aria-label', on ? 'Desativar som do vídeo' : 'Ativar som do vídeo');
+          if (fbLabel) fbLabel.textContent = on ? 'Desativar som' : 'Ativar som';
+        };
+
+        fbSound.addEventListener('click', function () {
+          var turningOn = fbVideo.muted;
+          setSound(turningOn);
+          if (turningOn) {
+            /* Voltar ao início: com som, o depoimento vale desde a primeira fala. */
+            fbVideo.currentTime = 0;
+            var play = fbVideo.play();
+            if (play && play.catch) play.catch(function () { setSound(false); });
+          }
+        });
+
+        if ('IntersectionObserver' in window) {
+          var fbIo = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                var p = fbVideo.play();
+                if (p && p.catch) p.catch(function () { });
+              } else {
+                fbVideo.pause();
+                if (!fbVideo.muted) setSound(false);
+              }
+            });
+          }, { threshold: 0.25 });
+          fbIo.observe(fbVideo);
+        }
       }
 
       /* Oferta Relâmpago: intercepta a saída para o checkout de R$10 e mostra as
