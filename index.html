@@ -241,6 +241,17 @@
     .btn--ghost-light:hover {
       border-color: var(--paper);
     }
+    /* Variante escura do ghost, pra usar sobre o papel. */
+    .btn--ghost {
+      background: transparent;
+      border-color: rgba(23, 22, 15, 0.25);
+      color: var(--ink);
+    }
+
+    .btn--ghost:hover {
+      border-color: var(--ink);
+    }
+
 
     [data-reveal] {
       opacity: 0;
@@ -812,6 +823,11 @@
       padding-block: var(--pad-section);
     }
 
+    /* Faixas de CTA são interrupções curtas entre seções, não seções inteiras. */
+    .section--tight {
+      padding-block: clamp(28px, 4vw, 52px);
+    }
+
     .section--paper-alt {
       background: var(--paper-alt);
     }
@@ -1030,6 +1046,168 @@
       height: 2px;
       background: var(--ember);
       flex-shrink: 0;
+    }
+
+    /* ---------- Faixa de CTA intermediária ---------- */
+    /* Havia 6 telas seguidas entre o fim da oferta e o primeiro link dos cases
+       sem nenhuma forma de agir. Estas faixas quebram esse vão logo depois dos
+       dois momentos de maior convencimento: o depoimento e o especialista. */
+    .cta-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: clamp(18px, 3vw, 32px);
+      padding: clamp(24px, 3.2vw, 34px) clamp(22px, 3.2vw, 38px);
+      border: 1px solid var(--line-on-paper);
+      border-left: 4px solid var(--ember);
+      border-radius: 6px;
+      background: var(--paper);
+    }
+
+    .cta-strip__copy {
+      min-width: 0;
+    }
+
+    .cta-strip__copy .eyebrow {
+      margin-bottom: 8px;
+    }
+
+    .cta-strip__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin: 0;
+      max-width: 24ch;
+    }
+
+    .cta-strip__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cta-strip .btn {
+      font-size: 0.74rem;
+      padding: 14px 20px;
+    }
+
+    @media (max-width: 900px) {
+      .cta-strip {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .cta-strip__title {
+        max-width: none;
+      }
+
+      .cta-strip__copy .eyebrow {
+        justify-content: center;
+      }
+
+      .cta-strip__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    /* ---------- Barra de compra fixa (celular) ---------- */
+    /* No celular o botão do header fica escondido, então sem essa barra o
+       visitante só chega à oferta rolando ou abrindo o menu. Ela aparece
+       depois do hero e some quando a própria oferta ou o CTA final estão na
+       tela — não faz sentido cobrir um botão com outro botão. */
+    .buybar {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 95;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(23, 22, 15, 0.94);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 75, 31, 0.3);
+      transform: translateY(105%);
+      transition: transform 0.28s ease;
+    }
+
+    .buybar.is-visible {
+      transform: translateY(0);
+    }
+
+    .buybar__info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .buybar__name {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .buybar__price {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1.12rem;
+      color: var(--ember);
+      line-height: 1.1;
+    }
+
+    .buybar__price em {
+      font-style: normal;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(236, 231, 222, 0.55);
+    }
+
+    .buybar__btn {
+      flex-shrink: 0;
+      padding: 14px 22px;
+      font-size: 0.74rem;
+    }
+
+    @media (max-width: 860px) {
+      .buybar {
+        display: flex;
+      }
+
+      /* Espaço pro rodapé não terminar embaixo da barra. */
+      .footer {
+        padding-bottom: 92px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .buybar {
+        padding-inline: 12px;
+      }
+
+      .buybar__btn {
+        padding: 13px 15px;
+        font-size: 0.68rem;
+      }
     }
 
     /* ---------- Offer ---------- */
@@ -2524,9 +2702,9 @@
       <nav class="main-nav">
         <ul class="main-nav__links">
           <li><a href="#oferta">Produtos</a></li>
-          <li><a href="#pordentro">Por dentro</a></li>
           <li><a href="#resultados">Resultados</a></li>
           <li><a href="#feedbacks">Feedbacks</a></li>
+          <li><a href="#pordentro">Por dentro</a></li>
           <li><a href="#cases">Cases</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
@@ -2547,9 +2725,9 @@
   <div class="mobile-drawer" id="mobileDrawer">
     <ul>
       <li><a href="#oferta">Produtos</a></li>
-      <li><a href="#pordentro">Por dentro</a></li>
       <li><a href="#resultados">Resultados</a></li>
       <li><a href="#feedbacks">Feedbacks</a></li>
+      <li><a href="#pordentro">Por dentro</a></li>
       <li><a href="#cases">Cases</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
@@ -2681,66 +2859,6 @@
           <span>Personal Trainer</span>
           <span>Studio de Treino</span>
           <span>Preparação Física</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--dark" id="resultados">
-      <div class="container">
-        <div class="section__head" data-reveal>
-          <p class="eyebrow">Resultados</p>
-          <h2 class="section-title">O que muda no seu planejamento de aula</h2>
-          <p class="lede">Menos tempo montando treino do zero, mais consistência técnica em cada estação da sua turma.
-          </p>
-        </div>
-        <div class="stats-grid" data-reveal>
-          <div class="stat"><span class="stat__num">250</span>
-            <p class="stat__desc">aulas prontas, uma pra cada dia de treino</p>
-          </div>
-          <div class="stat"><span class="stat__num">150</span>
-            <p class="stat__desc">páginas de fundamentação técnica na Master Class</p>
-          </div>
-          <div class="stat"><span class="stat__num">-5h</span>
-            <p class="stat__desc">por semana a menos planejando aula do zero</p>
-          </div>
-          <div class="stat"><span class="stat__num">3x</span>
-            <p class="stat__desc">níveis de adaptação em cada treino do catálogo</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="feedbacks">
-      <div class="container">
-        <div class="fb-frame" data-reveal>
-          <div class="fb-copy">
-            <p class="eyebrow">Feedbacks</p>
-            <h2 class="section-title">Antes de decidir, ouça quem já usou</h2>
-            <p class="lede">Quem baixou o material levou pra própria turma e voltou pra gravar o que achou.</p>
-            <p class="fb-caption">Depoimento em vídeo · 32 segundos</p>
-          </div>
-
-          <div class="fb-player">
-            <div class="fb-player__tag"><span>Feedback real</span></div>
-            <video class="fb-player__video" id="feedbackVideo" autoplay loop muted playsinline preload="metadata">
-              <source src="assets/images/feed.mp4" type="video/mp4">
-              Seu navegador não suporta a exibição deste vídeo.
-            </video>
-            <span class="fb-player__play" aria-hidden="true"><svg class="icon">
-                <use href="#icon-play" />
-              </svg></span>
-          </div>
-
-          <button type="button" class="fb-sound" id="feedbackSound" aria-pressed="false"
-            aria-label="Ativar som do vídeo">
-            <svg class="icon icon--on">
-              <use href="#icon-sound-off" />
-            </svg>
-            <svg class="icon icon--off">
-              <use href="#icon-sound-on" />
-            </svg>
-            <span class="fb-sound__label">Ativar som</span>
-          </button>
         </div>
       </div>
     </section>
@@ -2894,6 +3012,83 @@
       </div>
     </section>
 
+    <section class="section section--dark" id="resultados">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="eyebrow">Resultados</p>
+          <h2 class="section-title">O que muda no seu planejamento de aula</h2>
+          <p class="lede">Menos tempo montando treino do zero, mais consistência técnica em cada estação da sua turma.
+          </p>
+        </div>
+        <div class="stats-grid" data-reveal>
+          <div class="stat"><span class="stat__num">250</span>
+            <p class="stat__desc">aulas prontas, uma pra cada dia de treino</p>
+          </div>
+          <div class="stat"><span class="stat__num">150</span>
+            <p class="stat__desc">páginas de fundamentação técnica na Master Class</p>
+          </div>
+          <div class="stat"><span class="stat__num">-5h</span>
+            <p class="stat__desc">por semana a menos planejando aula do zero</p>
+          </div>
+          <div class="stat"><span class="stat__num">3x</span>
+            <p class="stat__desc">níveis de adaptação em cada treino do catálogo</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="feedbacks">
+      <div class="container">
+        <div class="fb-frame" data-reveal>
+          <div class="fb-copy">
+            <p class="eyebrow">Feedbacks</p>
+            <h2 class="section-title">Antes de decidir, ouça quem já usou</h2>
+            <p class="lede">Quem baixou o material levou pra própria turma e voltou pra gravar o que achou.</p>
+            <p class="fb-caption">Depoimento em vídeo · 32 segundos</p>
+          </div>
+
+          <div class="fb-player">
+            <div class="fb-player__tag"><span>Feedback real</span></div>
+            <video class="fb-player__video" id="feedbackVideo" autoplay loop muted playsinline preload="metadata">
+              <source src="assets/images/feed.mp4" type="video/mp4">
+              Seu navegador não suporta a exibição deste vídeo.
+            </video>
+            <span class="fb-player__play" aria-hidden="true"><svg class="icon">
+                <use href="#icon-play" />
+              </svg></span>
+          </div>
+
+          <button type="button" class="fb-sound" id="feedbackSound" aria-pressed="false"
+            aria-label="Ativar som do vídeo">
+            <svg class="icon icon--on">
+              <use href="#icon-sound-off" />
+            </svg>
+            <svg class="icon icon--off">
+              <use href="#icon-sound-on" />
+            </svg>
+            <span class="fb-sound__label">Ativar som</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-strip" data-reveal>
+          <div class="cta-strip__copy">
+            <p class="eyebrow">Os materiais</p>
+            <h2 class="cta-strip__title">É esse resultado que você quer na sua turma?</h2>
+          </div>
+          <div class="cta-strip__actions">
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
+            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section section--dark" id="pordentro">
       <div class="container">
         <div class="section__head section__head--center" data-reveal>
@@ -3023,6 +3218,23 @@
       </div>
     </section>
 
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-strip" data-reveal>
+          <div class="cta-strip__copy">
+            <p class="eyebrow">Próximo passo</p>
+            <h2 class="cta-strip__title">Sua próxima aula pode já estar pronta</h2>
+          </div>
+          <div class="cta-strip__actions">
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
+            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="cases">
       <div class="container">
         <div class="section__head" data-reveal>
@@ -3053,7 +3265,8 @@
                   <use href="#icon-check" />
                 </svg>Evolução visível nas estações</li>
             </ul>
-            <a href="#oferta" class="case__link">Ver os materiais →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -3093,7 +3306,8 @@
                   <use href="#icon-check" />
                 </svg>Turma inteira no mesmo ritmo</li>
             </ul>
-            <a href="#oferta" class="case__link">Ver os materiais →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -3133,7 +3347,8 @@
                   <use href="#icon-check" />
                 </svg>Aprendi a técnica antes de pegar carga</li>
             </ul>
-            <a href="#oferta" class="case__link">Ver os materiais →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -3269,9 +3484,9 @@
         <nav class="footer__nav">
           <ul>
             <li><a href="#oferta">Produtos</a></li>
-            <li><a href="#pordentro">Por dentro</a></li>
             <li><a href="#resultados">Resultados</a></li>
             <li><a href="#feedbacks">Feedbacks</a></li>
+            <li><a href="#pordentro">Por dentro</a></li>
             <li><a href="#cases">Cases</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
@@ -3296,6 +3511,16 @@
       </div>
     </div>
   </footer>
+
+  <!-- Barra de compra fixa: só aparece no celular, onde o botão do header some. -->
+  <div class="buybar" id="buyBar">
+    <div class="buybar__info">
+      <span class="buybar__name">250 Aulas Prontas</span>
+      <span class="buybar__price">R$ 27,00 <em>≈ R$ 0,11/aula</em></span>
+    </div>
+    <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
+      data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as aulas</a>
+  </div>
 
   <!-- Upsell disparado quando o visitante clica na oferta de R$10 -->
   <div class="flash" id="flashOffer" role="dialog" aria-modal="true" aria-labelledby="flashTitle" aria-hidden="true">
@@ -3433,6 +3658,50 @@
           }, { threshold: 0.25 });
           fbIo.observe(fbVideo);
         }
+      }
+
+      /* Barra de compra fixa do celular. Regras: só entra depois que o hero
+         saiu da tela, e sai quando a oferta ou o CTA final estão visíveis —
+         cobrir o botão real com uma barra flutuante só atrapalha. Também some
+         com o menu ou o modal abertos, que já ocupam a tela inteira. */
+      var buyBar = document.getElementById('buyBar');
+
+      if (buyBar) {
+        var buyHero = document.querySelector('.hero');
+        /* Onde já existe um botão de compra grande na tela, a barra sai: dois
+           botões concorrendo é pior que um. */
+        var buyZones = Array.prototype.slice.call(
+          document.querySelectorAll('#oferta, #cta, .cta-strip'));
+        var zoneVisible = false;
+
+        var updateBuyBar = function () {
+          var pastHero = buyHero
+            ? (window.pageYOffset > buyHero.offsetHeight * 0.75)
+            : (window.pageYOffset > 400);
+          var blocked = document.body.classList.contains('nav-open')
+            || document.body.classList.contains('flash-open');
+          buyBar.classList.toggle('is-visible', pastHero && !zoneVisible && !blocked);
+        };
+
+        if ('IntersectionObserver' in window && buyZones.length) {
+          var zoneIo = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) { entry.target.dataset.bbSeen = entry.isIntersecting ? '1' : ''; });
+            zoneVisible = buyZones.some(function (z) { return z.dataset.bbSeen === '1'; });
+            updateBuyBar();
+          }, { threshold: 0 });
+          buyZones.forEach(function (z) { zoneIo.observe(z); });
+        }
+
+        /* O menu e o modal mexem em classes do body; um observer avisa a barra
+           sem precisar espalhar chamadas por cada handler. */
+        if ('MutationObserver' in window) {
+          new MutationObserver(updateBuyBar)
+            .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        window.addEventListener('scroll', updateBuyBar, { passive: true });
+        window.addEventListener('resize', updateBuyBar);
+        updateBuyBar();
       }
 
       /* Oferta Relâmpago: intercepta a saída para o checkout de R$10 e mostra as
