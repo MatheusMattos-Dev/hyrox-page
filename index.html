@@ -78,6 +78,9 @@
 
     html {
       scroll-behavior: smooth;
+      /* O header é fixo (79px depois de rolar). Sem isso, toda âncora encosta a
+         seção embaixo dele e o título chega escondido. */
+      scroll-padding-top: 104px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2301,6 +2304,26 @@
     }
 
     @media (max-width: 900px) {
+      /* Sem animação de entrada no celular. O observer só revela um bloco
+         quando 15% da altura dele está na tela, e a grade de produtos tem
+         ~2850px: depois do salto da âncora só 9-16% aparecem, então o plano
+         chegava invisível e o visitante precisava rolar pra ele surgir. Numa
+         página de venda isso confunde mais do que enfeita. */
+      [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      /* A rolagem animada atravessa a página inteira passando por quatro vídeos
+         em autoplay: no celular ela engasga e o visitante chega no destino sem
+         saber onde parou. O salto direto é mais confiável — no desktop a
+         animação continua. */
+      html {
+        scroll-behavior: auto;
+        scroll-padding-top: 92px;
+      }
+
       .expert__grid {
         grid-template-columns: 1fr;
       }
@@ -3881,9 +3904,12 @@
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
 
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /* No celular a revelação por scroll fica desligada (ver o CSS): aqui o JS
+         acompanha, marcando tudo como visível de uma vez em vez de observar. */
+      var skipReveal = reduceMotion || window.matchMedia('(max-width: 900px)').matches;
 
       var revealEls = document.querySelectorAll('[data-reveal]');
-      if ('IntersectionObserver' in window && !reduceMotion) {
+      if ('IntersectionObserver' in window && !skipReveal) {
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
