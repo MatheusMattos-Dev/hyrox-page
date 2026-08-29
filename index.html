@@ -1051,6 +1051,47 @@
       flex-shrink: 0;
     }
 
+    /* Linha de segurança logo abaixo do botão. O visitante sai daqui pra um
+       domínio de checkout que ele nunca viu; dizer antes o que acontece depois
+       do clique reduz o recuo nesse exato ponto. */
+    .trust-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      margin: 12px 0 0;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.55);
+      text-align: center;
+    }
+
+    .trust-line .icon {
+      width: 14px;
+      height: 14px;
+      color: var(--ember);
+      flex-shrink: 0;
+    }
+
+    /* Sobre o papel, nas faixas de CTA. */
+    .cta-strip .trust-line {
+      color: var(--graphite);
+      justify-content: flex-start;
+      text-align: left;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .cta-strip .trust-line {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
     /* ---------- Faixa de CTA intermediária ---------- */
     /* Havia 6 telas seguidas entre o fim da oferta e o primeiro link dos cases
        sem nenhuma forma de agir. Estas faixas quebram esse vão logo depois dos
@@ -3026,6 +3067,9 @@
             <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary btn--block" target="_blank"
               rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
               Master Class — R$10</a>
+            <p class="trust-line"><svg class="icon">
+                <use href="#icon-shield" />
+              </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
           </div>
 
           <div class="offer-card offer-card--featured">
@@ -3114,6 +3158,9 @@
             <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary btn--block" target="_blank"
               rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250
               Aulas — R$27</a>
+            <p class="trust-line"><svg class="icon">
+                <use href="#icon-shield" />
+              </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
           </div>
         </div>
 
@@ -3203,6 +3250,9 @@
             <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
               data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
           </div>
+          <p class="trust-line"><svg class="icon">
+              <use href="#icon-shield" />
+            </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
         </div>
       </div>
     </section>
@@ -3559,6 +3609,9 @@
             <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
               data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
           </div>
+          <p class="trust-line"><svg class="icon">
+              <use href="#icon-shield" />
+            </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
         </div>
       </div>
     </section>
@@ -4082,23 +4135,65 @@
         if (e.key === 'Escape' && flash.classList.contains('is-open')) closeFlash();
       });
 
-      /* Meta: sinaliza intenção de compra ao sair para o checkout.
-         Os links abrem em nova aba, então o beacon tem tempo de sair. */
+      /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
+         e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
+         às vezes empilha uma aba que a pessoa não percebe, às vezes joga pro
+         navegador do sistema e perde a sessão. Como o InitiateCheckout dispara
+         no clique, esses casos viravam intenção contada sem checkout alcançado.
+         No celular e dentro dos apps, o checkout abre na MESMA aba; no desktop
+         a aba nova continua, pra não perder a página de vendas. */
+      var inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger/i
+        .test(navigator.userAgent);
+      var sameTabCheckout = inAppBrowser
+        || window.matchMedia('(max-width: 900px)').matches;
+
+      /* Um InitiateCheckout por produto por sessão. Com 12 CTAs na página, quem
+         clicava em dois contava dois — o funil media cliques, não pessoas. */
+      var icSent = {};
+      var icAlreadySent = function (sku) {
+        if (icSent[sku]) return true;
+        try {
+          if (sessionStorage.getItem('ic:' + sku)) return true;
+        } catch (e) { /* aba anônima pode barrar o storage; o objeto acima cobre */ }
+        return false;
+      };
+      var icMarkSent = function (sku) {
+        icSent[sku] = true;
+        try { sessionStorage.setItem('ic:' + sku, '1'); } catch (e) { }
+      };
+
       document.querySelectorAll('[data-checkout]').forEach(function (link) {
-        link.addEventListener('click', function () {
-          if (typeof fbq !== 'function') return;
-          var payload = {
-            content_name: link.dataset.checkout,
-            content_ids: [link.dataset.sku],
-            content_type: 'product',
-            num_items: 1,
-            currency: 'BRL'
-          };
-          /* A oferta relâmpago não tem preço declarado aqui; sem o guarda o
-             evento sairia com value: NaN. */
-          var price = parseFloat(link.dataset.price);
-          if (!isNaN(price)) payload.value = price;
-          fbq('track', 'InitiateCheckout', payload);
+        if (sameTabCheckout) link.removeAttribute('target');
+
+        link.addEventListener('click', function (e) {
+          var sku = link.dataset.sku || link.dataset.checkout;
+          var fired = false;
+
+          if (typeof fbq === 'function' && !icAlreadySent(sku)) {
+            var payload = {
+              content_name: link.dataset.checkout,
+              content_ids: [link.dataset.sku],
+              content_type: 'product',
+              num_items: 1,
+              currency: 'BRL'
+            };
+            /* A oferta relâmpago não tem preço declarado aqui; sem o guarda o
+               evento sairia com value: NaN. */
+            var price = parseFloat(link.dataset.price);
+            if (!isNaN(price)) payload.value = price;
+            fbq('track', 'InitiateCheckout', payload);
+            icMarkSent(sku);
+            fired = true;
+          }
+
+          /* Na mesma aba a página descarrega no ato e o beacon do pixel pode
+             ser cancelado no meio. 200ms de folga garantem que o evento saia
+             antes de navegar — imperceptível pra quem clicou. */
+          if (fired && sameTabCheckout && !e.defaultPrevented) {
+            e.preventDefault();
+            var href = link.href;
+            setTimeout(function () { window.location.href = href; }, 200);
+          }
         });
       });
     })();
