@@ -2328,16 +2328,26 @@
         display: contents;
       }
 
-      .hero__visual {
+      /* O botão vem ANTES do vídeo. Com o vídeo no meio, o CTA caía em 774px:
+         cabia só num iPhone sem a barra do navegador e ficava fora da primeira
+         dobra em qualquer aparelho menor. */
+      .hero__actions {
         order: 1;
-        max-width: 340px;
-        margin-inline: auto;
-        margin-bottom: 34px;
+        justify-content: center;
+        margin-bottom: 30px;
       }
 
-      .hero__actions {
+      /* Largura casada com a do vídeo logo abaixo, pra virar um bloco só. */
+      .hero__actions .btn {
+        width: 100%;
+        max-width: 340px;
+      }
+
+      .hero__visual {
         order: 2;
-        justify-content: center;
+        max-width: 340px;
+        margin-inline: auto;
+        margin-bottom: 0;
       }
 
       /* Empilhado, o vídeo já cumpre o papel de indicar que a página continua. */
