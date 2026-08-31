@@ -1096,6 +1096,90 @@
     /* Havia 6 telas seguidas entre o fim da oferta e o primeiro link dos cases
        sem nenhuma forma de agir. Estas faixas quebram esse vão logo depois dos
        dois momentos de maior convencimento: o depoimento e o especialista. */
+    /* Captura de lead. Fica DEPOIS do CTA final de propósito: é a oferta
+       secundária e não pode competir com a venda de quem ainda vai comprar.
+       Por isso também herda o fundo escuro da seção: emendada no CTA final e no
+       rodapé, vira um pós-escrito quieto — uma faixa clara ali abriria um vinco
+       de luz entre dois blocos escuros e roubaria atenção do CTA.
+       Só borda tracejada, sem fundo próprio: mesmo idioma do .guarantee. */
+    .leadmag {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: clamp(18px, 3vw, 32px);
+      padding: clamp(22px, 3vw, 30px) clamp(22px, 3.2vw, 34px);
+      border: 1px dashed var(--line-on-ink);
+      border-radius: 6px;
+    }
+
+    .leadmag__copy {
+      min-width: 0;
+      max-width: 46ch;
+    }
+
+    .leadmag__copy .eyebrow {
+      margin-bottom: 8px;
+    }
+
+    .leadmag__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: clamp(1.15rem, 2vw, 1.45rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+    }
+
+    .leadmag__text {
+      margin: 0;
+      font-size: 0.92rem;
+      color: rgba(236, 231, 222, 0.7);
+      line-height: 1.5;
+    }
+
+    .leadmag__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .leadmag .btn {
+      font-size: 0.74rem;
+      padding: 14px 20px;
+    }
+
+    /* Só dimensão: o espaçamento vem do gap: 10px do próprio .btn, como em
+       .guarantee .icon. Uma margin aqui somaria e sairia do padrão. */
+    .leadmag .btn .icon {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .leadmag {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .leadmag__copy {
+        max-width: none;
+      }
+
+      .leadmag__copy .eyebrow {
+        justify-content: center;
+      }
+
+      .leadmag .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
     .cta-strip {
       display: flex;
       align-items: center;
@@ -2848,6 +2932,13 @@
       <path d="M15.5 9 C17 10.6 17 13.4 15.5 15" />
       <path d="M18.5 6.5 C21.2 9.4 21.2 14.6 18.5 17.5" />
     </symbol>
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+      <path d="M3.5 20.5 L4.9 16.3 A8.2 8.2 0 1 1 8 19.3 Z" />
+      <path d="M9 8.4 C9.5 8.4 9.7 8.6 9.9 9.1 L10.5 10.4 C10.6 10.7 10.5 11 10.3 11.2 L9.8 11.8
+               C9.6 12 9.6 12.2 9.7 12.4 A5.5 5.5 0 0 0 12.2 14.7 C12.5 14.8 12.7 14.8 12.8 14.6
+               L13.4 14 C13.6 13.8 13.9 13.7 14.2 13.9 L15.5 14.5 C15.9 14.7 16.1 14.9 16.1 15.3
+               C16.1 16.3 15.3 17 14.3 17 C11 17 7 13 7 9.7 C7 8.7 7.9 8.4 9 8.4 Z" />
+    </symbol>
   </svg>
 
   <header class="site-header" id="siteHeader">
@@ -2877,7 +2968,7 @@
         <svg class="icon icon--close">
           <use href="#icon-close" />
         </svg>
-        </figure>
+      </button>
     </div>
   </header>
 
@@ -3848,6 +3939,30 @@
       </div>
     </section>
 
+    <!-- Rede de segurança: a maior parte dos visitantes sai sem comprar e sem
+         deixar contato. Uma aula-modelo em troca do WhatsApp converte esse
+         tráfego perdido em lista e em público de remarketing. Some da página
+         sozinha enquanto o número não estiver configurado no JS. -->
+    <section class="section section--tight section--dark-2" id="aulaGratis" hidden>
+      <div class="container">
+        <div class="leadmag" data-reveal>
+          <div class="leadmag__copy">
+            <p class="eyebrow">Ainda na dúvida?</p>
+            <h2 class="leadmag__title">Leve uma aula completa de graça</h2>
+            <p class="leadmag__text">Uma Daily WOD inteira — aquecimento, bloco técnico, prescrição
+              linha a linha e arrefecimento. Aplique na sua turma e veja se o material serve pra você
+              antes de gastar um real.</p>
+          </div>
+          <div class="leadmag__actions">
+            <a href="#" class="btn btn--primary" id="leadWhats" target="_blank" rel="noopener">
+              <svg class="icon">
+                <use href="#icon-whatsapp" />
+              </svg>Receber a aula no WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
@@ -4090,50 +4205,184 @@
 
       /* Oferta Relâmpago: intercepta a saída para o checkout de R$10 e mostra as
          250 Aulas antes de liberar o visitante. Fica ANTES do rastreio de
-         propósito: registrado primeiro, pode usar stopImmediatePropagation()
-         para impedir que o link original dispare um InitiateCheckout que talvez
-         não se concretize. Quem contabiliza são os botões do próprio modal. */
-      var flash = document.getElementById('flashOffer');
-      var flashTake = document.getElementById('flashTake');
-      var flashKeep = document.getElementById('flashKeep');
-      var flashOrigin = null;
+         propósito: registrado primeiro, usa stopImmediatePropagation() para o
+         link original não disparar um InitiateCheckout que ainda não aconteceu.
+         Quem contabiliza são os botões do próprio modal — ambos vivem FORA do
+         <main>, escapam do interceptador e caem no rastreio comum lá embaixo.
+         O IC, portanto, só sai quando alguém de fato segue para um checkout.
 
-      var closeFlash = function () {
-        flash.classList.remove('is-open');
-        flash.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('flash-open');
-        if (flashOrigin) flashOrigin.focus();
-      };
+         Mantido ligado: converte bem na prática. A flag existe para desligar em
+         teste sem mexer no markup, que fica no lugar de qualquer jeito. */
+      var FLASH_OFFER_ENABLED = true;
 
-      var openFlash = function (origin) {
-        flashOrigin = origin;
-        /* Espelha o destino real do botão clicado, para o "continuar" levar
-           exatamente ao mesmo checkout. */
-        flashKeep.href = origin.href;
-        flash.classList.add('is-open');
-        flash.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('flash-open');
-        flashTake.focus();
-      };
+      if (FLASH_OFFER_ENABLED) {
+        var flash = document.getElementById('flashOffer');
+        var flashTake = document.getElementById('flashTake');
+        var flashKeep = document.getElementById('flashKeep');
+        var flashOrigin = null;
 
-      /* Escopo em main: o próprio "continuar" do modal também carrega
-         data-sku="master-class" e não pode reabrir o modal. */
-      document.querySelectorAll('main a[data-sku="master-class"]').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          openFlash(link);
+        var closeFlash = function () {
+          flash.classList.remove('is-open');
+          flash.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('flash-open');
+          if (flashOrigin) flashOrigin.focus();
+        };
+
+        var openFlash = function (origin) {
+          flashOrigin = origin;
+          /* Espelha o destino real do botão clicado, para o "continuar" levar
+             exatamente ao mesmo checkout. */
+          flashKeep.href = origin.href;
+          flash.classList.add('is-open');
+          flash.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('flash-open');
+          flashTake.focus();
+
+          /* O ponto cego do modal: sem isto só se enxerga quem seguiu para um
+             checkout, nunca quem abriu e desistiu. Com FlashOfferShown a taxa
+             real sai de uma divisão — IC de 250-aulas-relampago sobre este
+             evento. Uma vez por sessão, igual ao IC, para os dois números
+             serem comparáveis. */
+          trackOnce('flashshown', function () {
+            fbq('trackCustom', 'FlashOfferShown', {
+              content_name: '250 Aulas Prontas — Oferta Relâmpago',
+              content_ids: ['250-aulas-relampago'],
+              value: 18.90,
+              currency: 'BRL'
+            }, { eventID: eventId('FlashOfferShown') });
+          });
+        };
+
+        /* Escopo em main: o próprio "continuar" do modal também carrega
+           data-sku="master-class" e não pode reabrir o modal. */
+        document.querySelectorAll('main a[data-sku="master-class"]').forEach(function (link) {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            openFlash(link);
+          });
         });
-      });
 
-      document.getElementById('flashClose').addEventListener('click', closeFlash);
-      flashKeep.addEventListener('click', closeFlash);
-      flash.addEventListener('click', function (e) {
-        if (e.target === flash) closeFlash();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && flash.classList.contains('is-open')) closeFlash();
-      });
+        document.getElementById('flashClose').addEventListener('click', closeFlash);
+        flashKeep.addEventListener('click', closeFlash);
+        flash.addEventListener('click', function (e) {
+          if (e.target === flash) closeFlash();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && flash.classList.contains('is-open')) closeFlash();
+        });
+      }
+
+      /* ── Sinal de meio de funil ────────────────────────────────────
+         O pixel só emitia PageView e InitiateCheckout. Com ~4 compras por semana
+         o conjunto nunca sai da fase de aprendizado (o Meta pede ~50 conversões
+         semanais), e sem evento intermediário o algoritmo não distingue quem
+         passou reto de quem parou na oferta. ViewContent é evento padrão e pode
+         ser escolhido como meta de otimização enquanto o volume de venda não
+         sustenta otimizar por Purchase. ScrollDepth é só diagnóstico. */
+
+      /* Cada evento sai com event_id próprio. Sozinho não deduplica nada — é o
+         pré-requisito: quando a API de Conversões for ligada, o lado servidor
+         precisa reenviar ESTE mesmo id, senão o Meta conta o evento duas vezes.
+         Esse pareamento se configura no painel da Wiapy, não aqui. */
+      var eventId = function (name) {
+        return name + '.' + Date.now().toString(36) + '.' +
+          Math.random().toString(36).slice(2, 10);
+      };
+
+      /* Mesma trava do InitiateCheckout: um disparo por sessão, para a página
+         medir pessoas e não interações. */
+      var evSent = {};
+      var trackOnce = function (key, fn) {
+        if (evSent[key]) return;
+        /* Checar o fbq ANTES de gravar a chave: com o pixel bloqueado por
+           adblock a chave seria queimada sem evento nenhum ter saído. */
+        if (typeof fbq !== 'function') return;
+        try {
+          if (sessionStorage.getItem('ev:' + key)) { evSent[key] = true; return; }
+          sessionStorage.setItem('ev:' + key, '1');
+        } catch (e) { /* aba anônima barra o storage; o objeto acima cobre */ }
+        evSent[key] = true;
+        fn();
+      };
+
+      var offer = document.getElementById('oferta');
+      if (offer && 'IntersectionObserver' in window) {
+        var dwellTimer = null;
+        var fireViewContent = function () {
+          trackOnce('viewcontent', function () {
+            fbq('track', 'ViewContent', {
+              content_name: 'Seção de ofertas',
+              content_type: 'product_group',
+              content_ids: ['master-class', '250-aulas'],
+              currency: 'BRL'
+            }, { eventID: eventId('ViewContent') });
+          });
+        };
+        /* threshold 0 + tempo de permanência, e não threshold alto: a seção de
+           ofertas é mais alta que a tela do celular, então "50% do alvo visível"
+           nunca aconteceria ali. 1,5s separa quem leu de quem passou rolando. */
+        var offerIo = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              if (dwellTimer === null) {
+                dwellTimer = setTimeout(function () {
+                  fireViewContent();
+                  offerIo.disconnect();
+                }, 1500);
+              }
+            } else if (dwellTimer !== null) {
+              clearTimeout(dwellTimer);
+              dwellTimer = null;
+            }
+          });
+        }, { threshold: 0 });
+        offerIo.observe(offer);
+      }
+
+      var depthMarks = [25, 50, 75, 90];
+      var onDepth = function () {
+        var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollable <= 0) return;
+        var pct = (window.pageYOffset / scrollable) * 100;
+        while (depthMarks.length && pct >= depthMarks[0]) {
+          (function (mark) {
+            trackOnce('depth' + mark, function () {
+              fbq('trackCustom', 'ScrollDepth', { percent: mark });
+            });
+          })(depthMarks.shift());
+        }
+        if (!depthMarks.length) window.removeEventListener('scroll', onDepth);
+      };
+      window.addEventListener('scroll', onDepth, { passive: true });
+
+      /* ── Aula-modelo no WhatsApp ──────────────────────────────────────
+         Código do país + DDD + número, só dígitos: 55 + 55 + 99169-3698.
+         Se o número mudar e ficar vazio ou mal formatado, a seção volta a ficar
+         oculta — melhor não mostrar nada do que publicar um botão morto. */
+      var WHATSAPP_NUMBER = '5555991693698';
+
+      var leadSection = document.getElementById('aulaGratis');
+      var leadBtn = document.getElementById('leadWhats');
+      if (leadSection && leadBtn && /^\d{12,13}$/.test(WHATSAPP_NUMBER)) {
+        var leadMsg = 'Oi! Vim pela página do HYROX Daily WOD e queria receber a ' +
+          'aula-modelo gratuita.';
+        leadBtn.href = 'https://wa.me/' + WHATSAPP_NUMBER +
+          '?text=' + encodeURIComponent(leadMsg);
+        leadSection.hidden = false;
+
+        /* Lead é evento padrão: dá ao Meta um sinal frequente o bastante para
+           otimizar enquanto o volume de Purchase não sustenta, e alimenta o
+           público de remarketing com quem demonstrou interesse sem comprar. */
+        leadBtn.addEventListener('click', function () {
+          trackOnce('lead', function () {
+            fbq('track', 'Lead', {
+              content_name: 'Aula-modelo grátis (WhatsApp)',
+              content_category: 'lead-magnet'
+            }, { eventID: eventId('Lead') });
+          });
+        });
+      }
 
       /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
          e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
@@ -4181,7 +4430,8 @@
                evento sairia com value: NaN. */
             var price = parseFloat(link.dataset.price);
             if (!isNaN(price)) payload.value = price;
-            fbq('track', 'InitiateCheckout', payload);
+            fbq('track', 'InitiateCheckout', payload,
+              { eventID: eventId('InitiateCheckout') });
             icMarkSent(sku);
             fired = true;
           }
