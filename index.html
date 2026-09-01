@@ -1092,6 +1092,131 @@
       }
     }
 
+    /* ---------- Grupo de membros ---------- */
+    /* Bloco de destaque: fundo escuro e moldura ember num trecho de papel — é o
+       único elemento assim na página, então ele para o olho sem competir em
+       tamanho com a oferta logo acima. Composição centralizada e estreita: em
+       tela larga o layout de duas colunas abria um vazio no meio do card. */
+    .members {
+      position: relative;
+      overflow: hidden;
+      max-width: 760px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: clamp(34px, 5vw, 56px) clamp(24px, 4vw, 48px);
+      border: 2px solid var(--ember);
+      border-radius: 10px;
+      background: var(--ink);
+      color: var(--paper);
+      box-shadow: 0 24px 50px rgba(23, 22, 15, 0.2);
+    }
+
+    /* Cena real de acompanhamento ao fundo — mesma técnica do CTA final: scrim
+       escuro por cima da foto pra imagem dar contexto sem disputar com o texto.
+       O arquivo já é o poster dos vídeos da página, então não custa download. */
+    .members::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(180deg, rgba(14, 13, 8, 0.7) 0%, rgba(14, 13, 8, 0.88) 100%), url("assets/images/colt-training.webp");
+      background-size: cover;
+      background-position: center 42%;
+      pointer-events: none;
+    }
+
+    /* Conteúdo acima do scrim. */
+    .members > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .members__mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 75, 31, 0.45);
+      border-radius: 50%;
+      color: var(--ember);
+    }
+
+    .members__mark .icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .members__badge {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--ember);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .members__title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      line-height: 1;
+      letter-spacing: -0.015em;
+      margin: 0 0 14px;
+      max-width: 20ch;
+    }
+
+    .members__text {
+      margin: 0;
+      max-width: 44ch;
+      font-size: 1rem;
+      color: rgba(236, 231, 222, 0.84);
+      line-height: 1.5;
+    }
+
+    .members__actions {
+      margin-top: 28px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .members .btn {
+      font-size: 0.86rem;
+      padding: 18px 34px;
+    }
+
+    /* Diz o que acontece depois do clique: o link é um convite de grupo, então
+       o toque abre o WhatsApp já na tela de entrar. */
+    .members__note {
+      margin: 14px 0 0;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: rgba(236, 231, 222, 0.45);
+    }
+
+    @media (max-width: 900px) {
+      .members {
+        padding-inline: clamp(20px, 6vw, 30px);
+      }
+
+      .members .btn {
+        width: 100%;
+        padding: 17px 22px;
+      }
+    }
+
     /* ---------- Faixa de CTA intermediária ---------- */
     /* Havia 6 telas seguidas entre o fim da oferta e o primeiro link dos cases
        sem nenhuma forma de agir. Estas faixas quebram esse vão logo depois dos
@@ -3268,6 +3393,31 @@
       </div>
     </section>
 
+    <!-- Grupo aberto no WhatsApp, logo depois da oferta: quem acabou de ver o
+         preço já vê o acompanhamento que vem junto. Some da página sozinha
+         enquanto o link não estiver configurado no JS — melhor não mostrar nada
+         do que publicar um botão morto embaixo do preço. -->
+    <section class="section" id="membros" hidden>
+      <div class="container">
+        <div class="members" data-reveal>
+          <span class="members__mark"><svg class="icon">
+              <use href="#icon-whatsapp" />
+            </svg></span>
+          <span class="members__badge">Grupo grátis</span>
+          <h2 class="members__title">Mentoria e acompanhamento no WhatsApp</h2>
+          <p class="members__text">Um grupo pra quem dá aula no formato HYROX: mentorias exclusivas e
+            acompanhamento de perto de quem participa.</p>
+          <div class="members__actions">
+            <a href="#" class="btn btn--primary" id="membrosLink" target="_blank" rel="noopener">
+              <svg class="icon">
+                <use href="#icon-whatsapp" />
+              </svg>Quero entrar no grupo</a>
+          </div>
+          <p class="members__note">Abre direto no WhatsApp · Entrada imediata · Sem custo</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section section--dark" id="resultados">
       <div class="container">
         <div class="section__head" data-reveal>
@@ -4306,6 +4456,18 @@
         fn();
       };
 
+      /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
+         e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
+         às vezes empilha uma aba que a pessoa não percebe, às vezes joga pro
+         navegador do sistema e perde a sessão. Como o InitiateCheckout dispara
+         no clique, esses casos viravam intenção contada sem checkout alcançado.
+         No celular e dentro dos apps, o checkout abre na MESMA aba; no desktop
+         a aba nova continua, pra não perder a página de vendas. */
+      var inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger/i
+        .test(navigator.userAgent);
+      var sameTabCheckout = inAppBrowser
+        || window.matchMedia('(max-width: 900px)').matches;
+
       var offer = document.getElementById('oferta');
       if (offer && 'IntersectionObserver' in window) {
         var dwellTimer = null;
@@ -4384,17 +4546,63 @@
         });
       }
 
-      /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
-         e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
-         às vezes empilha uma aba que a pessoa não percebe, às vezes joga pro
-         navegador do sistema e perde a sessão. Como o InitiateCheckout dispara
-         no clique, esses casos viravam intenção contada sem checkout alcançado.
-         No celular e dentro dos apps, o checkout abre na MESMA aba; no desktop
-         a aba nova continua, pra não perder a página de vendas. */
-      var inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger/i
-        .test(navigator.userAgent);
-      var sameTabCheckout = inAppBrowser
-        || window.matchMedia('(max-width: 900px)').matches;
+      /* ── Grupo de membros no WhatsApp ─────────────────────────────────
+         Aceita as duas formas, porque grupo e atendimento direto usam links
+         diferentes:
+           convite do grupo -> 'https://chat.whatsapp.com/XXXXXXXXXXXX'
+           número direto    -> só dígitos: 55 + DDD + número
+         Enquanto estiver vazio ou mal formatado a seção continua oculta. */
+      var GRUPO_MEMBROS = 'https://chat.whatsapp.com/Hw8MmyxISgv61SyWDXrSi0?s=cl&p=i&mlu=4';
+
+      var membrosSection = document.getElementById('membros');
+      var membrosBtn = document.getElementById('membrosLink');
+      if (membrosSection && membrosBtn) {
+        var membrosHref = '';
+
+        /* O link vai exatamente como veio do WhatsApp, com os parâmetros dele
+           (?s=cl&p=i&mlu=4) preservados. A limpeza feita no clique mais abaixo
+           é outra coisa: serve pra tirar o utm_* que a UTMify gruda por cima,
+           não pra mexer neste valor. */
+        if (/^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9_-]{6,}/.test(GRUPO_MEMBROS)) {
+          membrosHref = GRUPO_MEMBROS;
+        } else if (/^\d{12,13}$/.test(GRUPO_MEMBROS)) {
+          var membrosMsg = 'Oi! Vim pela página do HYROX Daily WOD e queria entrar ' +
+            'no grupo de membros.';
+          membrosHref = 'https://wa.me/' + GRUPO_MEMBROS +
+            '?text=' + encodeURIComponent(membrosMsg);
+        }
+
+        if (membrosHref) {
+          membrosBtn.href = membrosHref;
+          membrosSection.hidden = false;
+
+          /* A UTMify reescreve o href de todo link de saída pra grudar utm_*.
+             Num convite de grupo do WhatsApp esse rabo de query atrapalha o
+             handoff pro app, então aqui o clique é assumido: navego para a URL
+             limpa em vez de deixar o href decorado ser usado. */
+          membrosBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            /* Chave própria: entrar no grupo e pedir a aula-modelo são dois
+               leads distintos, e um não pode calar o outro na mesma sessão. */
+            trackOnce('lead-membros', function () {
+              fbq('track', 'Lead', {
+                content_name: 'Grupo de membros (WhatsApp)',
+                content_category: 'comunidade'
+              }, { eventID: eventId('Lead') });
+            });
+
+            /* Mesma regra do checkout: dentro do app do Instagram/Facebook e no
+               celular, abrir aba nova é traiçoeiro — vai na mesma aba, que é o
+               que entrega pro WhatsApp de qualquer jeito. */
+            if (sameTabCheckout) {
+              window.location.href = membrosHref;
+            } else if (!window.open(membrosHref, '_blank', 'noopener')) {
+              window.location.href = membrosHref;
+            }
+          });
+        }
+      }
 
       /* Um InitiateCheckout por produto por sessão. Com 12 CTAs na página, quem
          clicava em dois contava dois — o funil media cliques, não pessoas. */
