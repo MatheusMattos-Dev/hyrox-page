@@ -1092,131 +1092,6 @@
       }
     }
 
-    /* ---------- Grupo de membros ---------- */
-    /* Bloco de destaque: fundo escuro e moldura ember num trecho de papel — é o
-       único elemento assim na página, então ele para o olho sem competir em
-       tamanho com a oferta logo acima. Composição centralizada e estreita: em
-       tela larga o layout de duas colunas abria um vazio no meio do card. */
-    .members {
-      position: relative;
-      overflow: hidden;
-      max-width: 760px;
-      margin-inline: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: clamp(34px, 5vw, 56px) clamp(24px, 4vw, 48px);
-      border: 2px solid var(--ember);
-      border-radius: 10px;
-      background: var(--ink);
-      color: var(--paper);
-      box-shadow: 0 24px 50px rgba(23, 22, 15, 0.2);
-    }
-
-    /* Cena real de acompanhamento ao fundo — mesma técnica do CTA final: scrim
-       escuro por cima da foto pra imagem dar contexto sem disputar com o texto.
-       O arquivo já é o poster dos vídeos da página, então não custa download. */
-    .members::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(180deg, rgba(14, 13, 8, 0.7) 0%, rgba(14, 13, 8, 0.88) 100%), url("assets/images/colt-training.webp");
-      background-size: cover;
-      background-position: center 42%;
-      pointer-events: none;
-    }
-
-    /* Conteúdo acima do scrim. */
-    .members > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .members__mark {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 62px;
-      height: 62px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 75, 31, 0.45);
-      border-radius: 50%;
-      color: var(--ember);
-    }
-
-    .members__mark .icon {
-      width: 28px;
-      height: 28px;
-    }
-
-    .members__badge {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 16px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--ember);
-      color: #fff;
-      font-family: var(--font-mono);
-      font-size: 0.64rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .members__title {
-      font-family: var(--font-display);
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-      line-height: 1;
-      letter-spacing: -0.015em;
-      margin: 0 0 14px;
-      max-width: 20ch;
-    }
-
-    .members__text {
-      margin: 0;
-      max-width: 44ch;
-      font-size: 1rem;
-      color: rgba(236, 231, 222, 0.84);
-      line-height: 1.5;
-    }
-
-    .members__actions {
-      margin-top: 28px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .members .btn {
-      font-size: 0.86rem;
-      padding: 18px 34px;
-    }
-
-    /* Diz o que acontece depois do clique: o link é um convite de grupo, então
-       o toque abre o WhatsApp já na tela de entrar. */
-    .members__note {
-      margin: 14px 0 0;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.06em;
-      color: rgba(236, 231, 222, 0.45);
-    }
-
-    @media (max-width: 900px) {
-      .members {
-        padding-inline: clamp(20px, 6vw, 30px);
-      }
-
-      .members .btn {
-        width: 100%;
-        padding: 17px 22px;
-      }
-    }
-
     /* ---------- Faixa de CTA intermediária ---------- */
     /* Havia 6 telas seguidas entre o fim da oferta e o primeiro link dos cases
        sem nenhuma forma de agir. Estas faixas quebram esse vão logo depois dos
@@ -2810,7 +2685,7 @@
       }
     }
 
-    /* ---------- Oferta Relâmpago (upsell no clique da oferta de R$20) ---------- */
+    /* ---------- Oferta Relâmpago (upsell no clique da oferta de R$10) ---------- */
     body.flash-open {
       overflow: hidden;
     }
@@ -3258,7 +3133,7 @@
             <h3 class="offer-card__title">HYROX Master Class</h3>
             <p class="offer-card__subtitle">150 páginas · PDF digital</p>
             <div class="offer-card__price">
-              <span class="amount">R$ 20,00</span>
+              <span class="amount">R$ 10,00</span>
               <span class="terms">pagamento único</span>
             </div>
             <p class="offer-card__desc">A base técnica por trás das escolhas da aula: por que essa estação, essa carga,
@@ -3280,9 +3155,9 @@
                   <use href="#icon-check" />
                 </svg>Como dosar a intensidade para o objetivo de cada aluno</li>
             </ul>
-            <a href="https://pay.wiapy.com/9lM9WBd8VNFt" class="btn btn--primary btn--block" target="_blank"
-              rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="20.00">Quero a
-              Master Class — R$20</a>
+            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary btn--block" target="_blank"
+              rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
+              Master Class — R$10</a>
             <p class="trust-line"><svg class="icon">
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
@@ -3298,9 +3173,9 @@
             <h3 class="offer-card__title">250 Aulas Prontas</h3>
             <p class="offer-card__subtitle">Daily WOD · acesso digital imediato</p>
             <div class="offer-card__price">
-              <span class="amount">R$ 47,00</span>
+              <span class="amount">R$ 27,00</span>
               <span class="terms">pagamento único</span>
-              <span class="offer-card__per">≈ R$ 0,19 por aula</span>
+              <span class="offer-card__per">≈ R$ 0,11 por aula</span>
             </div>
             <p class="offer-card__desc">O ano inteiro de aula já planejado — do aquecimento ao arrefecimento, linha a
               linha, com carga e intensidade definidas.</p>
@@ -3371,9 +3246,9 @@
                   <use href="#icon-check" />
                 </svg>Cálculo de velocidade de corrida a partir do seu tempo de 2 km</li>
             </ul>
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="btn btn--primary btn--block" target="_blank"
-              rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250
-              Aulas — R$47</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary btn--block" target="_blank"
+              rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250
+              Aulas — R$27</a>
             <p class="trust-line"><svg class="icon">
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
@@ -3389,31 +3264,6 @@
           </svg>
           <p><strong>Garantia incondicional de 7 dias</strong> em qualquer um dos dois materiais. Se não fizer sentido
             pra sua aula, devolvemos o valor.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Grupo aberto no WhatsApp, logo depois da oferta: quem acabou de ver o
-         preço já vê o acompanhamento que vem junto. Some da página sozinha
-         enquanto o link não estiver configurado no JS — melhor não mostrar nada
-         do que publicar um botão morto embaixo do preço. -->
-    <section class="section" id="membros" hidden>
-      <div class="container">
-        <div class="members" data-reveal>
-          <span class="members__mark"><svg class="icon">
-              <use href="#icon-whatsapp" />
-            </svg></span>
-          <span class="members__badge">Grupo grátis</span>
-          <h2 class="members__title">Mentoria e acompanhamento no WhatsApp</h2>
-          <p class="members__text">Um grupo pra quem dá aula no formato HYROX: mentorias exclusivas e
-            acompanhamento de perto de quem participa.</p>
-          <div class="members__actions">
-            <a href="#" class="btn btn--primary" id="membrosLink" target="_blank" rel="noopener">
-              <svg class="icon">
-                <use href="#icon-whatsapp" />
-              </svg>Quero entrar no grupo</a>
-          </div>
-          <p class="members__note">Abre direto no WhatsApp · Entrada imediata · Sem custo</p>
         </div>
       </div>
     </section>
@@ -3486,10 +3336,10 @@
             <h2 class="cta-strip__title">É esse resultado que você quer na sua turma?</h2>
           </div>
           <div class="cta-strip__actions">
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="btn btn--primary" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250 Aulas — R$47</a>
-            <a href="https://pay.wiapy.com/9lM9WBd8VNFt" class="btn btn--ghost" target="_blank" rel="noopener"
-              data-checkout="HYROX Master Class" data-sku="master-class" data-price="20.00">Master Class — R$20</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
+            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
           </div>
           <p class="trust-line"><svg class="icon">
               <use href="#icon-shield" />
@@ -3845,10 +3695,10 @@
             <h2 class="cta-strip__title">Sua próxima aula pode já estar pronta</h2>
           </div>
           <div class="cta-strip__actions">
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="btn btn--primary" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250 Aulas — R$47</a>
-            <a href="https://pay.wiapy.com/9lM9WBd8VNFt" class="btn btn--ghost" target="_blank" rel="noopener"
-              data-checkout="HYROX Master Class" data-sku="master-class" data-price="20.00">Master Class — R$20</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
+            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
           </div>
           <p class="trust-line"><svg class="icon">
               <use href="#icon-shield" />
@@ -3887,8 +3737,8 @@
                   <use href="#icon-check" />
                 </svg>Evolução visível nas estações</li>
             </ul>
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250 Aulas — R$47 →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -3928,8 +3778,8 @@
                   <use href="#icon-check" />
                 </svg>Turma inteira no mesmo ritmo</li>
             </ul>
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250 Aulas — R$47 →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -3969,8 +3819,8 @@
                   <use href="#icon-check" />
                 </svg>Aprendi a técnica antes de pegar carga</li>
             </ul>
-            <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as 250 Aulas — R$47 →</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -4078,12 +3928,12 @@
             ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="https://pay.wiapy.com/9lM9WBd8VNFt" class="btn btn--primary" target="_blank" rel="noopener"
-            data-checkout="HYROX Master Class" data-sku="master-class" data-price="20.00">Quero a
-            Master Class — R$20</a>
-          <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="btn btn--ghost-light" target="_blank" rel="noopener"
-            data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero
-            as 250 Aulas — R$47</a>
+          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary" target="_blank" rel="noopener"
+            data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
+            Master Class — R$10</a>
+          <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost-light" target="_blank" rel="noopener"
+            data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero
+            as 250 Aulas — R$27</a>
         </div>
         <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
       </div>
@@ -4162,13 +4012,13 @@
   <div class="buybar" id="buyBar">
     <div class="buybar__info">
       <span class="buybar__name">250 Aulas Prontas</span>
-      <span class="buybar__price">R$ 47,00 <em>≈ R$ 0,19/aula</em></span>
+      <span class="buybar__price">R$ 27,00 <em>≈ R$ 0,11/aula</em></span>
     </div>
-    <a href="https://pay.wiapy.com/U6bj94wsQRBZ" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
-      data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="47.00">Quero as aulas</a>
+    <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
+      data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as aulas</a>
   </div>
 
-  <!-- Upsell disparado quando o visitante clica na oferta de R$20 -->
+  <!-- Upsell disparado quando o visitante clica na oferta de R$10 -->
   <div class="flash" id="flashOffer" role="dialog" aria-modal="true" aria-labelledby="flashTitle" aria-hidden="true">
     <div class="flash__dialog">
       <button class="flash__close" id="flashClose" type="button" aria-label="Fechar">
@@ -4181,18 +4031,18 @@
       <p class="flash__text">A Master Class te dá o porquê. Estas 250 aulas te dão o que aplicar amanhã — uma pra cada
         dia útil do ano, já periodizadas. Esse preço só aparece aqui.</p>
       <div class="flash__price">
-        <span class="flash__price-old">R$ 47,00</span>
-        <span class="flash__price-new">R$ 30,00</span>
-        <span class="flash__price-off">-36%</span>
+        <span class="flash__price-old">R$ 27,00</span>
+        <span class="flash__price-new">R$ 18,90</span>
+        <span class="flash__price-off">-30%</span>
       </div>
       <div class="flash__actions">
-        <a href="https://pay.wiapy.com/yqiMIvT_YOih" class="btn btn--primary btn--block" id="flashTake" target="_blank"
+        <a href="https://pay.wiapy.com/edBBBIpvphVB" class="btn btn--primary btn--block" id="flashTake" target="_blank"
           rel="noopener" data-checkout="250 Aulas Prontas — Oferta Relâmpago" data-sku="250-aulas-relampago"
-          data-price="30.00">Quero as 250 Aulas —
-          R$30</a>
-        <a href="https://pay.wiapy.com/9lM9WBd8VNFt" class="flash__keep" id="flashKeep" target="_blank" rel="noopener"
-          data-checkout="HYROX Master Class" data-sku="master-class" data-price="20.00">Continuar com a Master Class —
-          R$20</a>
+          data-price="18.90">Quero as 250 Aulas —
+          R$18,90</a>
+        <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="flash__keep" id="flashKeep" target="_blank" rel="noopener"
+          data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Continuar com a Master Class —
+          R$10</a>
       </div>
     </div>
   </div>
@@ -4353,7 +4203,7 @@
         updateBuyBar();
       }
 
-      /* Oferta Relâmpago: intercepta a saída para o checkout de R$20 e mostra as
+      /* Oferta Relâmpago: intercepta a saída para o checkout de R$10 e mostra as
          250 Aulas antes de liberar o visitante. Fica ANTES do rastreio de
          propósito: registrado primeiro, usa stopImmediatePropagation() para o
          link original não disparar um InitiateCheckout que ainda não aconteceu.
@@ -4397,7 +4247,7 @@
             fbq('trackCustom', 'FlashOfferShown', {
               content_name: '250 Aulas Prontas — Oferta Relâmpago',
               content_ids: ['250-aulas-relampago'],
-              value: 30.00,
+              value: 18.90,
               currency: 'BRL'
             }, { eventID: eventId('FlashOfferShown') });
           });
@@ -4455,18 +4305,6 @@
         evSent[key] = true;
         fn();
       };
-
-      /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
-         e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
-         às vezes empilha uma aba que a pessoa não percebe, às vezes joga pro
-         navegador do sistema e perde a sessão. Como o InitiateCheckout dispara
-         no clique, esses casos viravam intenção contada sem checkout alcançado.
-         No celular e dentro dos apps, o checkout abre na MESMA aba; no desktop
-         a aba nova continua, pra não perder a página de vendas. */
-      var inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger/i
-        .test(navigator.userAgent);
-      var sameTabCheckout = inAppBrowser
-        || window.matchMedia('(max-width: 900px)').matches;
 
       var offer = document.getElementById('oferta');
       if (offer && 'IntersectionObserver' in window) {
@@ -4546,63 +4384,17 @@
         });
       }
 
-      /* ── Grupo de membros no WhatsApp ─────────────────────────────────
-         Aceita as duas formas, porque grupo e atendimento direto usam links
-         diferentes:
-           convite do grupo -> 'https://chat.whatsapp.com/XXXXXXXXXXXX'
-           número direto    -> só dígitos: 55 + DDD + número
-         Enquanto estiver vazio ou mal formatado a seção continua oculta. */
-      var GRUPO_MEMBROS = 'https://chat.whatsapp.com/Hw8MmyxISgv61SyWDXrSi0?s=cl&p=i&mlu=4';
-
-      var membrosSection = document.getElementById('membros');
-      var membrosBtn = document.getElementById('membrosLink');
-      if (membrosSection && membrosBtn) {
-        var membrosHref = '';
-
-        /* O link vai exatamente como veio do WhatsApp, com os parâmetros dele
-           (?s=cl&p=i&mlu=4) preservados. A limpeza feita no clique mais abaixo
-           é outra coisa: serve pra tirar o utm_* que a UTMify gruda por cima,
-           não pra mexer neste valor. */
-        if (/^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9_-]{6,}/.test(GRUPO_MEMBROS)) {
-          membrosHref = GRUPO_MEMBROS;
-        } else if (/^\d{12,13}$/.test(GRUPO_MEMBROS)) {
-          var membrosMsg = 'Oi! Vim pela página do HYROX Daily WOD e queria entrar ' +
-            'no grupo de membros.';
-          membrosHref = 'https://wa.me/' + GRUPO_MEMBROS +
-            '?text=' + encodeURIComponent(membrosMsg);
-        }
-
-        if (membrosHref) {
-          membrosBtn.href = membrosHref;
-          membrosSection.hidden = false;
-
-          /* A UTMify reescreve o href de todo link de saída pra grudar utm_*.
-             Num convite de grupo do WhatsApp esse rabo de query atrapalha o
-             handoff pro app, então aqui o clique é assumido: navego para a URL
-             limpa em vez de deixar o href decorado ser usado. */
-          membrosBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            /* Chave própria: entrar no grupo e pedir a aula-modelo são dois
-               leads distintos, e um não pode calar o outro na mesma sessão. */
-            trackOnce('lead-membros', function () {
-              fbq('track', 'Lead', {
-                content_name: 'Grupo de membros (WhatsApp)',
-                content_category: 'comunidade'
-              }, { eventID: eventId('Lead') });
-            });
-
-            /* Mesma regra do checkout: dentro do app do Instagram/Facebook e no
-               celular, abrir aba nova é traiçoeiro — vai na mesma aba, que é o
-               que entrega pro WhatsApp de qualquer jeito. */
-            if (sameTabCheckout) {
-              window.location.href = membrosHref;
-            } else if (!window.open(membrosHref, '_blank', 'noopener')) {
-              window.location.href = membrosHref;
-            }
-          });
-        }
-      }
+      /* O tráfego de anúncio no celular cai no navegador embutido do Instagram
+         e do Facebook, onde target="_blank" é traiçoeiro: às vezes é bloqueado,
+         às vezes empilha uma aba que a pessoa não percebe, às vezes joga pro
+         navegador do sistema e perde a sessão. Como o InitiateCheckout dispara
+         no clique, esses casos viravam intenção contada sem checkout alcançado.
+         No celular e dentro dos apps, o checkout abre na MESMA aba; no desktop
+         a aba nova continua, pra não perder a página de vendas. */
+      var inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|Line\/|MicroMessenger/i
+        .test(navigator.userAgent);
+      var sameTabCheckout = inAppBrowser
+        || window.matchMedia('(max-width: 900px)').matches;
 
       /* Um InitiateCheckout por produto por sessão. Com 12 CTAs na página, quem
          clicava em dois contava dois — o funil media cliques, não pessoas. */
