@@ -1,0 +1,265 @@
+<!-- ============================================================
+     Upsell pós-compra (Wiapy) — Oferta Início de Mês
+     Snippet para colar no campo de HTML da página de upsell.
+     Sem <html>/<head>/<body> de propósito: é injetado numa página
+     que já existe. Todo o CSS fica travado sob .hx-upsell para não
+     vazar nos estilos da Wiapy.
+     ============================================================ -->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  .hx-upsell {
+    /* Tokens espelhados do index.html para o upsell não parecer outra marca. */
+    --hx-paper: #ECE7DE;
+    --hx-ink: #17160F;
+    --hx-ink-2: #0E0D08;
+    --hx-ember: #FF4B1F;
+    --hx-rope: #E4AE23;
+    --hx-line: rgba(236, 231, 222, 0.16);
+    --hx-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --hx-body: "IBM Plex Sans", -apple-system, Segoe UI, Roboto, sans-serif;
+    --hx-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+    box-sizing: border-box;
+    max-width: 660px;
+    margin: 0 auto;
+    padding: clamp(26px, 5vw, 44px) clamp(20px, 5vw, 40px);
+    background: var(--hx-ink-2);
+    color: var(--hx-paper);
+    font-family: var(--hx-body);
+    line-height: 1.5;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .hx-upsell *,
+  .hx-upsell *::before,
+  .hx-upsell *::after {
+    box-sizing: inherit;
+  }
+
+  .hx-upsell__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    font-family: var(--hx-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hx-ember);
+  }
+
+  .hx-upsell__eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--hx-ember);
+  }
+
+  .hx-upsell__badge {
+    display: inline-block;
+    margin: 0 0 14px;
+    padding: 6px 12px;
+    border: 1px solid var(--hx-rope);
+    border-radius: 3px;
+    font-family: var(--hx-mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hx-rope);
+  }
+
+  .hx-upsell__title {
+    margin: 0 0 18px;
+    font-family: var(--hx-display);
+    font-weight: 800;
+    font-size: clamp(1.9rem, 6.2vw, 2.9rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    color: var(--hx-paper);
+  }
+
+  .hx-upsell__lede {
+    margin: 0 0 26px;
+    font-size: clamp(1rem, 2.4vw, 1.08rem);
+    color: rgba(236, 231, 222, 0.82);
+  }
+
+  .hx-upsell__lede strong,
+  .hx-upsell__close strong {
+    color: var(--hx-paper);
+    font-weight: 600;
+  }
+
+  .hx-upsell__list {
+    margin: 0 0 26px;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+    display: grid;
+    gap: 12px;
+  }
+
+  .hx-upsell__list li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 0.95rem;
+    color: rgba(236, 231, 222, 0.9);
+  }
+
+  /* Check desenhado em CSS: um <svg> por item encheria o snippet à toa. */
+  .hx-upsell__list li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0.36em;
+    width: 6px;
+    height: 11px;
+    border-right: 2px solid var(--hx-ember);
+    border-bottom: 2px solid var(--hx-ember);
+    transform: rotate(45deg);
+  }
+
+  .hx-upsell__highlight {
+    margin: 0 0 26px;
+    padding: 16px 20px;
+    border: 1px dashed var(--hx-line);
+    border-radius: 6px;
+    font-family: var(--hx-display);
+    font-weight: 700;
+    font-size: clamp(1.05rem, 3vw, 1.3rem);
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--hx-paper);
+  }
+
+  .hx-upsell__close {
+    margin: 0 0 26px;
+    font-size: 0.95rem;
+    color: rgba(236, 231, 222, 0.72);
+  }
+
+  /* PREÇO — estilos prontos, markup desativado mais abaixo. */
+  .hx-upsell__price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 24px;
+  }
+
+  .hx-upsell__price-old {
+    font-family: var(--hx-mono);
+    font-size: 1rem;
+    color: rgba(236, 231, 222, 0.45);
+    text-decoration: line-through;
+  }
+
+  .hx-upsell__price-new {
+    font-family: var(--hx-display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 7vw, 3rem);
+    line-height: 1;
+    color: var(--hx-ember);
+  }
+
+  .hx-upsell__price-note {
+    margin: -14px 0 24px;
+    font-family: var(--hx-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(236, 231, 222, 0.55);
+  }
+
+  /* O botão é renderizado pela Wiapy dentro de #wiapy_upsell; aqui só o
+     espaço em volta e a largura em telas pequenas. */
+  .hx-upsell #wiapy_upsell {
+    margin: 0 0 16px;
+  }
+
+  .hx-upsell #wiapy_upsell a,
+  .hx-upsell #wiapy_upsell button {
+    max-width: 100%;
+  }
+
+  .hx-upsell__note {
+    margin: 0;
+    font-family: var(--hx-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(236, 231, 222, 0.5);
+  }
+
+  @media (max-width: 480px) {
+    .hx-upsell {
+      border-radius: 0;
+    }
+
+    .hx-upsell__list li {
+      font-size: 0.92rem;
+    }
+  }
+</style>
+
+<script src="https://wiapy.com/sell/1.0.0/sell.min.js"></script>
+
+<div class="hx-upsell">
+  <p class="hx-upsell__eyebrow">Oferta Início de Mês</p>
+  <p class="hx-upsell__badge">Pacote Completo · Todo o material</p>
+
+  <h1 class="hx-upsell__title">Começo de mês: leve todo o material completo! 🔥</h1>
+
+  <p class="hx-upsell__lede">É <strong>todo o material completo</strong> num pacote só — para você começar o mês
+    organizado e evoluir no HYROX sem improviso.</p>
+
+  <ul class="hx-upsell__list">
+    <li>Mais de <strong>250 aulas estruturadas</strong>, prontas para aplicar</li>
+    <li>Materiais completos de <strong>metodologia e programação</strong></li>
+    <li>Conteúdos <strong>para coaches</strong></li>
+    <li>Possibilidade de <strong>acompanhamento</strong> para ajudar nos ajustes ao longo da evolução</li>
+  </ul>
+
+  <p class="hx-upsell__highlight">É praticamente um ano inteiro de treino, planejamento e suporte em um só lugar.</p>
+
+  <!-- Bate com o checkout 6a98b285: R$ 35,50 à vista no Pix. -->
+  <div class="hx-upsell__price">
+    <span class="hx-upsell__price-new">R$ 35,50</span>
+  </div>
+  <p class="hx-upsell__price-note">à vista no Pix · pagamento único · acesso imediato</p>
+
+  <p class="hx-upsell__close">Se você estava esperando o momento certo para entrar, aproveite a
+    <strong>oferta de início de mês</strong> e leve tudo.</p>
+
+  <div id="wiapy_upsell"></div>
+
+  <p class="hx-upsell__note">Esta oferta só aparece nesta página</p>
+</div>
+
+<script>
+    initWiapyUpsell({
+        linkUrl: "https://pay.wiapy.com/checkout/6a98b28570d6d304240d8bee",
+        linkText: "SIM, EU ACEITO ESSA OFERTA",
+        styles: {
+            backgroundColor: "#00d769",
+            hoverBackgroundColor: "#00b85a",
+            fontSize: "17px",
+            borderRadius: "10px"
+        },
+        refusalLinkUrl: "https://wiapy.com/login",
+        refusalLinkText: "Recusar está oferta",
+        /* Era #000000: preto sobre o fundo #0E0D08 do bloco ficava invisível.
+           Cinza claro para ler sobre o escuro. CONFIRA NA PRÉ-VISUALIZAÇÃO:
+           se a Wiapy renderizar este link fora do bloco escuro, volte para um
+           tom escuro. */
+        refusalLinkColor: "#A9A399"
+    });
+</script>
