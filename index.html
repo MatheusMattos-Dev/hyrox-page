@@ -1594,9 +1594,188 @@
       background: #CF9C17;
     }
 
+    /* Elementos de Urgência e Escassez do Pacote Completo */
+    .offer-bundle__urgency-bar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 11px 18px;
+      background: linear-gradient(90deg, rgba(255, 75, 31, 0.22) 0%, rgba(228, 174, 35, 0.16) 100%);
+      border: 1px solid rgba(228, 174, 35, 0.45);
+      border-radius: 4px;
+      box-shadow: 0 4px 18px rgba(228, 174, 35, 0.1);
+      margin-bottom: 6px;
+    }
+
+    .offer-bundle__urgency-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .offer-bundle__urgency-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--ember);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 11px;
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(255, 75, 31, 0.35);
+    }
+
+    .offer-bundle__pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.85);
+      animation: bundlePulseDot 1.6s infinite;
+    }
+
+    @keyframes bundlePulseDot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.85);
+        transform: scale(0.95);
+      }
+      70% {
+        box-shadow: 0 0 0 7px rgba(255, 255, 255, 0);
+        transform: scale(1.1);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        transform: scale(0.95);
+      }
+    }
+
+    .offer-bundle__urgency-text {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--paper);
+    }
+
+    .offer-bundle__urgency-text strong {
+      color: var(--rope);
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: rgba(228, 174, 35, 0.6);
+      text-underline-offset: 3px;
+    }
+
+    .offer-bundle__urgency-deadline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--rope);
+      background: rgba(228, 174, 35, 0.12);
+      border: 1px solid rgba(228, 174, 35, 0.35);
+      padding: 5px 12px;
+      border-radius: 3px;
+    }
+
+    .offer-bundle__urgency-deadline .icon {
+      width: 14px;
+      height: 14px;
+      color: var(--rope);
+      flex-shrink: 0;
+    }
+
+    .offer-bundle__urgency-deadline strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .offer-bundle__eyebrow-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .offer-bundle__eyebrow-row .eyebrow {
+      margin-bottom: 0;
+    }
+
+    .offer-bundle__tag-slots {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rope);
+      background: rgba(228, 174, 35, 0.15);
+      border: 1px solid rgba(228, 174, 35, 0.3);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .offer-bundle__urgency-notice {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      line-height: 1.35;
+      letter-spacing: 0.03em;
+      color: var(--rope);
+      background: rgba(228, 174, 35, 0.09);
+      border: 1px dashed rgba(228, 174, 35, 0.4);
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .offer-bundle__urgency-notice .icon {
+      width: 15px;
+      height: 15px;
+      color: var(--rope);
+      flex-shrink: 0;
+    }
+
+    .offer-bundle__urgency-notice strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
     @media (max-width: 900px) {
       .offer-bundle {
         grid-template-columns: 1fr;
+      }
+
+      .offer-bundle__urgency-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .offer-bundle__urgency-left {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .offer-bundle__eyebrow-row {
+        justify-content: center;
       }
 
       .offer-bundle .eyebrow {
@@ -3523,8 +3702,29 @@
         </div>
 
         <div class="offer-bundle" data-reveal>
+          <div class="offer-bundle__urgency-bar">
+            <div class="offer-bundle__urgency-left">
+              <span class="offer-bundle__urgency-badge">
+                <span class="offer-bundle__pulse-dot"></span>
+                Tempo Limitado
+              </span>
+              <span class="offer-bundle__urgency-text">
+                Somente para os <strong>10 primeiros</strong>
+              </span>
+            </div>
+            <div class="offer-bundle__urgency-deadline">
+              <svg class="icon">
+                <use href="#icon-clock" />
+              </svg>
+              <span>Válido até <strong>07/09</strong></span>
+            </div>
+          </div>
+
           <div class="offer-bundle__copy">
-            <p class="eyebrow">Oferta Início de Mês</p>
+            <div class="offer-bundle__eyebrow-row">
+              <p class="eyebrow">Oferta Início de Mês</p>
+              <span class="offer-bundle__tag-slots">Lote Promocional · 10 Vagas</span>
+            </div>
             <h3 class="offer-bundle__title">Pacote Completo — leve todo o material</h3>
             <p class="offer-bundle__desc">Comece o mês com tudo organizado para evoluir no HYROX sem improviso.
               É praticamente um ano inteiro de treino, planejamento e suporte em um só lugar.</p>
@@ -3544,6 +3744,12 @@
             </ul>
           </div>
           <div class="offer-bundle__buy">
+            <div class="offer-bundle__urgency-notice">
+              <svg class="icon">
+                <use href="#icon-clock" />
+              </svg>
+              <span>Válido só até <strong>07/09</strong> · Primeiros <strong>10 inscritos</strong></span>
+            </div>
             <div class="offer-bundle__price">
               <span class="amount">R$ 35,50</span>
               <span class="terms">pagamento único</span>
