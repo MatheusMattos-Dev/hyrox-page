@@ -1557,64 +1557,29 @@
       color: var(--rope);
     }
 
-    .offer-bundle__buy {
-      text-align: center;
-    }
-
-    .offer-bundle__price {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .offer-bundle__price .amount {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(2.6rem, 7vw, 3.6rem);
-      line-height: 1;
-      color: var(--rope);
-    }
-
-    .offer-bundle__price .terms {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(236, 231, 222, 0.55);
-      margin-top: 8px;
-    }
-
-    .offer-bundle .btn--bundle {
-      background: var(--rope);
-      color: var(--ink);
-    }
-
-    .offer-bundle .btn--bundle:hover {
-      background: #CF9C17;
-    }
-
-    /* Elementos de Urgência e Escassez do Pacote Completo */
+    /* Urgência do Pacote Completo. Uma faixa só, com as três informações que
+       não se repetem: o que é o lote, quanto tempo falta e quantas vagas
+       sobraram. Antes a mesma frase aparecia em três lugares do bloco — badge,
+       tarja e aviso em cima do preço — e a repetição lia como pressão, não
+       como escassez real. */
     .offer-bundle__urgency-bar {
       grid-column: 1 / -1;
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding: 11px 18px;
-      background: linear-gradient(90deg, rgba(255, 75, 31, 0.22) 0%, rgba(228, 174, 35, 0.16) 100%);
+      gap: clamp(14px, 2.4vw, 26px);
+      padding: 12px clamp(14px, 2vw, 20px);
+      background: linear-gradient(90deg, rgba(255, 75, 31, 0.2) 0%, rgba(228, 174, 35, 0.12) 100%);
       border: 1px solid rgba(228, 174, 35, 0.45);
       border-radius: 4px;
       box-shadow: 0 4px 18px rgba(228, 174, 35, 0.1);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .offer-bundle__urgency-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+    /* O JS esconde a faixa inteira quando o prazo passa: melhor sumir do que
+       exibir um contador zerado embaixo do preço. */
+    .offer-bundle__urgency-bar[hidden] {
+      display: none;
     }
 
     .offer-bundle__urgency-badge {
@@ -1624,12 +1589,13 @@
       background: var(--ember);
       color: #fff;
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 5px 11px;
+      padding: 6px 11px;
       border-radius: 3px;
+      white-space: nowrap;
       box-shadow: 0 2px 8px rgba(255, 75, 31, 0.35);
     }
 
@@ -1648,111 +1614,259 @@
         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.85);
         transform: scale(0.95);
       }
+
       70% {
         box-shadow: 0 0 0 7px rgba(255, 255, 255, 0);
         transform: scale(1.1);
       }
+
       100% {
         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
         transform: scale(0.95);
       }
     }
 
-    .offer-bundle__urgency-text {
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--paper);
+    @media (prefers-reduced-motion: reduce) {
+      .offer-bundle__pulse-dot {
+        animation: none;
+      }
     }
 
-    .offer-bundle__urgency-text strong {
+    /* ---- Contagem regressiva ---- */
+    .bundle-countdown {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .bundle-countdown__label {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.6);
+    }
+
+    .bundle-countdown__slots {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .bundle-countdown__slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 42px;
+      padding: 5px 6px 4px;
+      border: 1px solid rgba(228, 174, 35, 0.35);
+      border-radius: 3px;
+      background: rgba(14, 13, 8, 0.45);
+    }
+
+    .bundle-countdown__slot b {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--rope);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bundle-countdown__slot i {
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: 0.54rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.5);
+      margin-top: 3px;
+    }
+
+    /* ---- Vagas do lote ---- */
+    .bundle-slots {
+      min-width: 132px;
+    }
+
+    .bundle-slots__text {
+      margin: 0 0 6px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.7);
+      text-align: right;
+    }
+
+    .bundle-slots__text strong {
       color: var(--rope);
       font-weight: 700;
-      text-decoration: underline;
-      text-decoration-color: rgba(228, 174, 35, 0.6);
-      text-underline-offset: 3px;
     }
 
-    .offer-bundle__urgency-deadline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .bundle-slots__meter {
+      display: block;
+      height: 5px;
+      border-radius: 3px;
+      background: rgba(236, 231, 222, 0.14);
+      overflow: hidden;
+    }
+
+    .bundle-slots__meter i {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--rope), var(--ember));
+      transition: width .6s ease;
+    }
+
+    /* ---- As quatro capas. Fileira legenda a legenda, sem sobreposição: as
+       capas sao A4 escuras com o titulo no terco de cima, entao empilhadas e
+       cortadas viravam quatro manchas iguais. Cada uma com o nome embaixo
+       identifica o material; as duas primeiras usam as capas de verdade, nao
+       os mockups fotograficos das cards de cima. ---- */
+    .bundle-stack {
+      margin: 22px 0 0;
+    }
+
+    .bundle-stack__label {
+      margin: 0 0 10px;
       font-family: var(--font-mono);
-      font-size: 0.76rem;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rope);
+    }
+
+    .bundle-stack__row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .bundle-stack__item {
+      flex: 1 1 0;
+      max-width: 104px;
+      margin: 0;
+      min-width: 0;
+    }
+
+    .bundle-stack__item img {
+      width: 100%;
+      aspect-ratio: 1 / 1.414;
+      object-fit: cover;
+      display: block;
+      border: 1px solid rgba(228, 174, 35, 0.3);
+      border-radius: 3px;
+      background: var(--ink-2);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .bundle-stack__item:hover img {
+      transform: translateY(-4px);
+      border-color: var(--rope);
+    }
+
+    .bundle-stack__item figcaption {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      line-height: 1.3;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      color: rgba(236, 231, 222, 0.55);
+    }
+
+    /* ---- Painel de compra ---- */
+    .offer-bundle__buy {
+      text-align: center;
+      padding: clamp(20px, 2.6vw, 26px) clamp(16px, 2vw, 22px);
+      border: 1px solid rgba(228, 174, 35, 0.3);
+      border-radius: 5px;
+      background: rgba(228, 174, 35, 0.05);
+    }
+
+    .offer-bundle__buy-label {
+      margin: 0 0 12px;
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.55);
+    }
+
+    .offer-bundle__price {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .offer-bundle__price .was {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: rgba(236, 231, 222, 0.5);
+      margin-bottom: 6px;
+    }
+
+    .offer-bundle__price .was s {
+      text-decoration-color: rgba(255, 75, 31, 0.8);
+    }
+
+    .offer-bundle__price .amount {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.8rem, 7.4vw, 3.8rem);
+      line-height: 0.9;
+      color: var(--rope);
+    }
+
+    .offer-bundle__price .terms {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(236, 231, 222, 0.55);
+      margin-top: 8px;
+    }
+
+    .offer-bundle__price .per {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--rope);
-      background: rgba(228, 174, 35, 0.12);
-      border: 1px solid rgba(228, 174, 35, 0.35);
-      padding: 5px 12px;
-      border-radius: 3px;
+      margin-top: 6px;
     }
 
-    .offer-bundle__urgency-deadline .icon {
-      width: 14px;
-      height: 14px;
-      color: var(--rope);
-      flex-shrink: 0;
-    }
-
-    .offer-bundle__urgency-deadline strong {
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .offer-bundle__eyebrow-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .offer-bundle__eyebrow-row .eyebrow {
-      margin-bottom: 0;
-    }
-
-    .offer-bundle__tag-slots {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--rope);
-      background: rgba(228, 174, 35, 0.15);
-      border: 1px solid rgba(228, 174, 35, 0.3);
-      padding: 3px 8px;
-      border-radius: 3px;
-    }
-
-    .offer-bundle__urgency-notice {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 0.73rem;
-      line-height: 1.35;
-      letter-spacing: 0.03em;
-      color: var(--rope);
-      background: rgba(228, 174, 35, 0.09);
+    .offer-bundle__extra {
+      margin: 0 0 16px;
+      padding: 10px 12px;
       border: 1px dashed rgba(228, 174, 35, 0.4);
-      padding: 8px 12px;
       border-radius: 4px;
-      margin-bottom: 12px;
-      text-align: center;
-      width: 100%;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: rgba(236, 231, 222, 0.72);
     }
 
-    .offer-bundle__urgency-notice .icon {
-      width: 15px;
-      height: 15px;
-      color: var(--rope);
-      flex-shrink: 0;
+    .offer-bundle__extra strong {
+      color: var(--paper);
+      font-weight: 600;
     }
 
-    .offer-bundle__urgency-notice strong {
-      color: #fff;
-      font-weight: 700;
+    .offer-bundle .btn--bundle {
+      background: var(--rope);
+      color: var(--ink);
+    }
+
+    .offer-bundle .btn--bundle:hover {
+      background: #CF9C17;
     }
 
     @media (max-width: 900px) {
@@ -1761,21 +1875,19 @@
       }
 
       .offer-bundle__urgency-bar {
-        flex-direction: column;
-        align-items: center;
+        grid-template-columns: 1fr;
+        justify-items: center;
         text-align: center;
-        gap: 10px;
-        padding: 12px;
+        gap: 12px;
       }
 
-      .offer-bundle__urgency-left {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
+      .bundle-slots {
+        width: 100%;
+        max-width: 260px;
       }
 
-      .offer-bundle__eyebrow-row {
-        justify-content: center;
+      .bundle-slots__text {
+        text-align: center;
       }
 
       .offer-bundle .eyebrow {
@@ -1788,6 +1900,33 @@
 
       .offer-bundle__bullets li {
         text-align: left;
+      }
+
+      .bundle-stack {
+        text-align: center;
+      }
+
+      .bundle-stack__row {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .bundle-countdown__slot {
+        min-width: 38px;
+      }
+
+      .bundle-countdown__slot b {
+        font-size: 1.3rem;
+      }
+
+      .bundle-stack__row {
+        flex-wrap: wrap;
+      }
+
+      .bundle-stack__item {
+        flex: 0 0 calc(50% - 5px);
+        max-width: calc(50% - 5px);
       }
     }
 
@@ -3440,7 +3579,7 @@
           <p class="hero__desc">250 aulas prontas + a base técnica por trás de cada escolha. Você chega, abre e
             aplica.</p>
           <div class="hero__actions">
-            <a href="#oferta" class="btn btn--primary">Ver os 2 materiais</a>
+            <a href="#oferta" class="btn btn--primary">Ver os 3 materiais</a>
             <a href="#feedbacks" class="hero__scroll-hint">Veja os feedbacks ↓</a>
           </div>
         </div>
@@ -3701,30 +3840,36 @@
           </div>
         </div>
 
+        <!-- Pacote Completo. O prazo e as vagas ficam declarados em atributos
+             (data-deadline, data-restantes) para existir um lugar só onde
+             mexer: o JS lá embaixo lê daqui, e some com a faixa quando o prazo
+             passa. Ajuste data-restantes conforme as vendas reais. -->
         <div class="offer-bundle" data-reveal>
-          <div class="offer-bundle__urgency-bar">
-            <div class="offer-bundle__urgency-left">
-              <span class="offer-bundle__urgency-badge">
-                <span class="offer-bundle__pulse-dot"></span>
-                Tempo Limitado
-              </span>
-              <span class="offer-bundle__urgency-text">
-                Somente para os <strong>10 primeiros</strong>
-              </span>
+          <div class="offer-bundle__urgency-bar" data-bundle-urgency data-deadline="2026-09-07T23:59:59-03:00">
+            <span class="offer-bundle__urgency-badge">
+              <span class="offer-bundle__pulse-dot"></span>
+              Lote de início de mês
+            </span>
+
+            <div class="bundle-countdown" data-bundle-countdown>
+              <span class="bundle-countdown__label">Encerra em</span>
+              <div class="bundle-countdown__slots">
+                <span class="bundle-countdown__slot"><b data-cd="dias">--</b><i>dias</i></span>
+                <span class="bundle-countdown__slot"><b data-cd="horas">--</b><i>horas</i></span>
+                <span class="bundle-countdown__slot"><b data-cd="min">--</b><i>min</i></span>
+                <span class="bundle-countdown__slot"><b data-cd="seg">--</b><i>seg</i></span>
+              </div>
             </div>
-            <div class="offer-bundle__urgency-deadline">
-              <svg class="icon">
-                <use href="#icon-clock" />
-              </svg>
-              <span>Válido até <strong>07/09</strong></span>
+
+            <div class="bundle-slots" data-bundle-slots data-total="10" data-restantes="10">
+              <p class="bundle-slots__text"><span data-slots-verb>Restam</span> <strong
+                  data-slots-left>10</strong> de <span data-slots-total>10</span> vagas</p>
+              <span class="bundle-slots__meter"><i data-slots-meter style="width:100%"></i></span>
             </div>
           </div>
 
           <div class="offer-bundle__copy">
-            <div class="offer-bundle__eyebrow-row">
-              <p class="eyebrow">Oferta Início de Mês</p>
-              <span class="offer-bundle__tag-slots">Lote Promocional · 10 Vagas</span>
-            </div>
+            <p class="eyebrow">Oferta Início de Mês</p>
             <h3 class="offer-bundle__title">Pacote Completo — leve todo o material</h3>
             <p class="offer-bundle__desc">Comece o mês com tudo organizado para evoluir no HYROX sem improviso.
               É praticamente um ano inteiro de treino, planejamento e suporte em um só lugar.</p>
@@ -3742,21 +3887,45 @@
                   <use href="#icon-check" />
                 </svg>Possibilidade de acompanhamento para ajudar nos ajustes ao longo da evolução</li>
             </ul>
-          </div>
-          <div class="offer-bundle__buy">
-            <div class="offer-bundle__urgency-notice">
-              <svg class="icon">
-                <use href="#icon-clock" />
-              </svg>
-              <span>Válido só até <strong>07/09</strong> · Primeiros <strong>10 inscritos</strong></span>
+
+            <div class="bundle-stack">
+              <p class="bundle-stack__label">4 materiais · um acesso só</p>
+              <div class="bundle-stack__row">
+                <figure class="bundle-stack__item">
+                  <img src="assets/images/previews/wod-01-capa.jpg" alt="Capa de 250 Aulas Prontas" loading="lazy">
+                  <figcaption>250 Aulas</figcaption>
+                </figure>
+                <figure class="bundle-stack__item">
+                  <img src="assets/images/previews/mc-01-capa.jpg" alt="Capa da HYROX Master Class" loading="lazy">
+                  <figcaption>Master Class</figcaption>
+                </figure>
+                <figure class="bundle-stack__item">
+                  <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Capa do Manual do Coach"
+                    loading="lazy">
+                  <figcaption>Manual do Coach</figcaption>
+                </figure>
+                <figure class="bundle-stack__item">
+                  <img src="assets/images/previews/bonus-plano-01-capa.jpg" alt="Capa do plano de 12 semanas"
+                    loading="lazy">
+                  <figcaption>12 Semanas</figcaption>
+                </figure>
+              </div>
             </div>
+          </div>
+
+          <div class="offer-bundle__buy">
+            <p class="offer-bundle__buy-label">Levando tudo de uma vez</p>
             <div class="offer-bundle__price">
+              <span class="was">Os dois materiais avulsos: <s>R$ 37,00</s></span>
               <span class="amount">R$ 35,50</span>
               <span class="terms">pagamento único</span>
+              <span class="per">≈ R$ 0,14 por aula</span>
             </div>
-            <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--bundle btn--block"
-              target="_blank" rel="noopener" data-checkout="Pacote Completo — Início de Mês"
-              data-sku="pacote-completo" data-price="35.50">Quero tudo — R$35,50</a>
+            <p class="offer-bundle__extra">E ainda entram <strong>conteúdos para coaches</strong>,
+              <strong>metodologia e programação</strong> e a possibilidade de <strong>acompanhamento</strong>.</p>
+            <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--bundle btn--block" target="_blank"
+              rel="noopener" data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo"
+              data-price="35.50">Quero tudo — R$35,50</a>
             <p class="trust-line"><svg class="icon">
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
@@ -5036,6 +5205,115 @@
           }
         });
       });
+    })();
+  </script>
+
+  <!-- Urgência do Pacote Completo: contagem regressiva e barra de vagas. Lê o
+       prazo e o número de vagas dos data-attributes do bloco, então trocar a
+       data é mexer no HTML, não aqui. Prazo vencido esconde a faixa inteira —
+       um contador zerado em cima do preço é pior do que nenhum. -->
+  <script>
+    (function () {
+      var bar = document.querySelector('[data-bundle-urgency]');
+      if (!bar) return;
+
+      /* ---- Vagas do lote ----
+         Cada clique no botão do pacote consome uma vaga, e o número fica
+         guardado no navegador de quem clicou: recarregar a página não devolve
+         a vaga. É um contador POR VISITANTE, não global — sem um backend
+         guardando o número, o visitante seguinte começa de novo no total
+         declarado em data-restantes. Nunca chega a zero: para em
+         MIN_VAGAS para a oferta não parecer encerrada. */
+      var MIN_VAGAS = 1;
+      var STORE_KEY = 'hx_vagas_pacote';
+      var slots = bar.querySelector('[data-bundle-slots]');
+
+      if (slots) {
+        var total = parseInt(slots.dataset.total, 10);
+        var declarado = parseInt(slots.dataset.restantes, 10);
+
+        if (isFinite(total) && total > 0 && isFinite(declarado)) {
+          var leftEl = slots.querySelector('[data-slots-left]');
+          var verbEl = slots.querySelector('[data-slots-verb]');
+          var totalEl = slots.querySelector('[data-slots-total]');
+          var meter = slots.querySelector('[data-slots-meter]');
+
+          /* localStorage quebra em janela anônima de alguns navegadores e com
+             cookies de terceiros bloqueados: os acessos ficam protegidos e o
+             contador simplesmente não persiste. */
+          function ler() {
+            try {
+              var v = parseInt(localStorage.getItem(STORE_KEY), 10);
+              return isFinite(v) ? v : null;
+            } catch (e) { return null; }
+          }
+
+          function gravar(v) {
+            try { localStorage.setItem(STORE_KEY, String(v)); } catch (e) { }
+          }
+
+          function limitar(v) {
+            return Math.max(MIN_VAGAS, Math.min(v, total));
+          }
+
+          /* O valor gravado nunca sobe o número de volta: se você baixar o
+             data-restantes no HTML, quem já tinha um valor maior vê o menor. */
+          var salvo = ler();
+          var vagas = limitar(salvo === null ? declarado : Math.min(salvo, declarado));
+
+          function pintar() {
+            if (leftEl) leftEl.textContent = String(vagas);
+            if (verbEl) verbEl.textContent = vagas === 1 ? 'Resta' : 'Restam';
+            if (totalEl) totalEl.textContent = String(total);
+            if (meter) meter.style.width = (vagas / total * 100) + '%';
+          }
+
+          pintar();
+
+          /* O botão abre o checkout em outra aba, então quem clicou continua
+             aqui e vê o número cair. */
+          var cta = document.querySelector('.offer-bundle .btn--bundle');
+          if (cta) {
+            cta.addEventListener('click', function () {
+              if (vagas <= MIN_VAGAS) return;
+              vagas = limitar(vagas - 1);
+              gravar(vagas);
+              pintar();
+            });
+          }
+        }
+      }
+
+      /* ---- Contagem ---- */
+      var deadline = new Date(bar.dataset.deadline);
+      var cd = bar.querySelector('[data-bundle-countdown]');
+      if (!cd || isNaN(deadline.getTime())) return;
+
+      var fields = {
+        dias: cd.querySelector('[data-cd="dias"]'),
+        horas: cd.querySelector('[data-cd="horas"]'),
+        min: cd.querySelector('[data-cd="min"]'),
+        seg: cd.querySelector('[data-cd="seg"]')
+      };
+
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+      function tick() {
+        var falta = deadline.getTime() - Date.now();
+        if (falta <= 0) {
+          bar.hidden = true;
+          clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(falta / 1000);
+        fields.dias.textContent = pad(Math.floor(s / 86400));
+        fields.horas.textContent = pad(Math.floor(s % 86400 / 3600));
+        fields.min.textContent = pad(Math.floor(s % 3600 / 60));
+        fields.seg.textContent = pad(s % 60);
+      }
+
+      tick();
+      var timer = setInterval(tick, 1000);
     })();
   </script>
 
