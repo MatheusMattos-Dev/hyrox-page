@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HYROX Master Class + 250 Aulas Prontas — Daily WOD</title>
   <meta name="description"
-    content="HYROX Master Class + 250 Daily WODs prontos pra quem dá aula de treino funcional no formato HYROX. Pare de improvisar aula de última hora.">
+    content="250 treinos HYROX prontos + a base técnica por trás de cada escolha. Pra quem dá aula e pra quem vai competir: faça a primeira prova sem quebrar ou baixe o seu tempo.">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -552,6 +552,38 @@
       color: rgba(236, 231, 222, 0.72);
       max-width: 56ch;
       margin: 0 0 34px;
+    }
+
+    /* "Pra quem é" logo abaixo da promessa: os dois públicos se reconhecem
+       antes do botão, sem precisar rolar. */
+    .hero__for {
+      list-style: none;
+      margin: -12px 0 30px;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 60ch;
+    }
+
+    .hero__for li {
+      padding: 10px 14px;
+      border-left: 2px solid var(--ember);
+      background: rgba(236, 231, 222, 0.05);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: rgba(236, 231, 222, 0.78);
+    }
+
+    .hero__for b {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rope);
+      margin-bottom: 2px;
     }
 
     .hero__actions {
@@ -1869,6 +1901,72 @@
       background: #CF9C17;
     }
 
+    /* .btn é nowrap. No celular, um rótulo longo ("Quero garantir minha vaga —
+       R$35,50") alargava a coluna do pacote e o texto vazava do cartão. Botões
+       de largura cheia podem quebrar linha. */
+    @media (max-width: 560px) {
+
+      .btn--block,
+      .cta-section__actions .btn {
+        white-space: normal;
+        text-align: center;
+        justify-content: center;
+        line-height: 1.3;
+      }
+
+      /* Três botões com larguras do próprio texto ficavam desalinhados:
+         empilhados, com a mesma largura. */
+      .cta-section .cta-section__actions {
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 340px;
+        margin-inline: auto;
+        gap: 12px;
+      }
+
+      .cta-section .cta-section__actions .btn {
+        width: 100%;
+      }
+    }
+
+    /* Lista longa das 250 Aulas: no celular os 20 itens davam quase três
+       telas e empurravam o Pacote Completo pra longe. Lá, só o primeiro grupo
+       aparece e o resto abre no botão. No desktop o botão nem existe. */
+    .offer-card__more {
+      display: none;
+    }
+
+    @media (max-width: 560px) {
+      .offer-card__bullets--collapsible:not(.is-open) li:nth-child(n+7) {
+        display: none;
+      }
+
+      .offer-card__more {
+        display: block;
+        width: 100%;
+        margin: -4px 0 22px;
+        padding: 11px 14px;
+        background: transparent;
+        border: 1px dashed rgba(236, 231, 222, 0.3);
+        border-radius: 4px;
+        color: var(--paper);
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .offer-card__more::after {
+        content: " +";
+        color: var(--ember);
+      }
+
+      .offer-card__more[aria-expanded="true"]::after {
+        content: " −";
+      }
+    }
+
     @media (max-width: 900px) {
       .offer-bundle {
         grid-template-columns: 1fr;
@@ -2102,6 +2200,131 @@
       margin-top: 0;
       padding-top: 0;
       border-top: 0;
+    }
+
+    /* ---------- Checklist dos entregáveis ---------- */
+    .deliverables {
+      max-width: 820px;
+      margin: 0 auto 32px;
+    }
+
+    .deliverables__label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--graphite);
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    .deliverables__scroll {
+      overflow-x: auto;
+      border: 1px solid var(--line-on-paper);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    .deliverables__table {
+      width: 100%;
+      min-width: 340px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .deliverables__table th,
+    .deliverables__table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line-on-paper);
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .deliverables__table tbody tr:last-child th,
+    .deliverables__table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .deliverables__table thead th {
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      line-height: 1.1;
+    }
+
+    .deliverables__table thead th span {
+      display: block;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.72rem;
+      color: var(--graphite);
+      margin-top: 3px;
+    }
+
+    .deliverables__table th:first-child {
+      text-align: left;
+      padding-left: 16px;
+    }
+
+    .deliverables__table tbody th {
+      font-weight: 600;
+    }
+
+    .deliverables__table tbody th small {
+      display: block;
+      font-weight: 400;
+      font-size: 0.78rem;
+      color: var(--graphite);
+      margin-top: 2px;
+    }
+
+    .deliverables__table .is-bundle {
+      background: rgba(255, 75, 31, 0.08);
+    }
+
+    .deliverables__table thead .is-bundle,
+    .deliverables__table thead .is-bundle span {
+      color: var(--ember-dark);
+    }
+
+    .deliverables__table .icon {
+      width: 18px;
+      height: 18px;
+      color: var(--ember);
+      stroke-width: 2.2;
+    }
+
+    .deliverables__no {
+      color: rgba(23, 22, 15, 0.3);
+    }
+
+    .deliverables__opt {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--graphite);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 560px) {
+      .deliverables__table {
+        font-size: 0.82rem;
+      }
+
+      .deliverables__table th,
+      .deliverables__table td {
+        padding: 10px 6px;
+      }
+
+      .deliverables__table th:first-child {
+        padding-left: 12px;
+      }
+
+      .deliverables__table thead th {
+        font-size: 0.8rem;
+      }
     }
 
     .offer-split {
@@ -2736,6 +2959,162 @@
       margin-top: 5px;
     }
 
+    /* ---------- Conversas reais (prints) ---------- */
+    .proofs {
+      margin-top: clamp(56px, 7vw, 88px);
+      padding-top: clamp(40px, 5vw, 56px);
+      border-top: 1px solid var(--line-on-paper);
+    }
+
+    .proofs__head {
+      max-width: 560px;
+      margin: 0 auto clamp(28px, 4vw, 44px);
+      text-align: center;
+    }
+
+    .proofs__head .eyebrow {
+      justify-content: center;
+    }
+
+    .proofs__title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      line-height: 1.05;
+      margin: 0 0 10px;
+    }
+
+    .proofs__note {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--graphite);
+      margin: 0;
+    }
+
+    /* Carrossel em todas as larguras. A fração quebrada (3,3 / 2,2 / 80%)
+       deixa o próximo print sempre aparecendo na borda, pra indicar que
+       continua. O trilho sangra até a borda da tela pelo padding lateral. */
+    .proofs__grid {
+      --proof-gap: clamp(16px, 2.4vw, 28px);
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 3 * var(--proof-gap)) / 3.3);
+      gap: var(--proof-gap);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: calc(-1 * var(--pad-inline));
+      padding: 0 var(--pad-inline) 8px;
+      scroll-padding-inline: var(--pad-inline);
+    }
+
+    .proofs__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .proofs__grid:focus-visible {
+      outline: 2px solid var(--ember);
+      outline-offset: 4px;
+    }
+
+    .proof {
+      scroll-snap-align: start;
+    }
+
+    /* Linhas reservadas pra citação: as imagens começam na mesma altura mesmo
+       com frases de tamanhos diferentes. */
+    .proof blockquote {
+      font-size: 1.1rem;
+      min-height: calc(3 * 1.18em + 20px);
+    }
+
+    .proofs__nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .proofs__btn {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line-on-paper);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .proofs__btn:hover:not(:disabled) {
+      background: var(--ember);
+      border-color: var(--ember);
+      color: #fff;
+    }
+
+    .proofs__btn:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    .proofs__btn .icon {
+      width: 20px;
+      height: 20px;
+      vertical-align: 0;
+    }
+
+    @media (min-width: 561px) and (max-width: 900px) {
+      .proofs__grid {
+        grid-auto-columns: calc((100% - 2 * var(--proof-gap)) / 2.2);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .proofs__grid {
+        scroll-behavior: auto;
+      }
+    }
+
+    .proof__shot {
+      display: block;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--ink);
+      border: 1px solid var(--line-on-paper);
+      box-shadow: 0 22px 46px rgba(23, 22, 15, 0.16);
+    }
+
+    /* Os prints vêm com proporções levemente diferentes; uma proporção fixa
+       alinha o fim das imagens e as legendas. O corte, quando há, é só no pé. */
+    .proof__shot {
+      aspect-ratio: 11 / 20;
+      max-width: 100%;
+    }
+
+    .proof__shot img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    @media (max-width: 560px) {
+      .proofs__grid {
+        grid-auto-columns: 80%;
+      }
+
+      .proof blockquote {
+        font-size: 1.05rem;
+      }
+    }
+
     /* ---------- Results ---------- */
     .stats-grid {
       display: grid;
@@ -3053,6 +3432,17 @@
         order: 1;
         justify-content: center;
         margin-bottom: 30px;
+      }
+
+      /* No celular o "pra quem é" desce pra depois do botão: o eyebrow e a
+         descrição já dizem os dois públicos, e o CTA segue na primeira dobra. */
+      .hero__for {
+        order: 2;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin: 0 auto 30px;
+        width: 100%;
+        max-width: 340px;
       }
 
       /* Largura casada com a do vídeo logo abaixo, pra virar um bloco só. */
@@ -3529,7 +3919,7 @@
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a href="#oferta" class="btn btn--primary header-cta">Ver os materiais</a>
+      <a href="#oferta" class="btn btn--primary header-cta">Quero me preparar</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false"
         aria-controls="mobileDrawer">
         <svg class="icon icon--menu">
@@ -3551,7 +3941,7 @@
       <li><a href="#cases">Cases</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#oferta" class="btn btn--primary">Ver os materiais</a>
+    <a href="#oferta" class="btn btn--primary">Quero me preparar</a>
   </div>
 
   <main id="top">
@@ -3559,12 +3949,16 @@
     <section class="hero">
       <div class="container hero__grid">
         <div class="hero__content">
-          <p class="eyebrow">Para professores de treino funcional</p>
-          <h1 class="hero__heading">Pare de inventar a aula de <em>última hora.</em></h1>
-          <p class="hero__desc">250 aulas prontas + a base técnica por trás de cada escolha. Você chega, abre e
-            aplica.</p>
+          <p class="eyebrow">Treino HYROX pronto · pra professores e atletas</p>
+          <h1 class="hero__heading">Pare de improvisar o treino <em>pro HYROX.</em></h1>
+          <p class="hero__desc">250 treinos periodizados, do aquecimento ao arrefecimento, com carga e intensidade
+            definidas. Pra fazer a primeira prova sem quebrar — ou pra baixar o seu tempo.</p>
+          <ul class="hero__for">
+            <li><b>Dá aula?</b> A aula de amanhã pronta e a turma inteira evoluindo junto.</li>
+            <li><b>Vai competir?</b> Um plano pra chegar inteiro na prova — e com tempo melhor.</li>
+          </ul>
           <div class="hero__actions">
-            <a href="#oferta" class="btn btn--primary">Ver os 3 materiais</a>
+            <a href="#oferta" class="btn btn--primary">Quero me preparar pro HYROX</a>
             <a href="#feedbacks" class="hero__scroll-hint">Veja os feedbacks ↓</a>
           </div>
         </div>
@@ -3672,8 +4066,9 @@
 
     <section class="audience">
       <div class="container">
-        <p class="audience__label">Feito pra quem dá aula em:</p>
+        <p class="audience__label">Feito pra quem dá aula — e pra quem vai competir:</p>
         <div class="audience__row">
+          <span>Atleta de HYROX</span>
           <span>Crossfit Box</span>
           <span>Academia de Funcional</span>
           <span>Personal Trainer</span>
@@ -3687,10 +4082,10 @@
       <div class="container">
         <div class="section__head section__head--center" data-reveal>
           <p class="eyebrow">Os materiais</p>
-          <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Escolha o que resolve sua aula amanhã
+          <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Escolha como se preparar pro HYROX
           </h2>
-          <p class="lede" style="margin-inline:auto;">Um te dá a base técnica. O outro te dá a aula pronta. Ou leve
-            todo o material de uma vez no Pacote Completo.</p>
+          <p class="lede" style="margin-inline:auto;">Um te dá a base técnica. O outro te dá o treino pronto, dia a
+            dia. Ou leve tudo — com os bônus e o grupo de acompanhamento — no Pacote Completo.</p>
         </div>
 
         <div class="offer-grid" data-reveal>
@@ -3699,7 +4094,7 @@
               <img src="assets/images/oferta_150_pag.jpg" alt="HYROX Master Class 150 Páginas - Fundamentação técnica"
                 loading="lazy">
             </div>
-            <p class="offer-card__label">Para fundamentar sua aula</p>
+            <p class="offer-card__label">Para entender o porquê</p>
             <h3 class="offer-card__title">HYROX Master Class</h3>
             <p class="offer-card__subtitle">150 páginas · PDF digital</p>
             <div class="offer-card__price">
@@ -3741,7 +4136,7 @@
             </div>
             <p class="offer-card__label">Para aplicar amanhã</p>
             <h3 class="offer-card__title">250 Aulas Prontas</h3>
-            <p class="offer-card__subtitle">Daily WOD · acesso digital imediato</p>
+            <p class="offer-card__subtitle">Daily WOD · PDF · acesso imediato</p>
             <div class="offer-card__price">
               <span class="amount">R$ 27,00</span>
               <span class="terms">pagamento único</span>
@@ -3749,7 +4144,7 @@
             </div>
             <p class="offer-card__desc">O ano inteiro de aula já planejado — do aquecimento ao arrefecimento, linha a
               linha, com carga e intensidade definidas.</p>
-            <ul class="offer-card__bullets">
+            <ul class="offer-card__bullets offer-card__bullets--collapsible" id="bullets250">
               <li class="offer-card__group">Estrutura do ano</li>
               <li><svg class="icon">
                   <use href="#icon-check" />
@@ -3816,6 +4211,8 @@
                   <use href="#icon-check" />
                 </svg>Cálculo de velocidade de corrida a partir do seu tempo de 2 km</li>
             </ul>
+            <button type="button" class="offer-card__more" data-bullets-toggle aria-controls="bullets250"
+              aria-expanded="false">Ver tudo que vem nas aulas</button>
             <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary btn--block" target="_blank"
               rel="noopener" data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250
               Aulas — R$27</a>
@@ -3830,10 +4227,10 @@
              mexer: o JS lá embaixo lê daqui, e some com a faixa quando o prazo
              passa. Ajuste data-restantes conforme as vendas reais. -->
         <div class="offer-bundle" data-reveal>
-          <div class="offer-bundle__urgency-bar" data-bundle-urgency data-deadline="2026-09-15T23:59:59-03:00">
+          <div class="offer-bundle__urgency-bar" data-bundle-urgency data-deadline="2026-09-20T23:59:59-03:00">
             <span class="offer-bundle__urgency-badge">
               <span class="offer-bundle__pulse-dot"></span>
-              Lote de início de mês
+              Preço de lote até 20/09
             </span>
 
             <div class="bundle-countdown" data-bundle-countdown>
@@ -3854,23 +4251,29 @@
           </div>
 
           <div class="offer-bundle__copy">
-            <p class="eyebrow">Oferta Início de Mês</p>
+            <p class="eyebrow">Preço de lote · até 20/09</p>
             <h3 class="offer-bundle__title">Pacote Completo — leve todo o material</h3>
-            <p class="offer-bundle__desc">Comece o mês com tudo organizado para evoluir no HYROX sem improviso.
-              É praticamente um ano inteiro de treino, planejamento e suporte em um só lugar.</p>
+            <p class="offer-bundle__desc">Tudo pra preparar sua turma — ou você mesmo — pro HYROX: o ano inteiro de
+              treino, a base técnica, dois bônus e o grupo de acompanhamento. Depois de 20/09 o valor pode
+              aumentar.</p>
             <ul class="offer-bundle__bullets">
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Mais de 250 aulas estruturadas, prontas para aplicar</li>
+                </svg><span><strong>250 Aulas Prontas</strong> — o ano inteiro periodizado, em PDF</span></li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Materiais completos de metodologia e programação</li>
+                </svg><span><strong>HYROX Master Class</strong> — 150 páginas de base técnica, em PDF</span></li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Conteúdos para coaches</li>
+                </svg><span><strong>Bônus: Manual do Coach</strong> — 5 testes em 10 minutos e as 12
+                  correções</span></li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg>Possibilidade de acompanhamento para ajudar nos ajustes ao longo da evolução</li>
+                </svg><span><strong>Bônus: Plano de 12 Semanas</strong> — periodização focada na prova</span></li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg><span><strong>Grupo de acompanhamento no WhatsApp</strong> — mentorias e tira-dúvidas</span>
+              </li>
             </ul>
 
             <div class="bundle-stack">
@@ -3906,14 +4309,78 @@
               <span class="terms">pagamento único</span>
               <span class="per">≈ R$ 0,14 por aula</span>
             </div>
-            <p class="offer-bundle__extra">E ainda entram <strong>conteúdos para coaches</strong>,
-              <strong>metodologia e programação</strong> e a possibilidade de <strong>acompanhamento</strong>.</p>
+            <p class="offer-bundle__extra">Os <strong>4 materiais</strong> chegam no seu e-mail logo após o
+              pagamento, e o <strong>grupo no WhatsApp</strong> tem entrada imediata. Preço de lote válido
+              <strong>até 20/09</strong>.</p>
             <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--bundle btn--block" target="_blank"
               rel="noopener" data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo"
-              data-price="35.50">Quero tudo — R$35,50</a>
+              data-price="35.50">Quero garantir minha vaga — R$35,50</a>
             <p class="trust-line"><svg class="icon">
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
+          </div>
+        </div>
+
+        <!-- Checklist dos entregáveis: responde "o que eu recebo, em que formato
+             e quando" antes do cartão. Os bônus avulsos aparecem como "à parte"
+             porque são oferecidos no checkout de cada produto. -->
+        <div class="deliverables" data-reveal>
+          <p class="deliverables__label">O que vem em cada opção</p>
+          <div class="deliverables__scroll">
+            <table class="deliverables__table">
+              <thead>
+                <tr>
+                  <th scope="col">O que você recebe</th>
+                  <th scope="col">Master Class<span>R$10</span></th>
+                  <th scope="col">250 Aulas<span>R$27</span></th>
+                  <th scope="col" class="is-bundle">Pacote<span>R$35,50</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">HYROX Master Class<small>150 páginas de base técnica · PDF</small></th>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td><span class="deliverables__no" aria-label="Não incluso">—</span></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">250 Aulas Prontas<small>o ano inteiro periodizado, 3 níveis · PDF</small></th>
+                  <td><span class="deliverables__no" aria-label="Não incluso">—</span></td>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Manual do Coach<small>5 testes em 10 min e 12 correções · PDF</small></th>
+                  <td><span class="deliverables__opt">à parte</span></td>
+                  <td><span class="deliverables__opt">à parte</span></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Plano de 12 Semanas<small>periodização focada na prova · PDF</small></th>
+                  <td><span class="deliverables__opt">à parte</span></td>
+                  <td><span class="deliverables__opt">à parte</span></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Grupo de acompanhamento<small>mentorias e dúvidas no WhatsApp</small></th>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Entrega imediata<small>no e-mail, logo após o pagamento</small></th>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Garantia de 7 dias<small>devolução sem perguntas</small></th>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                  <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -4011,6 +4478,73 @@
             <span class="fb-sound__label">Ativar som</span>
           </button>
         </div>
+
+        <!-- Prova social em print: conversas reais de quem comprou. Os
+             telefones de terceiros no print do grupo foram cobertos na imagem
+             (LGPD) — nunca publicar o arquivo original depoimento3.jpeg. -->
+        <div class="proofs" data-reveal>
+          <div class="proofs__head">
+            <p class="eyebrow">Conversas reais</p>
+            <h3 class="proofs__title">O que chegou no direct e no grupo</h3>
+            <p class="proofs__note">Prints reais de quem comprou · só cobrimos os telefones</p>
+          </div>
+          <div class="proofs__grid" data-proofs-track tabindex="0" role="region"
+            aria-label="Prints de conversas reais — role para o lado">
+            <figure class="quote-card proof">
+              <blockquote>"A melhora no meu condicionamento, tanto pra musculação quanto pra corrida, foi surreal."
+              </blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-leonardo.jpg" width="570" height="1080"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: Leonardo, professor, diz que gostou muito das 250 aulas, que ajudou no conhecimento sobre treino híbrido e que a melhora no condicionamento pra musculação e corrida foi surreal. Diz ainda que vai passar ideias pros alunos."></span>
+              <figcaption>
+                <span class="quote-card__name">Leonardo P.</span>
+                <span class="quote-card__meta">Professor · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Muito prático e de fácil montagem de treino. Fácil pros alunos compreenderem."</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-laes.jpg" width="621" height="1115"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: Laes Douglas responde que adorou o conteúdo, que é muito prático e de fácil montagem de treino, fácil para os alunos compreenderem, e que agora é voar."></span>
+              <figcaption>
+                <span class="quote-card__name">Laes Douglas</span>
+                <span class="quote-card__meta">Professor · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Muito bom!!!"</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-rodrigo.jpg" width="621" height="1120"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: depois de receber o material, Rodrigo, personal trainer, responde 'Muito bom!!!'."></span>
+              <figcaption>
+                <span class="quote-card__name">Rodrigo S.</span>
+                <span class="quote-card__meta">Personal · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Comprei... muito top!"</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-grupo.jpg" width="590" height="1070"
+                  loading="lazy"
+                  alt="Print do grupo de alunos no WhatsApp: Saulo Santos escreve 'Comprei... mto toop!' e recebe a resposta 'Fico feliz que tenha gostado'."></span>
+              <figcaption>
+                <span class="quote-card__name">Saulo Santos</span>
+                <span class="quote-card__meta">Aluno · Grupo no WhatsApp</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="proofs__nav" data-proofs-nav>
+            <button type="button" class="proofs__btn" data-proofs-prev aria-label="Print anterior">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" />
+              </svg>
+            </button>
+            <button type="button" class="proofs__btn" data-proofs-next aria-label="Próximo print">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -4019,7 +4553,7 @@
         <div class="cta-strip" data-reveal>
           <div class="cta-strip__copy">
             <p class="eyebrow">Os materiais</p>
-            <h2 class="cta-strip__title">É esse resultado que você quer na sua turma?</h2>
+            <h2 class="cta-strip__title">É esse resultado que você quer pra sua turma — ou pra sua prova?</h2>
           </div>
           <div class="cta-strip__actions">
             <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
@@ -4398,7 +4932,7 @@
         <div class="cta-strip" data-reveal>
           <div class="cta-strip__copy">
             <p class="eyebrow">Próximo passo</p>
-            <h2 class="cta-strip__title">Sua próxima aula pode já estar pronta</h2>
+            <h2 class="cta-strip__title">Seu próximo treino pode já estar pronto</h2>
           </div>
           <div class="cta-strip__actions">
             <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
@@ -4592,11 +5126,20 @@
               definido — funciona mesmo se você nunca competiu.</p>
           </details>
           <details class="faq-item">
+            <summary>Não dou aula, vou competir. Serve pra mim?<span class="faq-item__toggle"><svg class="icon">
+                  <use href="#icon-plus" />
+                </svg></span></summary>
+            <p>Serve. Cada aula é um treino de 60 minutos com três níveis (base, padrão e avançado) e o equipamento
+              declarado no cabeçalho — é só escolher o seu nível e seguir. Pra quem tem prova marcada, o Pacote
+              Completo ainda traz o Plano de 12 Semanas, focado em chegar na prova sem quebrar.</p>
+          </details>
+          <details class="faq-item">
             <summary>Como recebo a Master Class e as Aulas depois de comprar?<span class="faq-item__toggle"><svg
                   class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Acesso digital imediato após a confirmação do pagamento, direto no e-mail cadastrado no checkout.</p>
+            <p>Acesso digital imediato após a confirmação do pagamento: os PDFs chegam direto no e-mail cadastrado no
+              checkout. O grupo de acompanhamento no WhatsApp tem entrada imediata pelo link da página.</p>
           </details>
           <details class="faq-item">
             <summary>Preciso comprar os dois produtos juntos?<span class="faq-item__toggle"><svg class="icon">
@@ -4628,20 +5171,23 @@
       <div class="container">
         <div class="section__head section__head--center" data-reveal>
           <p class="eyebrow">Próximo passo</p>
-          <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Sua aula de amanhã pode já estar pronta
+          <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Comece a se preparar pro HYROX hoje
           </h2>
-          <p class="lede">Preço de lançamento — pode subir a qualquer momento. Escolha o material e comece a aplicar
-            ainda essa semana.</p>
+          <p class="lede">Preço de lote válido até 20/09 — depois dessa data o valor pode aumentar. Escolha o
+            material e comece a aplicar ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary" target="_blank" rel="noopener"
+          <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--primary" target="_blank" rel="noopener"
+            data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="35.50">Quero
+            garantir o Pacote — R$35,50</a>
+          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost-light" target="_blank" rel="noopener"
             data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
             Master Class — R$10</a>
           <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost-light" target="_blank" rel="noopener"
             data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero
             as 250 Aulas — R$27</a>
         </div>
-        <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer um dos dois materiais.</p>
+        <p class="cta-section__note" data-reveal>Garantia incondicional de 7 dias em qualquer uma das opções.</p>
       </div>
     </section>
 
@@ -4681,7 +5227,7 @@
               </svg></span>
             <span class="brand__word"><strong>HYROX</strong><span>DAILY WOD</span></span>
           </a>
-          <p>HYROX Master Class e 250 Aulas Prontas pra quem dá aula de treino funcional no formato HYROX.</p>
+          <p>HYROX Master Class e 250 Aulas Prontas pra quem dá aula no formato HYROX — e pra quem vai competir.</p>
         </div>
         <nav class="footer__nav">
           <ul>
@@ -5321,6 +5867,62 @@
       tick();
       var timer = setInterval(tick, 1000);
     })();
+
+    /* ---- Carrossel de prints ----
+       As setas andam um cartão por vez (a distância entre o 1º e o 2º, que já
+       inclui o gap) e apagam nas pontas. No toque, o scroll-snap faz o resto. */
+    (function () {
+      var track = document.querySelector('[data-proofs-track]');
+      var nav = document.querySelector('[data-proofs-nav]');
+      if (!track || !nav) return;
+      var prev = nav.querySelector('[data-proofs-prev]');
+      var next = nav.querySelector('[data-proofs-next]');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function step() {
+        var items = track.children;
+        return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : track.clientWidth;
+      }
+
+      function update() {
+        var max = track.scrollWidth - track.clientWidth;
+        nav.hidden = max <= 2;
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= max - 2;
+      }
+
+      /* O evento de scroll só sai no próximo quadro de pintura; o timer garante
+         que as setas reflitam o fim da rolagem mesmo se esse quadro atrasar. */
+      function go(dir) {
+        track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
+        setTimeout(update, reduce ? 50 : 450);
+      }
+
+      prev.addEventListener('click', function () { go(-1); });
+      next.addEventListener('click', function () { go(1); });
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      });
+
+      /* update() só lê três números, então roda direto no scroll: adiado pro
+         próximo quadro, o estado das setas ficava um clique atrasado. */
+      track.addEventListener('scroll', update, { passive: true });
+      track.addEventListener('scrollend', update);
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    /* ---- Lista das 250 Aulas no celular ---- */
+    document.querySelectorAll('[data-bullets-toggle]').forEach(function (btn) {
+      var list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return;
+      btn.addEventListener('click', function () {
+        var open = list.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Mostrar menos' : 'Ver tudo que vem nas aulas';
+      });
+    });
   </script>
 
 </body>
