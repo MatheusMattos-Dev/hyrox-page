@@ -1,2 +1,9 @@
 # Arquivo de outro projeto, mora nesta pasta mas nao pertence a este repo.
 oferta_inicio_de_mes.html
+
+# Videos originais do celular: pesados demais pro GitHub (limite de 100 MB).
+# A pagina usa as versoes comprimidas.
+IMG_*.MP4
+IMG_*.mp4
+*.MOV
+*.mov
