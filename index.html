@@ -1469,6 +1469,17 @@
       color: rgba(236, 231, 222, 0.55);
     }
 
+    /* Com o botão "Garantir minha vaga", mais largo, o preço quebrava em
+       "R$" / "35,50". O complemento some quando vazio (no Pacote). */
+    .buybar__price > span,
+    .buybar__price em {
+      white-space: nowrap;
+    }
+
+    .buybar__price em:empty {
+      display: none;
+    }
+
     .buybar__btn {
       flex-shrink: 0;
       padding: 14px 22px;
@@ -2960,10 +2971,9 @@
     }
 
     /* ---------- Conversas reais (prints) ---------- */
-    .proofs {
-      margin-top: clamp(56px, 7vw, 88px);
-      padding-top: clamp(40px, 5vw, 56px);
-      border-top: 1px solid var(--line-on-paper);
+    /* Seção própria logo depois do topo: a prova social vem antes do preço. */
+    #depoimentos {
+      padding-block: clamp(56px, 7vw, 96px);
     }
 
     .proofs__head {
@@ -3038,35 +3048,64 @@
       margin-top: 22px;
     }
 
-    .proofs__btn {
-      width: 46px;
-      height: 46px;
+    /* display:flex acima venceria o [hidden] do navegador. */
+    .proofs__nav[hidden] {
+      display: none;
+    }
+
+    .proofs__nav {
+      align-items: center;
+    }
+
+    /* Uma bolinha por print: mostra quantos são e em qual você está. */
+    .proofs__dots {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-inline: 6px;
+    }
+
+    .proofs__dot {
+      width: 28px;
+      height: 28px;
       display: grid;
       place-items: center;
       padding: 0;
-      border-radius: 50%;
-      border: 1px solid var(--line-on-paper);
+      border: 0;
       background: transparent;
-      color: var(--ink);
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
     }
 
-    .proofs__btn:hover:not(:disabled) {
+    .proofs__dot::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(23, 22, 15, 0.22);
+      transition: width 0.25s ease, background 0.25s ease;
+    }
+
+    .proofs__dot[aria-current="true"]::before {
+      width: 22px;
       background: var(--ember);
-      border-color: var(--ember);
-      color: #fff;
     }
 
-    .proofs__btn:disabled {
-      opacity: 0.35;
-      cursor: default;
+    @keyframes proofs-nudge {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(6px);
+      }
     }
 
-    .proofs__btn .icon {
-      width: 20px;
-      height: 20px;
-      vertical-align: 0;
+    @media (prefers-reduced-motion: reduce) {
+      .proofs__swipe span {
+        animation: none;
+      }
     }
 
     @media (min-width: 561px) and (max-width: 900px) {
@@ -3105,13 +3144,49 @@
       object-position: top;
     }
 
+    /* Celular: um print por vez, estreito o bastante pra caber inteiro entre
+       o header e a barra de compra, com o próximo bem à mostra na borda. O
+       aviso "arraste" e as bolinhas deixam claro que é um carrossel. */
+    .proofs__swipe {
+      display: none;
+    }
+
     @media (max-width: 560px) {
       .proofs__grid {
-        grid-auto-columns: 80%;
+        grid-auto-columns: 74%;
+        gap: 14px;
+      }
+
+      .proof {
+        gap: 12px;
       }
 
       .proof blockquote {
-        font-size: 1.05rem;
+        min-height: calc(3 * 1.18em + 16px);
+        padding-top: 16px;
+        font-size: 1rem;
+      }
+
+      .proofs__swipe {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 14px 0 0;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ember);
+      }
+
+      .proofs__swipe span {
+        display: inline-block;
+        animation: proofs-nudge 1.6s ease-in-out infinite;
+      }
+
+      .proofs__nav {
+        margin-top: 16px;
       }
     }
 
@@ -3959,7 +4034,7 @@
           </ul>
           <div class="hero__actions">
             <a href="#oferta" class="btn btn--primary">Quero me preparar pro HYROX</a>
-            <a href="#feedbacks" class="hero__scroll-hint">Veja os feedbacks ↓</a>
+            <a href="#depoimentos" class="hero__scroll-hint">Veja os depoimentos ↓</a>
           </div>
         </div>
         <div class="hero__visual">
@@ -4074,6 +4149,69 @@
           <span>Personal Trainer</span>
           <span>Studio de Treino</span>
           <span>Preparação Física</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="depoimentos">
+      <div class="container">
+        <!-- Prova social em print: conversas reais de quem comprou. Os
+             telefones de terceiros no print do grupo foram cobertos na imagem
+             (LGPD) — nunca publicar o arquivo original depoimento3.jpeg. -->
+        <div class="proofs" data-reveal>
+          <div class="proofs__head">
+            <p class="eyebrow">Conversas reais</p>
+            <h3 class="proofs__title">O que chegou no direct e no grupo</h3>
+            <p class="proofs__note">Prints reais de quem comprou · só cobrimos os telefones</p>
+            <p class="proofs__swipe" aria-hidden="true">Arraste pro lado <span>→</span></p>
+          </div>
+          <div class="proofs__grid" data-proofs-track tabindex="0" role="region"
+            aria-label="Prints de conversas reais — role para o lado">
+            <figure class="quote-card proof">
+              <blockquote>"A melhora no meu condicionamento, tanto pra musculação quanto pra corrida, foi surreal."
+              </blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-leonardo.jpg" width="570" height="1080"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: Leonardo, professor, diz que gostou muito das 250 aulas, que ajudou no conhecimento sobre treino híbrido e que a melhora no condicionamento pra musculação e corrida foi surreal. Diz ainda que vai passar ideias pros alunos."></span>
+              <figcaption>
+                <span class="quote-card__name">Leonardo P.</span>
+                <span class="quote-card__meta">Professor · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Muito prático e de fácil montagem de treino. Fácil pros alunos compreenderem."</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-laes.jpg" width="621" height="1115"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: Laes Douglas responde que adorou o conteúdo, que é muito prático e de fácil montagem de treino, fácil para os alunos compreenderem, e que agora é voar."></span>
+              <figcaption>
+                <span class="quote-card__name">Laes Douglas</span>
+                <span class="quote-card__meta">Professor · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Muito bom!!!"</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-rodrigo.jpg" width="621" height="1120"
+                  loading="lazy"
+                  alt="Print do direct do Instagram: depois de receber o material, Rodrigo, personal trainer, responde 'Muito bom!!!'."></span>
+              <figcaption>
+                <span class="quote-card__name">Rodrigo S.</span>
+                <span class="quote-card__meta">Personal · Direct do Instagram</span>
+              </figcaption>
+            </figure>
+            <figure class="quote-card proof">
+              <blockquote>"Comprei... muito top!"</blockquote>
+              <span class="proof__shot"><img src="assets/images/prova-grupo.jpg" width="590" height="1070"
+                  loading="lazy"
+                  alt="Print do grupo de alunos no WhatsApp: Saulo Santos escreve 'Comprei... mto toop!' e recebe a resposta 'Fico feliz que tenha gostado'."></span>
+              <figcaption>
+                <span class="quote-card__name">Saulo Santos</span>
+                <span class="quote-card__meta">Aluno · Grupo no WhatsApp</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="proofs__nav" data-proofs-nav>
+            <div class="proofs__dots" data-proofs-dots></div>
+          </div>
         </div>
       </div>
     </section>
@@ -4477,73 +4615,6 @@
             </svg>
             <span class="fb-sound__label">Ativar som</span>
           </button>
-        </div>
-
-        <!-- Prova social em print: conversas reais de quem comprou. Os
-             telefones de terceiros no print do grupo foram cobertos na imagem
-             (LGPD) — nunca publicar o arquivo original depoimento3.jpeg. -->
-        <div class="proofs" data-reveal>
-          <div class="proofs__head">
-            <p class="eyebrow">Conversas reais</p>
-            <h3 class="proofs__title">O que chegou no direct e no grupo</h3>
-            <p class="proofs__note">Prints reais de quem comprou · só cobrimos os telefones</p>
-          </div>
-          <div class="proofs__grid" data-proofs-track tabindex="0" role="region"
-            aria-label="Prints de conversas reais — role para o lado">
-            <figure class="quote-card proof">
-              <blockquote>"A melhora no meu condicionamento, tanto pra musculação quanto pra corrida, foi surreal."
-              </blockquote>
-              <span class="proof__shot"><img src="assets/images/prova-leonardo.jpg" width="570" height="1080"
-                  loading="lazy"
-                  alt="Print do direct do Instagram: Leonardo, professor, diz que gostou muito das 250 aulas, que ajudou no conhecimento sobre treino híbrido e que a melhora no condicionamento pra musculação e corrida foi surreal. Diz ainda que vai passar ideias pros alunos."></span>
-              <figcaption>
-                <span class="quote-card__name">Leonardo P.</span>
-                <span class="quote-card__meta">Professor · Direct do Instagram</span>
-              </figcaption>
-            </figure>
-            <figure class="quote-card proof">
-              <blockquote>"Muito prático e de fácil montagem de treino. Fácil pros alunos compreenderem."</blockquote>
-              <span class="proof__shot"><img src="assets/images/prova-laes.jpg" width="621" height="1115"
-                  loading="lazy"
-                  alt="Print do direct do Instagram: Laes Douglas responde que adorou o conteúdo, que é muito prático e de fácil montagem de treino, fácil para os alunos compreenderem, e que agora é voar."></span>
-              <figcaption>
-                <span class="quote-card__name">Laes Douglas</span>
-                <span class="quote-card__meta">Professor · Direct do Instagram</span>
-              </figcaption>
-            </figure>
-            <figure class="quote-card proof">
-              <blockquote>"Muito bom!!!"</blockquote>
-              <span class="proof__shot"><img src="assets/images/prova-rodrigo.jpg" width="621" height="1120"
-                  loading="lazy"
-                  alt="Print do direct do Instagram: depois de receber o material, Rodrigo, personal trainer, responde 'Muito bom!!!'."></span>
-              <figcaption>
-                <span class="quote-card__name">Rodrigo S.</span>
-                <span class="quote-card__meta">Personal · Direct do Instagram</span>
-              </figcaption>
-            </figure>
-            <figure class="quote-card proof">
-              <blockquote>"Comprei... muito top!"</blockquote>
-              <span class="proof__shot"><img src="assets/images/prova-grupo.jpg" width="590" height="1070"
-                  loading="lazy"
-                  alt="Print do grupo de alunos no WhatsApp: Saulo Santos escreve 'Comprei... mto toop!' e recebe a resposta 'Fico feliz que tenha gostado'."></span>
-              <figcaption>
-                <span class="quote-card__name">Saulo Santos</span>
-                <span class="quote-card__meta">Aluno · Grupo no WhatsApp</span>
-              </figcaption>
-            </figure>
-          </div>
-          <div class="proofs__nav" data-proofs-nav>
-            <button type="button" class="proofs__btn" data-proofs-prev aria-label="Print anterior">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 5l-7 7 7 7" />
-              </svg>
-            </button>
-            <button type="button" class="proofs__btn" data-proofs-next aria-label="Próximo print">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -5260,14 +5331,20 @@
     </div>
   </footer>
 
-  <!-- Barra de compra fixa: só aparece no celular, onde o botão do header some. -->
-  <div class="buybar" id="buyBar">
+  <!-- Barra de compra fixa: só aparece no celular, onde o botão do header some.
+       Oferece o Pacote enquanto o lote vale; passado o data-deadline da faixa
+       de urgência, o JS troca pras 250 Aulas (dados em data-fallback-*). -->
+  <div class="buybar" id="buyBar" data-fallback-name="250 Aulas Prontas"
+    data-fallback-price="R$ 27,00" data-fallback-per="≈ R$ 0,11/aula"
+    data-fallback-href="https://pay.wiapy.com/CdXaK3TtIhXw" data-fallback-checkout="250 Aulas Prontas"
+    data-fallback-sku="250-aulas" data-fallback-value="27.00" data-fallback-label="Quero as aulas">
     <div class="buybar__info">
-      <span class="buybar__name">250 Aulas Prontas</span>
-      <span class="buybar__price">R$ 27,00 <em>≈ R$ 0,11/aula</em></span>
+      <span class="buybar__name" data-buybar-name>Pacote · até 20/09</span>
+      <span class="buybar__price"><span data-buybar-price>R$ 35,50</span> <em data-buybar-per></em></span>
     </div>
-    <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
-      data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as aulas</a>
+    <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
+      data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="35.50"
+      data-buybar-btn>Garantir minha vaga</a>
   </div>
 
   <!-- Upsell disparado quando o visitante clica na oferta de R$10 -->
@@ -5869,48 +5946,107 @@
     })();
 
     /* ---- Carrossel de prints ----
-       As setas andam um cartão por vez (a distância entre o 1º e o 2º, que já
-       inclui o gap) e apagam nas pontas. No toque, o scroll-snap faz o resto. */
+       Trabalha com "paradas": as posições de rolagem onde o carrossel pode
+       de fato parar (no celular, uma por print; no desktop, com ~3 visíveis,
+       bem menos). As bolinhas (e as setas do teclado) levam direto a uma
+       parada com scrollTo, que convive melhor com o scroll-snap do celular do
+       que rolar uma distância. Enquanto uma rolagem suave anda, "pending"
+       guarda o destino, pra dois toques rápidos não mirarem a mesma parada. */
     (function () {
       var track = document.querySelector('[data-proofs-track]');
       var nav = document.querySelector('[data-proofs-nav]');
       if (!track || !nav) return;
-      var prev = nav.querySelector('[data-proofs-prev]');
-      var next = nav.querySelector('[data-proofs-next]');
+      var dotsWrap = nav.querySelector('[data-proofs-dots]');
+      var items = Array.prototype.slice.call(track.children);
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var stops = [];
+      var dots = [];
+      var pending = null;
+      var pendingTimer = 0;
 
-      function step() {
-        var items = track.children;
-        return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : track.clientWidth;
+      function maxScroll() {
+        return track.scrollWidth - track.clientWidth;
+      }
+
+      function nearest() {
+        var x = track.scrollLeft, best = 0, dist = Infinity;
+        stops.forEach(function (p, i) {
+          var d = Math.abs(p - x);
+          if (d < dist) { dist = d; best = i; }
+        });
+        return best;
+      }
+
+      function current() {
+        return pending !== null ? pending : nearest();
       }
 
       function update() {
-        var max = track.scrollWidth - track.clientWidth;
+        var i = current();
+        dots.forEach(function (dot, k) {
+          dot.setAttribute('aria-current', k === i ? 'true' : 'false');
+        });
+      }
+
+      function settle() {
+        pending = null;
+        update();
+      }
+
+      function goTo(i) {
+        i = Math.max(0, Math.min(i, stops.length - 1));
+        pending = i;
+        track.scrollTo({ left: stops[i], behavior: reduce ? 'auto' : 'smooth' });
+        update();
+        clearTimeout(pendingTimer);
+        pendingTimer = setTimeout(settle, reduce ? 50 : 600);
+      }
+
+      function build() {
+        var max = maxScroll();
+        stops = [];
+        items.forEach(function (item) {
+          var p = Math.min(item.offsetLeft - items[0].offsetLeft, max);
+          if (!stops.length || p - stops[stops.length - 1] > 2) stops.push(p);
+        });
+
+        dotsWrap.innerHTML = '';
+        dots = stops.map(function (p, i) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'proofs__dot';
+          dot.setAttribute('aria-label', 'Ir para a posição ' + (i + 1) + ' de ' + stops.length);
+          dot.addEventListener('click', function () { goTo(i); });
+          dotsWrap.appendChild(dot);
+          return dot;
+        });
+
         nav.hidden = max <= 2;
-        prev.disabled = track.scrollLeft <= 2;
-        next.disabled = track.scrollLeft >= max - 2;
+        update();
       }
 
-      /* O evento de scroll só sai no próximo quadro de pintura; o timer garante
-         que as setas reflitam o fim da rolagem mesmo se esse quadro atrasar. */
-      function go(dir) {
-        track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
-        setTimeout(update, reduce ? 50 : 450);
-      }
-
-      prev.addEventListener('click', function () { go(-1); });
-      next.addEventListener('click', function () { go(1); });
       track.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current() - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current() + 1); }
       });
 
-      /* update() só lê três números, então roda direto no scroll: adiado pro
-         próximo quadro, o estado das setas ficava um clique atrasado. */
-      track.addEventListener('scroll', update, { passive: true });
-      track.addEventListener('scrollend', update);
-      window.addEventListener('resize', update);
-      update();
+      /* No arrasto com o dedo não há destino pendente: o índice sai da
+         posição real. scrollend (onde existe) fecha a rolagem suave antes do
+         timer. */
+      track.addEventListener('scroll', function () {
+        if (pending === null) update();
+      }, { passive: true });
+      track.addEventListener('scrollend', settle);
+      track.addEventListener('touchstart', function () {
+        pending = null;
+      }, { passive: true });
+
+      var resizeTimer = 0;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(build, 150);
+      });
+      build();
     })();
 
     /* ---- Lista das 250 Aulas no celular ---- */
@@ -5923,6 +6059,39 @@
         btn.textContent = open ? 'Mostrar menos' : 'Ver tudo que vem nas aulas';
       });
     });
+
+    /* ---- Barra fixa: Pacote até o fim do lote, depois 250 Aulas ----
+       O prazo vem do mesmo data-deadline da faixa de urgência, pra existir
+       uma data só. Checa no carregamento e a cada minuto, pra quem deixa a
+       página aberta virando o prazo. */
+    (function () {
+      var bar = document.getElementById('buyBar');
+      var urgency = document.querySelector('[data-bundle-urgency]');
+      if (!bar || !urgency) return;
+      var deadline = new Date(urgency.dataset.deadline).getTime();
+      if (isNaN(deadline)) return;
+
+      function fallback() {
+        if (Date.now() <= deadline) return false;
+        var d = bar.dataset;
+        var btn = bar.querySelector('[data-buybar-btn]');
+        bar.querySelector('[data-buybar-name]').textContent = d.fallbackName;
+        bar.querySelector('[data-buybar-price]').textContent = d.fallbackPrice;
+        bar.querySelector('[data-buybar-per]').textContent = d.fallbackPer;
+        btn.href = d.fallbackHref;
+        btn.dataset.checkout = d.fallbackCheckout;
+        btn.dataset.sku = d.fallbackSku;
+        btn.dataset.price = d.fallbackValue;
+        btn.textContent = d.fallbackLabel;
+        return true;
+      }
+
+      if (!fallback()) {
+        var timer = setInterval(function () {
+          if (fallback()) clearInterval(timer);
+        }, 60000);
+      }
+    })();
   </script>
 
 </body>
