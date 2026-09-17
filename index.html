@@ -605,6 +605,9 @@
       position: relative;
       border-radius: 8px;
       overflow: hidden;
+      /* Sem poster, o espaço do vídeo fica com a cor do próprio site até o
+         primeiro frame chegar — não com um buraco claro. */
+      background: var(--ink);
       border: 1px solid rgba(255, 75, 31, 0.35);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 75, 31, 0.2);
     }
@@ -4040,7 +4043,7 @@
         </div>
         <div class="hero__visual">
           <span class="hero__tag"><span class="hero__tag-dot"></span>Cena real de aula</span>
-          <video class="hero__video" autoplay loop muted playsinline poster="assets/images/colt-training.webp">
+          <video class="hero__video" autoplay loop muted playsinline preload="auto">
             <source src="assets/images/thirdspacelondon_pindown.io_1785350008.mp4" type="video/mp4">
             Seu navegador não suporta a exibição deste vídeo.
           </video>
@@ -5057,8 +5060,7 @@
               <div class="lesson-card__row"><span class="lesson-card__tag">AULA #142</span><span
                   class="lesson-card__level">NÍVEL 2</span></div>
               <span class="lesson-card__live">Aula rodando</span>
-              <video class="lesson-card__video" loop muted playsinline preload="none"
-                poster="assets/images/colt-training.webp">
+              <video class="lesson-card__video" loop muted playsinline preload="none">
                 <source src="assets/images/video_1.mp4" type="video/mp4">
                 Seu navegador não suporta a exibição deste vídeo.
               </video>
@@ -5098,8 +5100,7 @@
               <div class="lesson-card__row"><span class="lesson-card__tag">AULA #219</span><span
                   class="lesson-card__level">NÍVEL 3</span></div>
               <span class="lesson-card__live">Aula rodando</span>
-              <video class="lesson-card__video" loop muted playsinline preload="none"
-                poster="assets/images/colt-training.webp">
+              <video class="lesson-card__video" loop muted playsinline preload="none">
                 <source src="assets/images/video2.mp4" type="video/mp4">
                 Seu navegador não suporta a exibição deste vídeo.
               </video>
@@ -5139,8 +5140,7 @@
               <div class="lesson-card__row"><span class="lesson-card__tag">AULA #063</span><span
                   class="lesson-card__level">NÍVEL 1</span></div>
               <span class="lesson-card__live">Aula rodando</span>
-              <video class="lesson-card__video" loop muted playsinline preload="none"
-                poster="assets/images/colt-training.webp">
+              <video class="lesson-card__video" loop muted playsinline preload="none">
                 <source src="assets/images/video3.mp4" type="video/mp4">
                 Seu navegador não suporta a exibição deste vídeo.
               </video>
@@ -5421,6 +5421,57 @@
         revealEls.forEach(function (el) { el.classList.add('is-visible'); });
       }
 
+      /* Manda o browser começar a baixar um vídeo que entrou com preload="none".
+         O load() só entra quando o elemento ainda não tem nada (readyState 0):
+         chamado num vídeo que já tem dados, ele zeraria o que foi baixado e
+         abortaria um play em andamento. */
+      var warmVideo = function (v) {
+        if (!v || v.dataset.loaded || v.preload !== 'none') return;
+        v.dataset.loaded = '1';
+        if (v.readyState > 0) return;
+        v.preload = 'auto';
+        v.load();
+      };
+
+      /* Um play() disparado antes do vídeo ter dados — o caso de todo vídeo com
+         preload="none" numa conexão de celular — é rejeitado pelo browser. O
+         código antigo engolia essa rejeição num catch vazio, e o resultado era
+         o vídeo parado no primeiro frame (ou no poster) pra sempre. Aqui a
+         rejeição agenda uma segunda tentativa pro instante em que o vídeo avisa
+         que já tem dados suficientes, que é o que faz ele sair rodando sozinho. */
+      var startVideo = function (v, onFail) {
+        if (!v) return;
+        warmVideo(v);
+        var retry = function () {
+          if (v.dataset.waiting) return;
+          v.dataset.waiting = '1';
+          v.addEventListener('canplay', function again() {
+            v.removeEventListener('canplay', again);
+            delete v.dataset.waiting;
+            var r = v.play();
+            if (r && r.catch) r.catch(function () { if (onFail) onFail(); });
+          });
+        };
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function () {
+            if (onFail) onFail();
+            retry();
+          });
+        }
+      };
+
+      /* O hero tem autoplay no HTML, mas o browser pode recusar (modo de baixo
+         consumo do iOS, economia de dados) e aí a cena de aula vira um retângulo
+         escuro parado. Como não há botão de play ali, o JS tenta de novo. */
+      var heroVideo = document.querySelector('.hero__video');
+      if (heroVideo) {
+        if (heroVideo.paused) startVideo(heroVideo);
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden && heroVideo.paused) startVideo(heroVideo);
+        });
+      }
+
       /* Vídeos com som (Feedbacks e apresentação do treinador): entram mudos
          (única forma de autoplay funcionar no celular) e o botão devolve o som
          pra quem quiser ouvir. Ao sair da tela, voltam a ficar mudos e pausados
@@ -5448,8 +5499,7 @@
         syncPaused();
 
         var tryPlay = function () {
-          var p = fbVideo.play();
-          if (p && p.catch) p.catch(function () { syncPaused(); });
+          startVideo(fbVideo, syncPaused);
         };
 
         fbSound.addEventListener('click', function () {
@@ -5458,8 +5508,7 @@
           if (turningOn) {
             /* Voltar ao início: com som, o depoimento vale desde a primeira fala. */
             fbVideo.currentTime = 0;
-            var p = fbVideo.play();
-            if (p && p.catch) p.catch(function () { setSound(false); syncPaused(); });
+            startVideo(fbVideo, function () { setSound(false); syncPaused(); });
           }
         });
 
@@ -5499,26 +5548,30 @@
         var lessonIo = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             var v = entry.target;
-            if (entry.isIntersecting) {
-              /* preload="none" significa que nem os metadados vieram: o load()
-                 é o que dispara o download antes do play. */
-              if (!v.dataset.loaded) { v.load(); v.dataset.loaded = '1'; }
-              var p = v.play();
-              if (p && p.catch) p.catch(function () { });
-            } else {
-              v.pause();
-            }
+            if (entry.isIntersecting) startVideo(v); else v.pause();
           });
         }, { threshold: 0.25 });
         Array.prototype.forEach.call(lessonVideos, function (v) { lessonIo.observe(v); });
       } else {
         /* Sem IntersectionObserver (browser antigo), volta ao comportamento
            anterior pra não deixar card com frame preto parado. */
-        Array.prototype.forEach.call(lessonVideos, function (v) {
-          v.setAttribute('preload', 'metadata');
-          var p = v.play();
-          if (p && p.catch) p.catch(function () { });
-        });
+        Array.prototype.forEach.call(lessonVideos, function (v) { startVideo(v); });
+      }
+
+      /* O download só começava quando o card já estava na tela, então o visitante
+         encarava um retângulo escuro enquanto os primeiros megabytes desciam.
+         Este segundo observador larga na frente: uma tela e meia antes, pede o
+         arquivo sem tocar em play. Quando o card chega, já tem o que mostrar. */
+      var lazyVideos = document.querySelectorAll('video[preload="none"]');
+      if (lazyVideos.length && 'IntersectionObserver' in window) {
+        var warmIo = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            warmIo.unobserve(entry.target);
+            warmVideo(entry.target);
+          });
+        }, { rootMargin: '150% 0px' });
+        Array.prototype.forEach.call(lazyVideos, function (v) { warmIo.observe(v); });
       }
 
       /* Barra de compra fixa do celular. Regras: só entra depois que o hero
