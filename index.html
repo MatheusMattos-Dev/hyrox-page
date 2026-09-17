@@ -633,6 +633,46 @@
       border-radius: 8px;
     }
 
+    /* So entra quando o navegador recusa o autoplay (iOS em baixo consumo,
+       Safari com autoplay desligado, webview do Instagram). Antes disso a
+       pessoa ficava olhando um retangulo escuro, sem sinal de que ali tem
+       video. */
+    .hero__play {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: rgba(14, 13, 8, 0.38);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .hero__visual.is-blocked .hero__play {
+      display: flex;
+    }
+
+    .hero__play .icon {
+      width: 56px;
+      height: 56px;
+      padding: 15px;
+      border-radius: 50%;
+      background: var(--ember);
+      color: var(--paper);
+      stroke: none;
+    }
+
     .hero__tag {
       position: absolute;
       top: 18px;
@@ -4047,6 +4087,12 @@
             <source src="assets/images/thirdspacelondon_pindown.io_1785350008.mp4" type="video/mp4">
             Seu navegador não suporta a exibição deste vídeo.
           </video>
+          <button class="hero__play" id="heroPlay" type="button">
+            <svg class="icon" aria-hidden="true">
+              <use href="#icon-play" />
+            </svg>
+            <span>Ver a cena</span>
+          </button>
           <div class="hero__caption"><span>Sem atores. Sem estúdio.</span></div>
         </div>
       </div>
@@ -5461,15 +5507,94 @@
         }
       };
 
+      /* startVideo() acima cobre a recusa por falta de dados: ele espera o
+         canplay e tenta de novo. O que faltava era a recusa por política —
+         iOS em modo de baixo consumo, Safari com "reprodução automática:
+         nunca" e o navegador interno do Instagram (de onde vem o anúncio)
+         recusam mesmo com o vídeo mudo e com o arquivo inteiro na mão. Aí
+         nenhum canplay novo chega e o vídeo fica parado pra sempre. Nesses
+         casos só um gesto da pessoa autoriza: cada recusa entra numa fila que
+         volta a tentar no primeiro toque/clique/tecla e quando a aba volta
+         para a frente.
+         Os depoimentos seguem no startVideo por causa do botão de som: aqui o
+         muted é forçado, o que apagaria o áudio que a pessoa pediu. */
+      var filaDeGesto = [];
+
+      var destravarVideos = function () {
+        var fila = filaDeGesto;
+        filaDeGesto = [];
+        fila.forEach(function (fn) { fn(); });
+      };
+
+      ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
+        document.addEventListener(ev, destravarVideos, { passive: true });
+      });
+      document.addEventListener('scroll', destravarVideos, { passive: true });
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) destravarVideos();
+      });
+
+      var tocarVideo = function (video, aoFalhar, aoConseguir) {
+        if (!video) return;
+        /* A propriedade, e não só o atributo: o Safari só aceita autoplay
+           quando muted está marcado no objeto na hora do play(). */
+        video.muted = true;
+        video.playsInline = true;
+        warmVideo(video);
+        if (video.readyState === 0) { try { video.load(); } catch (e) { } }
+        var p;
+        try { p = video.play(); } catch (e) { p = null; }
+        if (p && p.then) {
+          p.then(function () {
+            if (aoConseguir) aoConseguir();
+          }, function () {
+            if (aoFalhar) aoFalhar();
+            filaDeGesto.push(function () { tocarVideo(video, aoFalhar, aoConseguir); });
+          });
+        } else if (aoConseguir) {
+          aoConseguir();
+        }
+      };
+
       /* O hero tem autoplay no HTML, mas o browser pode recusar (modo de baixo
          consumo do iOS, economia de dados) e aí a cena de aula vira um retângulo
-         escuro parado. Como não há botão de play ali, o JS tenta de novo. */
+         escuro parado. Agora, quando isso acontece, o botão "Ver a cena" entra
+         por cima e o primeiro toque em qualquer lugar também destrava. */
       var heroVideo = document.querySelector('.hero__video');
+      var heroVisual = heroVideo && heroVideo.closest('.hero__visual');
+      var heroPlay = document.getElementById('heroPlay');
+
       if (heroVideo) {
-        if (heroVideo.paused) startVideo(heroVideo);
-        document.addEventListener('visibilitychange', function () {
-          if (!document.hidden && heroVideo.paused) startVideo(heroVideo);
-        });
+        var heroBloqueado = function () {
+          if (heroVisual) heroVisual.classList.add('is-blocked');
+        };
+        var heroTocando = function () {
+          if (heroVisual) heroVisual.classList.remove('is-blocked');
+        };
+        var heroKick = function () { tocarVideo(heroVideo, heroBloqueado, heroTocando); };
+
+        heroVideo.addEventListener('playing', heroTocando);
+        heroVideo.addEventListener('loadeddata', heroKick);
+        heroVideo.addEventListener('canplay', heroKick);
+        if (heroVideo.paused) heroKick();
+
+        if (heroPlay) {
+          heroPlay.addEventListener('click', function (e) {
+            e.preventDefault();
+            heroKick();
+          });
+        }
+
+        /* O hero seguia decodificando quatro telas abaixo, onde ninguém mais o
+           vê. Celular tem limite de vídeos decodificando ao mesmo tempo — com
+           ele preso, os play() dos cards de aula eram recusados em silêncio. */
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entradas) {
+            entradas.forEach(function (entrada) {
+              if (entrada.isIntersecting) heroKick(); else heroVideo.pause();
+            });
+          }, { threshold: 0.15 }).observe(heroVideo);
+        }
       }
 
       /* Vídeos com som (Feedbacks e apresentação do treinador): entram mudos
@@ -5548,14 +5673,29 @@
         var lessonIo = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             var v = entry.target;
-            if (entry.isIntersecting) startVideo(v); else v.pause();
+            if (entry.isIntersecting) {
+              if (!v.dataset.armado) {
+                v.dataset.armado = '1';
+                /* Cada quadro novo é mais uma chance enquanto o card está à
+                   vista: o primeiro play() sai com readyState 0 e no celular
+                   costuma ser recusado. */
+                var retry = function () { if (v.dataset.visible) tocarVideo(v); };
+                v.addEventListener('loadeddata', retry);
+                v.addEventListener('canplay', retry);
+              }
+              v.dataset.visible = '1';
+              tocarVideo(v);
+            } else {
+              delete v.dataset.visible;
+              v.pause();
+            }
           });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.2, rootMargin: '250px 0px' });
         Array.prototype.forEach.call(lessonVideos, function (v) { lessonIo.observe(v); });
       } else {
         /* Sem IntersectionObserver (browser antigo), volta ao comportamento
            anterior pra não deixar card com frame preto parado. */
-        Array.prototype.forEach.call(lessonVideos, function (v) { startVideo(v); });
+        Array.prototype.forEach.call(lessonVideos, function (v) { tocarVideo(v); });
       }
 
       /* O download só começava quando o card já estava na tela, então o visitante
