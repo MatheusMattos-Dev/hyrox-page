@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYROX Master Class + 250 Aulas Prontas — Daily WOD</title>
+  <title>App Master Class — as 250 aulas de HYROX no seu celular</title>
   <meta name="description"
     content="250 treinos HYROX prontos + a base técnica por trás de cada escolha. Pra quem dá aula e pra quem vai competir: faça a primeira prova sem quebrar ou baixe o seu tempo.">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -613,29 +613,40 @@
     .hero__video {
       width: 100%;
       height: 100%;
-      max-height: 660px;
+      max-height: 700px;
       display: block;
       object-fit: cover;
       border-radius: 8px;
     }
 
 
-    /* O vídeo do hero é vertical e de gente falando: no recorte do desktop o
-       centro cortaria o rosto, então o enquadramento sobe. */
-    .hero__video {
-      object-position: 50% 22%;
-    }
-
-    /* Quadro no formato exato do vídeo (9:16): o vídeo aparece inteiro,
-       sem zoom nem corte nas bordas. 370px de largura dão ~658px de altura. */
+    /* O vídeo do hero é recortado rente ao celular (720×1470): sem mão, sem
+       academia ao fundo. Por isso o quadro deixa de ser quadro — sem borda,
+       sem faixa laranja, sem fundo — e o arredondamento vai no próprio vídeo,
+       na curva do aparelho, pra esconder os quatro cantos onde ainda sobrava
+       fundo. Os valores em % acompanham a largura em qualquer tela.
+       370px de largura dão ~755px de altura. */
     .hero__visual {
       width: min(100%, 370px);
       justify-self: center;
+      overflow: visible;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .hero__visual::before {
+      display: none;
     }
 
     .hero__video {
-      aspect-ratio: 9 / 16;
+      aspect-ratio: 720 / 1470;
       height: auto;
+      max-height: none;
+      border-radius: 13% / 6.5%;
+      background: #0b0a07;
+      box-shadow: 0 26px 50px rgba(0, 0, 0, 0.55), 0 0 42px rgba(255, 75, 31, 0.16);
     }
 
     /* Mesmo papel do .fb-sound, mas dentro do quadro: no hero o vídeo divide a
@@ -1967,7 +1978,7 @@
     }
 
     /* .btn é nowrap. No celular, um rótulo longo ("Quero garantir minha vaga —
-       R$35,50") alargava a coluna do pacote e o texto vazava do cartão. Botões
+       R$75,50") alargava a coluna do pacote e o texto vazava do cartão. Botões
        de largura cheia podem quebrar linha. */
     @media (max-width: 560px) {
 
@@ -2629,21 +2640,6 @@
 
     .peek-page:hover .peek-page__shot {
       border-color: var(--ember);
-    }
-
-    .peek-page__flag {
-      position: absolute;
-      top: 14px;
-      right: 0;
-      z-index: 3;
-      padding: 5px 10px;
-      background: var(--rope);
-      color: var(--ink);
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
     }
 
     .peek-page__cap {
@@ -4086,7 +4082,7 @@
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a href="#oferta" class="btn btn--primary header-cta">Quero me preparar</a>
+      <a href="#oferta" class="btn btn--primary header-cta">Quero o App</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false"
         aria-controls="mobileDrawer">
         <svg class="icon icon--menu">
@@ -4108,7 +4104,7 @@
       <li><a href="#cases">Cases</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#oferta" class="btn btn--primary">Quero me preparar</a>
+    <a href="#oferta" class="btn btn--primary">Quero o App — R$49,90</a>
   </div>
 
   <main id="top">
@@ -4118,11 +4114,11 @@
         <div class="hero__content">
           <p class="eyebrow">Treino HYROX pronto · pra professores e praticantes</p>
           <h1 class="hero__heading">Nunca mais improvise <em>um treino de HYROX.</em></h1>
-          <p class="hero__desc"><strong>250 aulas</strong> com carga e intensidade no ponto certo: o ano inteiro por
-            R$27. Ou leve tudo no <strong>Pacote Completo</strong>: <strong>Master Class</strong>, dois bônus e o
-            grupo de acompanhamento.</p>
+          <p class="hero__desc">O <strong>App Master Class</strong> traz as 250 aulas mastigadas no seu celular: você
+            abre e a aula de hoje já está lá, com o vídeo de cada movimento. Prefere material digital? As
+            <strong>250 Aulas em PDF</strong> saem por R$27.</p>
           <div class="hero__actions">
-            <a href="#oferta" class="btn btn--primary hero__cta">Quero as 250 Aulas — R$27</a>
+            <a href="#oferta" class="btn btn--primary hero__cta">Quero o App</a>
           </div>
         </div>
         <div class="hero__visual">
@@ -4131,9 +4127,12 @@
                o vídeo abre, a troca poster→vídeo não se vê. Serve pra nunca
                existir o retângulo escuro enquanto os primeiros megabytes
                descem, que é o que passa sensação de site quebrado. -->
+          <!-- Navegação real pelo app, com o celular na mão e narração. O
+               original (IMG_7605.MOV, HEVC) não toca no Chrome do Android — este
+               é o mesmo vídeo em H.264 + AAC, sem as faixas pretas. -->
           <video class="hero__video" autoplay loop muted playsinline preload="auto"
-            poster="assets/images/hero-treino.jpg">
-            <source src="assets/images/hero-treino.mp4" type="video/mp4">
+            poster="assets/images/app-tour.jpg">
+            <source src="assets/images/app-tour.mp4" type="video/mp4">
             Seu navegador não suporta a exibição deste vídeo.
           </video>
           <button type="button" class="hero__sound" id="heroSound" aria-pressed="false"
@@ -4324,59 +4323,20 @@
           <p class="eyebrow">Os materiais</p>
           <h2 class="section-title" style="max-width:22ch; margin-inline:auto;">Escolha como se preparar pro HYROX
           </h2>
-          <p class="lede" style="margin-inline:auto;">Um te dá a base técnica. O outro te dá o treino pronto, dia a
-            dia. Ou leve tudo — com os bônus e o grupo de acompanhamento — no Pacote Completo.</p>
+          <p class="lede" style="margin-inline:auto;">No app, as 250 aulas vêm mastigadas no seu celular. No PDF, o
+            mesmo ano de treino como material digital. Ou leve tudo — com os bônus e o grupo de acompanhamento — no
+            Pacote Completo.</p>
         </div>
 
         <div class="offer-grid" data-reveal>
           <div class="offer-card">
             <div class="offer-card__media">
-              <img src="assets/images/oferta_150_pag.jpg" alt="HYROX Master Class 150 Páginas - Fundamentação técnica"
-                loading="lazy">
-            </div>
-            <p class="offer-card__label">Para entender o porquê</p>
-            <h3 class="offer-card__title">HYROX Master Class</h3>
-            <p class="offer-card__subtitle">150 páginas · PDF digital</p>
-            <div class="offer-card__price">
-              <span class="amount">R$ 10,00</span>
-              <span class="terms">pagamento único</span>
-            </div>
-            <p class="offer-card__desc">A base técnica por trás das escolhas da aula: por que essa estação, essa carga,
-              essa ordem.</p>
-            <ul class="offer-card__bullets">
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Fisiologia do treino funcional aplicada à aula</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Periodização e progressão de carga</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Prevenção de lesões: o que vigiar na execução</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Correção postural e consciência corporal</li>
-              <li><svg class="icon">
-                  <use href="#icon-check" />
-                </svg>Como dosar a intensidade para o objetivo de cada aluno</li>
-            </ul>
-            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--primary btn--block" target="_blank"
-              rel="noopener" data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
-              Master Class — R$10</a>
-            <p class="trust-line"><svg class="icon">
-                <use href="#icon-shield" />
-              </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
-          </div>
-
-          <div class="offer-card offer-card--featured">
-            <span class="offer-card__badge">Mais completo</span>
-            <div class="offer-card__media">
               <img src="assets/images/oferta_250_pag_.jpg" alt="250 Aulas Prontas Daily WOD - Material completo"
                 loading="lazy">
             </div>
-            <p class="offer-card__label">Para aplicar amanhã</p>
+            <p class="offer-card__label">Para imprimir ou montar do seu jeito</p>
             <h3 class="offer-card__title">250 Aulas Prontas</h3>
-            <p class="offer-card__subtitle">Daily WOD · PDF · acesso imediato</p>
+            <p class="offer-card__subtitle">Material digital · PDF · acesso imediato</p>
             <div class="offer-card__price">
               <span class="amount">R$ 27,00</span>
               <span class="terms">pagamento único</span>
@@ -4460,6 +4420,114 @@
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
           </div>
+
+          <div class="offer-card offer-card--featured">
+            <span class="offer-card__badge">Mais completo</span>
+            <div class="offer-card__media">
+              <img src="assets/images/colt-training.webp"
+                alt="Treinador acompanhando um aluno no trenó durante a aula" loading="lazy">
+            </div>
+            <p class="offer-card__label">Para treinar com a aula na mão</p>
+            <h3 class="offer-card__title">App Master Class</h3>
+            <p class="offer-card__subtitle">Aplicativo exclusivo com as 250 aulas</p>
+            <div class="offer-card__price">
+              <span class="amount">R$ 49,90</span>
+              <span class="terms">pagamento único</span>
+              <span class="offer-card__per">≈ R$ 0,20 por aula</span>
+            </div>
+            <p class="offer-card__desc">As 250 aulas mastigadas: você abre e a aula de hoje já está lá — com o vídeo
+              de cada movimento, a alternativa pra quando falta equipamento e a carga que você usou da última vez.</p>
+            <ul class="offer-card__bullets offer-card__bullets--collapsible" id="bulletsApp">
+              <li class="offer-card__group">O que só o app faz</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>A tela Hoje já abre na próxima aula — nada de procurar página</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Vídeo de cada movimento: toque no nome dentro da aula e veja a execução</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Sem trenó, sandbag, wall ball ou barra? Alternativa com o que a sua academia tem</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Caderno que mostra a carga da última sessão na hora de decidir a de hoje</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>3 níveis em toda aula — do iniciante ao avançado</li>
+
+              <li class="offer-card__group">O programa</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>250 aulas prontas, uma por dia útil, ao longo de 50 semanas</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>10 mesociclos com objetivo claro: da fundação e avaliação à simulação de prova e reteste</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Semana-tipo fixa: força, aeróbio, estações e trenó, técnica e potência, mista ou teste</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Semana de descarga programada: a 5ª de cada mesociclo</li>
+
+              <li class="offer-card__group">Cada aula tem tudo</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Aula completa de 60 min: aquecimento, bloco técnico, bloco principal e arrefecimento</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Equipamento e espaço informados antes de começar</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Dica do treinador e o erro a vigiar em cada sessão</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Objetivo fisiológico da aula explicado em linguagem simples</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Barra fixa pra pular entre os blocos no meio do treino, com o celular na mão</li>
+
+              <li class="offer-card__group">Biblioteca de movimentos</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Execução em vídeo, pontos-chave e erros comuns dos movimentos principais</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Aquecimento também com a execução — ninguém fica adivinhando o que é "remada com banda"</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Cerca de 100 aulas com alternativa pra trenó, sandbag, wall ball e barra fixa</li>
+
+              <li class="offer-card__group">Seu progresso</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Registro de cada sessão com os campos certos pra cada tipo de treino</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Mapa do ano: as 250 aulas numa grade, com as concluídas marcadas</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Progresso por mesociclo e filtros por tipo de sessão</li>
+
+              <li class="offer-card__group">Feito pro celular</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Entra com a conta Google, sem senha nova pra lembrar</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Instala na tela inicial e usa como um app</li>
+              <li><svg class="icon">
+                  <use href="#icon-check" />
+                </svg>Tema claro e escuro; seu progresso fica salvo só na sua conta</li>
+            </ul>
+            <button type="button" class="offer-card__more" data-bullets-toggle aria-controls="bulletsApp"
+              aria-expanded="false">Ver tudo que vem no app</button>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="btn btn--primary btn--block" target="_blank"
+              rel="noopener" data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o
+              App — R$49,90</a>
+            <p class="trust-line"><svg class="icon">
+                <use href="#icon-shield" />
+              </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
+          </div>
         </div>
 
         <!-- Pacote Completo. O prazo e as vagas ficam declarados em atributos
@@ -4502,7 +4570,7 @@
                 </svg><span><strong>250 Aulas Prontas</strong> — o ano inteiro periodizado, em PDF</span></li>
               <li><svg class="icon">
                   <use href="#icon-check" />
-                </svg><span><strong>HYROX Master Class</strong> — 150 páginas de base técnica, em PDF</span></li>
+                </svg><span><strong>Master Class — Motor Humano Híbrido</strong> — aplicativo com as 250 aulas, vídeos e caderno</span></li>
               <li><svg class="icon">
                   <use href="#icon-check" />
                 </svg><span><strong>Bônus: Manual do Coach</strong> — 5 testes em 10 minutos e as 12
@@ -4520,12 +4588,13 @@
               <p class="bundle-stack__label">4 materiais · um acesso só</p>
               <div class="bundle-stack__row">
                 <figure class="bundle-stack__item">
-                  <img src="assets/images/previews/wod-01-capa.jpg" alt="Capa de 250 Aulas Prontas" loading="lazy">
-                  <figcaption>250 Aulas</figcaption>
+                  <img src="assets/images/previews/app-01-hoje.jpg" alt="Tela Hoje do App Master Class"
+                    loading="lazy">
+                  <figcaption>Aplicativo</figcaption>
                 </figure>
                 <figure class="bundle-stack__item">
-                  <img src="assets/images/previews/mc-01-capa.jpg" alt="Capa da HYROX Master Class" loading="lazy">
-                  <figcaption>Master Class</figcaption>
+                  <img src="assets/images/previews/wod-01-capa.jpg" alt="Capa de 250 Aulas Prontas" loading="lazy">
+                  <figcaption>250 Aulas em PDF</figcaption>
                 </figure>
                 <figure class="bundle-stack__item">
                   <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Capa do Manual do Coach"
@@ -4544,17 +4613,18 @@
           <div class="offer-bundle__buy">
             <p class="offer-bundle__buy-label">Levando tudo de uma vez</p>
             <div class="offer-bundle__price">
-              <span class="was">Os dois materiais avulsos: <s>R$ 37,00</s></span>
-              <span class="amount">R$ 35,50</span>
+              <span class="was">Os dois materiais avulsos: <s>R$ 76,90</s></span>
+              <span class="amount">R$ 75,50</span>
               <span class="terms">pagamento único</span>
-              <span class="per">≈ R$ 0,14 por aula</span>
+              <span class="per">≈ R$ 0,30 por aula</span>
             </div>
-            <p class="offer-bundle__extra">Os <strong>4 materiais</strong> chegam no seu e-mail logo após o
-              pagamento, e o <strong>grupo no WhatsApp</strong> tem entrada imediata. Preço de lote válido
+            <p class="offer-bundle__extra">O <strong>app</strong> libera na hora com a sua conta Google, os
+              <strong>PDFs</strong> chegam no seu e-mail logo após o pagamento, e o <strong>grupo no
+                WhatsApp</strong> tem entrada imediata. Preço de lote válido
               <strong>até 20/09</strong>.</p>
             <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--bundle btn--block" target="_blank"
               rel="noopener" data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo"
-              data-price="35.50">Quero garantir minha vaga — R$35,50</a>
+              data-price="75.50">Quero garantir minha vaga — R$75,50</a>
             <p class="trust-line"><svg class="icon">
                 <use href="#icon-shield" />
               </svg>Pagamento único · Acesso imediato · 7 dias de garantia</p>
@@ -4571,14 +4641,14 @@
               <thead>
                 <tr>
                   <th scope="col">O que você recebe</th>
-                  <th scope="col">Master Class<span>R$10</span></th>
+                  <th scope="col">Aplicativo<span>R$49,90</span></th>
                   <th scope="col">250 Aulas<span>R$27</span></th>
-                  <th scope="col" class="is-bundle">Pacote<span>R$35,50</span></th>
+                  <th scope="col" class="is-bundle">Pacote<span>R$75,50</span></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">HYROX Master Class<small>150 páginas de base técnica · PDF</small></th>
+                  <th scope="row">Master Class — Motor Humano Híbrido<small>aplicativo com as 250 aulas, vídeos e caderno</small></th>
                   <td><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
                   <td><span class="deliverables__no" aria-label="Não incluso">—</span></td>
                   <td class="is-bundle"><svg class="icon" aria-label="Incluso"><use href="#icon-check" /></svg></td>
@@ -4673,8 +4743,8 @@
           <div class="stat"><span class="stat__num">250</span>
             <p class="stat__desc">aulas prontas, uma pra cada dia de treino</p>
           </div>
-          <div class="stat"><span class="stat__num">150</span>
-            <p class="stat__desc">páginas de fundamentação técnica na Master Class</p>
+          <div class="stat"><span class="stat__num">1 toque</span>
+            <p class="stat__desc">pra ver a execução de um movimento no meio da aula, pelo app</p>
           </div>
           <div class="stat"><span class="stat__num">-5h</span>
             <p class="stat__desc">por semana a menos planejando aula do zero</p>
@@ -4729,10 +4799,10 @@
             <h2 class="cta-strip__title">É esse resultado que você quer pra sua turma — ou pra sua prova?</h2>
           </div>
           <div class="cta-strip__actions">
-            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
-            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
-              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">250 Aulas em PDF — R$27</a>
           </div>
           <p class="trust-line"><svg class="icon">
               <use href="#icon-shield" />
@@ -4747,14 +4817,14 @@
           <p class="eyebrow">Por dentro do material</p>
           <h2 class="section-title" style="max-width:24ch; margin-inline:auto;">Veja o que você recebe antes de
             comprar</h2>
-          <p class="lede" style="margin-inline:auto;">Páginas reais dos dois materiais e dos dois bônus.</p>
+          <p class="lede" style="margin-inline:auto;">Telas reais do app e páginas reais do PDF e dos dois bônus.</p>
         </div>
       </div>
 
       <div class="peek-row" data-reveal>
         <div class="container">
-          <p class="peek-row__label"><span class="peek-row__tag">Materiais</span><span class="peek-row__text">Master
-              Class e 250 Aulas&nbsp;— <span class="peek-row__off">o que você
+          <p class="peek-row__label"><span class="peek-row__tag">Materiais</span><span class="peek-row__text">App
+              Master Class&nbsp;— <span class="peek-row__off">o que você
                 compra</span></span></p>
         </div>
         <div class="peek__scroller">
@@ -4762,129 +4832,69 @@
             <div class="peek__seq">
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa" loading="lazy">
+                  <img src="assets/images/previews/app-01-hoje.jpg"
+                    alt="App Master Class — tela Hoje: 000 de 250 aulas e a próxima aula" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Capa
-                </figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Hoje: a próxima
+                  aula já aberta</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-02-indice.jpg" alt="Master Class — Índice — 11 blocos"
-                    loading="lazy">
+                  <img src="assets/images/previews/app-02-aula.jpg"
+                    alt="App Master Class — aula aberta: aquecimento com os movimentos ilustrados" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Índice — 11
-                  blocos</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Aula por blocos,
+                  com cada movimento</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-03-tres-respostas.jpg"
-                    alt="Master Class — As três fontes comparadas" loading="lazy">
+                  <img src="assets/images/previews/app-03-movimento.jpg"
+                    alt="App Master Class — execução do movimento Balanço de perna" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>As três
-                  fontes comparadas</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Execução e pontos
+                  de cada movimento</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-04-fisiologia.jpg" alt="Master Class — Fisiologia aplicada"
-                    loading="lazy">
+                  <img src="assets/images/previews/app-04-ano.jpg"
+                    alt="App Master Class — mapa do ano com as 250 aulas e o caderno de treino" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Fisiologia
-                  aplicada</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Capa
-                </figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Os dez
-                  mesociclos</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 001 — na
-                  íntegra</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 003 — na
-                  íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Mapa do ano e
+                  caderno de treino</figcaption>
               </figure>
             </div>
             <div class="peek__seq" aria-hidden="true">
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-01-capa.jpg" alt="Master Class — Capa" loading="lazy">
+                  <img src="assets/images/previews/app-01-hoje.jpg"
+                    alt="App Master Class — tela Hoje: 000 de 250 aulas e a próxima aula" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Capa
-                </figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Hoje: a próxima
+                  aula já aberta</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-02-indice.jpg" alt="Master Class — Índice — 11 blocos"
-                    loading="lazy">
+                  <img src="assets/images/previews/app-02-aula.jpg"
+                    alt="App Master Class — aula aberta: aquecimento com os movimentos ilustrados" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Índice — 11
-                  blocos</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Aula por blocos,
+                  com cada movimento</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-03-tres-respostas.jpg"
-                    alt="Master Class — As três fontes comparadas" loading="lazy">
+                  <img src="assets/images/previews/app-03-movimento.jpg"
+                    alt="App Master Class — execução do movimento Balanço de perna" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>As três
-                  fontes comparadas</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Execução e pontos
+                  de cada movimento</figcaption>
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <img src="assets/images/previews/mc-04-fisiologia.jpg" alt="Master Class — Fisiologia aplicada"
-                    loading="lazy">
+                  <img src="assets/images/previews/app-04-ano.jpg"
+                    alt="App Master Class — mapa do ano com as 250 aulas e o caderno de treino" loading="lazy">
                 </span>
-                <figcaption class="peek-page__cap"><b>Master Class</b><span class="peek-page__sep"> · </span>Fisiologia
-                  aplicada</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Capa
-                </figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Os dez
-                  mesociclos</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 001 — na
-                  íntegra</figcaption>
-              </figure>
-              <figure class="peek-page">
-                <span class="peek-page__shot">
-                  <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
-                    loading="lazy">
-                </span>
-                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 003 — na
-                  íntegra</figcaption>
+                <figcaption class="peek-page__cap"><b>Aplicativo</b><span class="peek-page__sep"> · </span>Mapa do ano e
+                  caderno de treino</figcaption>
               </figure>
             </div>
           </div>
@@ -4893,16 +4903,46 @@
 
       <div class="peek-row" data-reveal>
         <div class="container">
-          <p class="peek-row__label"><span class="peek-row__tag">Bônus</span><span class="peek-row__text">Oferecidos na
-              hora da compra <span class="peek-row__off">pela metade do
-                preço</span></span></p>
+          <p class="peek-row__label"><span class="peek-row__tag">Materiais</span><span class="peek-row__text">250
+              Aulas Material Digital&nbsp;— <span class="peek-row__off">o que você
+                compra</span></span></p>
         </div>
         <div class="peek__scroller">
           <div class="peek__track">
             <div class="peek__seq">
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
+                  <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Capa
+                </figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Os dez
+                  mesociclos</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 001 — na
+                  íntegra</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 003 — na
+                  íntegra</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
                   <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Manual do Coach — Capa" loading="lazy">
                 </span>
                 <figcaption class="peek-page__cap"><b>Manual do Coach</b><span class="peek-page__sep"> · </span>Capa
@@ -4910,7 +4950,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-01-capa.jpg" alt="Plano 12 Semanas — Capa e arquitetura"
                     loading="lazy">
                 </span>
@@ -4919,7 +4958,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-02-indice.jpg"
                     alt="Manual do Coach — Índice — 12 capítulos" loading="lazy">
                 </span>
@@ -4928,7 +4966,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-02-mapa.jpg" alt="Plano 12 Semanas — Mapa das 12 semanas"
                     loading="lazy">
                 </span>
@@ -4937,7 +4974,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-03-testes.jpg"
                     alt="Manual do Coach — Cinco testes em dez minutos" loading="lazy">
                 </span>
@@ -4946,7 +4982,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-03-semana01.jpg"
                     alt="Plano 12 Semanas — Semana 01 — na íntegra" loading="lazy">
                 </span>
@@ -4955,7 +4990,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-04-correcao.jpg"
                     alt="Manual do Coach — As doze correções" loading="lazy">
                 </span>
@@ -4964,7 +4998,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-04-intensidade.jpg"
                     alt="Plano 12 Semanas — Intensidade e estações" loading="lazy">
                 </span>
@@ -4975,7 +5008,37 @@
             <div class="peek__seq" aria-hidden="true">
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
+                  <img src="assets/images/previews/wod-01-capa.jpg" alt="250 Aulas — Capa" loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Capa
+                </figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-02-mesociclos.jpg" alt="250 Aulas — Os dez mesociclos"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Os dez
+                  mesociclos</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-03-aula001.jpg" alt="250 Aulas — Aula 001 — na íntegra"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 001 — na
+                  íntegra</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
+                  <img src="assets/images/previews/wod-04-aula003.jpg" alt="250 Aulas — Aula 003 — na íntegra"
+                    loading="lazy">
+                </span>
+                <figcaption class="peek-page__cap"><b>250 Aulas</b><span class="peek-page__sep"> · </span>Aula 003 — na
+                  íntegra</figcaption>
+              </figure>
+              <figure class="peek-page">
+                <span class="peek-page__shot">
                   <img src="assets/images/previews/bonus-coach-01-capa.jpg" alt="Manual do Coach — Capa" loading="lazy">
                 </span>
                 <figcaption class="peek-page__cap"><b>Manual do Coach</b><span class="peek-page__sep"> · </span>Capa
@@ -4983,7 +5046,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-01-capa.jpg" alt="Plano 12 Semanas — Capa e arquitetura"
                     loading="lazy">
                 </span>
@@ -4992,7 +5054,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-02-indice.jpg"
                     alt="Manual do Coach — Índice — 12 capítulos" loading="lazy">
                 </span>
@@ -5001,7 +5062,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-02-mapa.jpg" alt="Plano 12 Semanas — Mapa das 12 semanas"
                     loading="lazy">
                 </span>
@@ -5010,7 +5070,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-03-testes.jpg"
                     alt="Manual do Coach — Cinco testes em dez minutos" loading="lazy">
                 </span>
@@ -5019,7 +5078,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-03-semana01.jpg"
                     alt="Plano 12 Semanas — Semana 01 — na íntegra" loading="lazy">
                 </span>
@@ -5028,7 +5086,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-coach-04-correcao.jpg"
                     alt="Manual do Coach — As doze correções" loading="lazy">
                 </span>
@@ -5037,7 +5094,6 @@
               </figure>
               <figure class="peek-page">
                 <span class="peek-page__shot">
-                  <span class="peek-page__flag">Bônus</span>
                   <img src="assets/images/previews/bonus-plano-04-intensidade.jpg"
                     alt="Plano 12 Semanas — Intensidade e estações" loading="lazy">
                 </span>
@@ -5108,10 +5164,10 @@
             <h2 class="cta-strip__title">Seu próximo treino pode já estar pronto</h2>
           </div>
           <div class="cta-strip__actions">
-            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--primary" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27</a>
-            <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost" target="_blank" rel="noopener"
-              data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Master Class — R$10</a>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="btn btn--primary" target="_blank" rel="noopener"
+              data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90</a>
+            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost" target="_blank" rel="noopener"
+              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">250 Aulas em PDF — R$27</a>
           </div>
           <p class="trust-line"><svg class="icon">
               <use href="#icon-shield" />
@@ -5150,8 +5206,8 @@
                   <use href="#icon-check" />
                 </svg>Evolução visível nas estações</li>
             </ul>
-            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="case__link" target="_blank" rel="noopener"
+              data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -5193,8 +5249,8 @@
                   <use href="#icon-check" />
                 </svg>Turma inteira no mesmo ritmo</li>
             </ul>
-            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="case__link" target="_blank" rel="noopener"
+              data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -5236,8 +5292,8 @@
                   <use href="#icon-check" />
                 </svg>Aprendi a técnica antes de pegar carga</li>
             </ul>
-            <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="case__link" target="_blank" rel="noopener"
-              data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero as 250 Aulas — R$27 →</a>
+            <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="case__link" target="_blank" rel="noopener"
+              data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90 →</a>
           </div>
           <div class="case__card">
             <div class="lesson-card lesson-card--video">
@@ -5301,8 +5357,8 @@
                   class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Não. A Master Class explica a fundamentação do zero, e cada Daily WOD já vem com o nível de adaptação
-              definido — funciona mesmo se você nunca competiu.</p>
+            <p>Não. Cada aula já vem com três níveis e o objetivo explicado em linguagem simples — e no app, tocar no
+              nome de um movimento mostra o vídeo da execução. Funciona mesmo se você nunca competiu.</p>
           </details>
           <details class="faq-item">
             <summary>Não dou aula, vou competir. Serve pra mim?<span class="faq-item__toggle"><svg class="icon">
@@ -5317,15 +5373,17 @@
                   class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Acesso digital imediato após a confirmação do pagamento: os PDFs chegam direto no e-mail cadastrado no
+            <p>Acesso imediato após a confirmação do pagamento. O app você abre no celular e entra com a sua conta
+              Google — dá pra instalar na tela inicial e usar como um app. Os PDFs chegam direto no e-mail cadastrado no
               checkout. O grupo de acompanhamento no WhatsApp tem entrada imediata pelo link da página.</p>
           </details>
           <details class="faq-item">
             <summary>Preciso comprar os dois produtos juntos?<span class="faq-item__toggle"><svg class="icon">
                   <use href="#icon-plus" />
                 </svg></span></summary>
-            <p>Não. São dois produtos independentes, cada um com checkout próprio — você pode levar só a Master Class,
-              só as Aulas, ou os dois.</p>
+            <p>Não. São produtos independentes, cada um com checkout próprio. A diferença: no app as 250 aulas vêm
+              mastigadas no celular, com vídeos, alternativas de equipamento e caderno de treino; nas 250 Aulas elas
+              vêm como material digital em PDF, pra imprimir ou montar do seu jeito.</p>
           </details>
           <details class="faq-item">
             <summary>As aulas servem só pra turma de HYROX ou funcionam pra funcional em geral?<span
@@ -5356,12 +5414,11 @@
             material e comece a aplicar ainda essa semana.</p>
         </div>
         <div class="cta-section__actions" data-reveal>
-          <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--primary" target="_blank" rel="noopener"
-            data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="35.50">Quero
-            garantir o Pacote — R$35,50</a>
-          <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="btn btn--ghost-light" target="_blank" rel="noopener"
-            data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Quero a
-            Master Class — R$10</a>
+          <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="btn btn--primary" target="_blank" rel="noopener"
+            data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Quero o App — R$49,90</a>
+          <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--ghost-light" target="_blank" rel="noopener"
+            data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="75.50">Quero
+            garantir o Pacote — R$75,50</a>
           <a href="https://pay.wiapy.com/CdXaK3TtIhXw" class="btn btn--ghost-light" target="_blank" rel="noopener"
             data-checkout="250 Aulas Prontas" data-sku="250-aulas" data-price="27.00">Quero
             as 250 Aulas — R$27</a>
@@ -5448,10 +5505,10 @@
     data-fallback-sku="250-aulas" data-fallback-value="27.00" data-fallback-label="Quero as aulas">
     <div class="buybar__info">
       <span class="buybar__name" data-buybar-name>Pacote · até 20/09</span>
-      <span class="buybar__price"><span data-buybar-price>R$ 35,50</span> <em data-buybar-per></em></span>
+      <span class="buybar__price"><span data-buybar-price>R$ 75,50</span> <em data-buybar-per></em></span>
     </div>
     <a href="https://pay.wiapy.com/R2b0Z288WWHq" class="btn btn--primary buybar__btn" target="_blank" rel="noopener"
-      data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="35.50"
+      data-checkout="Pacote Completo — Início de Mês" data-sku="pacote-completo" data-price="75.50"
       data-buybar-btn>Garantir minha vaga</a>
   </div>
 
@@ -5477,9 +5534,8 @@
           rel="noopener" data-checkout="250 Aulas Prontas — Oferta Relâmpago" data-sku="250-aulas-relampago"
           data-price="18.90">Quero as 250 Aulas —
           R$18,90</a>
-        <a href="https://pay.wiapy.com/LXGERO2qjnZE" class="flash__keep" id="flashKeep" target="_blank" rel="noopener"
-          data-checkout="HYROX Master Class" data-sku="master-class" data-price="10.00">Continuar com a Master Class —
-          R$10</a>
+        <a href="https://pay.wiapy.com/tTsjg1JvemE7" class="flash__keep" id="flashKeep" target="_blank" rel="noopener"
+          data-checkout="App Master Class" data-sku="app-master-class" data-price="49.90">Continuar com a Master Class — R$49,90</a>
       </div>
     </div>
   </div>
@@ -5970,6 +6026,10 @@
 
         /* Escopo em main: o próprio "continuar" do modal também carrega
            data-sku="master-class" e não pode reabrir o modal. */
+        /* Desligado de fato desde que a oferta de R$10 virou o App Master Class
+           (sku app-master-class, R$49,90): nenhum link tem mais esse sku. É de
+           propósito — oferecer o PDF das 250 aulas por R$18,90 a quem escolheu
+           o app, que já traz as mesmas aulas, só derrubaria o ticket. */
         document.querySelectorAll('main a[data-sku="master-class"]').forEach(function (link) {
           link.addEventListener('click', function (e) {
             e.preventDefault();
@@ -6041,7 +6101,7 @@
             fbq('track', 'ViewContent', {
               content_name: 'Seção de ofertas',
               content_type: 'product_group',
-              content_ids: ['master-class', '250-aulas'],
+              content_ids: ['app-master-class', '250-aulas'],
               currency: 'BRL'
             }, { eventID: eventId('ViewContent') });
           });
@@ -6434,14 +6494,17 @@
       build();
     })();
 
-    /* ---- Lista das 250 Aulas no celular ---- */
+    /* ---- Listas longas dos cards (app e 250 Aulas) no celular ----
+       Cada botão guarda o próprio texto de abrir: são dois cards agora, e o
+       texto fixo aqui fazia o do app voltar dizendo "nas aulas". */
     document.querySelectorAll('[data-bullets-toggle]').forEach(function (btn) {
       var list = document.getElementById(btn.getAttribute('aria-controls'));
       if (!list) return;
+      var abrir = btn.textContent;
       btn.addEventListener('click', function () {
         var open = list.classList.toggle('is-open');
         btn.setAttribute('aria-expanded', String(open));
-        btn.textContent = open ? 'Mostrar menos' : 'Ver tudo que vem nas aulas';
+        btn.textContent = open ? 'Mostrar menos' : abrir;
       });
     });
 
